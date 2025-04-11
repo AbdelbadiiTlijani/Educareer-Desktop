@@ -11,6 +11,7 @@ import java.util.List;
 public class ServiceCategorieProjet implements IService<CategorieProjet> {
 
 
+
     Connection cnx ;
     public ServiceCategorieProjet(){
         cnx= MyConnection.getInstance().getCnx();
@@ -33,14 +34,43 @@ public class ServiceCategorieProjet implements IService<CategorieProjet> {
     }
 
     @Override
-    public void modifier(CategorieProjet categorieProjet) {
+    public void modifier(CategorieProjet c) {
+        try {
+            String req = "UPDATE categorie_projet SET categorie = ? WHERE id = ?";
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setString(1, c.getCategorie());
+            ps.setInt(2, c.getId());
+            int rows = ps.executeUpdate();
 
+            if (rows > 0) {
+                System.out.println(" Catégorie modifiée !");
+            } else {
+                System.out.println("Rien n’a été modifié ");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
 
     @Override
-    public void supprimer(CategorieProjet categorieProjet) {
+    public void supprimer(CategorieProjet c) {
+        try {
+            String req = "DELETE FROM categorie_projet WHERE id = ?";
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, c.getId()); // ⚠️ attention à l’ID
+            int rows = ps.executeUpdate();
 
+            if (rows > 0) {
+                System.out.println("Catégorie supprimée !");
+            } else {
+                System.out.println(" Rien n’a été supprimé (ID introuvable ?)");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
 
     @Override
     public List<CategorieProjet> getAll() {

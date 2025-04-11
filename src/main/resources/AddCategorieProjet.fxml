@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to bottom right, #f0f4f8, #d9e4f5);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.AddCategorieProjet">
+    <children>
+        <!-- Titre stylisé -->
+        <Text layoutX="130.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajouter une catégorie de projet" wrappingWidth="340.0">
+            <font>
+                <Font name="Arial Bold" size="22.0" />
+            </font>
+        </Text>
+        <Button text="Retour à la liste" onAction="#goToListeCategorie"/>
+
+        <!-- Champ de texte stylisé -->
+        <TextField fx:id="nomCategorieProjet" layoutX="73.0" layoutY="90.0" prefHeight="40.0" prefWidth="454.0" promptText="Nom de la catégorie de projet" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #b0c4de; -fx-border-width: 1; -fx-font-size: 14px;" />
+
+        <!-- Bouton stylisé -->
+        <Button layoutX="264.0" layoutY="180.0" mnemonicParsing="false" onAction="#ajouterCategorieProjet" prefHeight="45.0" prefWidth="120.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 15; -fx-font-size: 14px; -fx-font-weight: bold;" text="Confirmer" />
+    </children>
+</AnchorPane>
