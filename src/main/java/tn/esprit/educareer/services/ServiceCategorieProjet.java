@@ -58,7 +58,7 @@ public class ServiceCategorieProjet implements IService<CategorieProjet> {
         try {
             String req = "DELETE FROM categorie_projet WHERE id = ?";
             PreparedStatement ps = cnx.prepareStatement(req);
-            ps.setInt(1, c.getId()); // ⚠️ attention à l’ID
+            ps.setInt(1, c.getId());
             int rows = ps.executeUpdate();
 
             if (rows > 0) {

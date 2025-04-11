@@ -4,21 +4,24 @@ public class Projet {
 
     private int id;
     private int categorie_id ;
+    private String description;
     private String titre;
     private String contenu;
     private int formateur_id ;
 
-    public Projet(int categorie_id, String titre, String contenu, int formateur_id) {
+    public Projet(int categorie_id, String titre,String description, String contenu, int formateur_id) {
         this.categorie_id = categorie_id;
         this.titre = titre;
+        this.description= description;
         this.contenu = contenu;
         this.formateur_id = formateur_id;
     }
 
-    public Projet(int id, int categorie_id, String titre, String contenu, int formateur_id) {
+    public Projet(int id, int categorie_id, String titre,String description, String contenu, int formateur_id) {
         this.id = id;
         this.categorie_id = categorie_id;
         this.titre = titre;
+        this.description=description;
         this.contenu = contenu;
         this.formateur_id = formateur_id;
     }
@@ -39,23 +42,32 @@ public class Projet {
         this.categorie_id = categorie_id;
     }
 
-    @Override
-    public String toString() {
-        return "Projet{" +
-                "id=" + id +
-                ", categorie_id=" + categorie_id +
-                ", titre='" + titre + '\'' +
-                ", contenu='" + contenu + '\'' +
-                ", formateur_id=" + formateur_id +
-                '}';
-    }
-
     public String getTitre() {
         return titre;
     }
 
     public void setTitre(String titre) {
         this.titre = titre;
+    }
+
+    @Override
+    public String toString() {
+        return "Projet{" +
+                "id=" + id +
+                ", categorie_id=" + categorie_id +
+                ", description='" + description + '\'' +
+                ", titre='" + titre + '\'' +
+                ", contenu='" + contenu + '\'' +
+                ", formateur_id=" + formateur_id +
+                '}';
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getContenu() {
