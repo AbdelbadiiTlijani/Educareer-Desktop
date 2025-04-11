@@ -84,7 +84,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>tn.esprit.educareer/tn.esprit.educareer.test.Mainfx</mainClass>
+                            <mainClass>tn.esprit.educareer.test.Mainfx</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
