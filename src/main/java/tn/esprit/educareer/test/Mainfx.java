@@ -21,7 +21,7 @@ public class Mainfx extends Application {
         VBox root = loader.load();
 
         // Set up the scene with a larger aspect ratio
-        Scene scene = new Scene(root, 1200, 800);
+        Scene scene = new Scene(root, 1000, 700);
         primaryStage.setTitle("EduCareer");
         primaryStage.setScene(scene);
         primaryStage.show();

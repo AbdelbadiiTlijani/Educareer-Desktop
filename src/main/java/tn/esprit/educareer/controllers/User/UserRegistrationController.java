@@ -340,7 +340,7 @@ public class UserRegistrationController implements Initializable {
             Stage stage = (Stage) backButton.getScene().getWindow();
 
             // Définir la nouvelle scène
-            Scene scene = new Scene(root, 1200, 800);;
+            Scene scene = new Scene(root, 1000, 700);;
             stage.setScene(scene);
             stage.centerOnScreen();
             stage.show();

@@ -53,10 +53,6 @@
                         <Label styleClass="stat-label" text="Formateurs" />
                     </VBox>
                     <VBox styleClass="stat-item">
-                        <Label styleClass="stat-number" text="99.9%" />
-                        <Label styleClass="stat-label" text="Uptime" />
-                    </VBox>
-                    <VBox styleClass="stat-item">
                         <Label styleClass="stat-number" text="24/7" />
                         <Label styleClass="stat-label" text="Support" />
                     </VBox>
