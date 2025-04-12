@@ -16,25 +16,34 @@
     </HBox>
     <!-- Title -->
     <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 32px; -fx-text-fill: #f8fafc; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 15, 0, 0, 2);" text="Se connecter " />
-    <!-- Back Button (Added at the top) -->
+
+    <!-- Login Status Label (for general errors) -->
+    <Label fx:id="statusLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 14px; -fx-text-fill: #ef4444; -fx-font-weight: bold;" text="" />
 
     <!-- Login Form -->
-    <GridPane alignment="CENTER" hgap="15" vgap="15">
+    <GridPane alignment="CENTER" hgap="15" vgap="5">
         <!-- Email Field -->
         <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;" text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
         <TextField fx:id="emailField" style="-fx-background-color: rgba(30, 41, 59, 0.7); -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: rgba(59, 130, 246, 0.2); -fx-border-width: 1px; -fx-text-fill: #f8fafc; -fx-padding: 8px; -fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <!-- Email Error Label -->
+        <Label fx:id="emailErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
         <!-- Password Field -->
-        <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;" text="Mot de passe :" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <PasswordField fx:id="passwordField" style="-fx-background-color: rgba(30, 41, 59, 0.7); -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: rgba(59, 130, 246, 0.2); -fx-border-width: 1px; -fx-text-fill: #f8fafc; -fx-padding: 8px; -fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <columnConstraints>
-         <ColumnConstraints />
-         <ColumnConstraints />
-      </columnConstraints>
-      <rowConstraints>
-         <RowConstraints />
-         <RowConstraints />
-      </rowConstraints>
+        <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;" text="Mot de passe :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <PasswordField fx:id="passwordField" style="-fx-background-color: rgba(30, 41, 59, 0.7); -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: rgba(59, 130, 246, 0.2); -fx-border-width: 1px; -fx-text-fill: #f8fafc; -fx-padding: 8px; -fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <!-- Password Error Label -->
+        <Label fx:id="passwordErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+        <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+        </rowConstraints>
     </GridPane>
 
     <!-- Login Button -->
