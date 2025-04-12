@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -201,12 +202,34 @@ public class AdminDashboardController {
 
     @FXML
     void handleViewUser(ActionEvent event) {
+        try {
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/UserListPage.fxml"));
+            Scene scene = new Scene(loader.load(), 1000,700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) viewUserButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
 
     }
 
     @FXML
     void openCompanyEmployeeDetailedView(ActionEvent event) {
 
+    }
+    private void showErrorAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText("Page Load Failed");
+        alert.setContentText(content);
+        alert.show();
     }
 
 }

@@ -115,7 +115,7 @@ public class ServiceUser implements IService<User> {
                         rs.getString("date")
                 );
                 users.add(us);
-                System.out.println("User récupéré : " + us);
+
             }
 
             System.out.println("Nombre total d'utilisateurs : " + users.size());

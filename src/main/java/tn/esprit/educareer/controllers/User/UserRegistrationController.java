@@ -74,7 +74,7 @@ public class UserRegistrationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Initialiser les options du ComboBox
-        roleComboBox.getItems().addAll("Formateur", "Étudiant");
+        roleComboBox.getItems().addAll("formateur", "student");
         // Configurer le bouton d'inscription
         registerButton.setOnAction(event -> registerUser());
 
