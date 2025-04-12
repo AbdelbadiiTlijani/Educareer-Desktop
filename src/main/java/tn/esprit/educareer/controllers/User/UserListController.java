@@ -19,6 +19,7 @@ import tn.esprit.educareer.services.ServiceUser;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 public class UserListController {
     private Stage stage;
@@ -30,7 +31,19 @@ public class UserListController {
     private ListView<User> userListView;
 
     @FXML
+    private TextField searchField;
+
+    @FXML
+    private ComboBox<String> roleFilter;
+
+
+    @FXML
     public void initialize() {
+        userListView.getItems().addAll(
+                serviceUser.getAll().stream()
+                        .filter(user -> !user.getRole().equalsIgnoreCase("admin"))
+                        .toList()
+        );
         // Set up the cell factory for the ListView
         userListView.setCellFactory(new Callback<ListView<User>, ListCell<User>>() {
             @Override
@@ -51,7 +64,7 @@ public class UserListController {
                             profileImage.setFitHeight(50);
                             profileImage.setFitWidth(50);
                             profileImage.setPreserveRatio(true);
-                            
+
                             try {
                                 String photoPath = "/photos/" + user.getPhoto_profil();
                                 Image image = new Image(getClass().getResourceAsStream(photoPath));
@@ -70,10 +83,10 @@ public class UserListController {
                             VBox userInfo = new VBox(5);
                             Label nameLabel = new Label(user.getNom() + " " + user.getPrenom());
                             nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
-                            
+
                             Label emailLabel = new Label(user.getEmail());
                             emailLabel.setStyle("-fx-text-fill: #666; -fx-font-size: 12px;");
-                            
+
                             Label roleLabel = new Label(user.getRole());
                             roleLabel.setStyle("-fx-text-fill: #4e54c8; -fx-font-size: 12px;");
 
@@ -103,13 +116,34 @@ public class UserListController {
             }
         });
 
-        // Load users from the database
-        userListView.getItems().addAll(
-                serviceUser.getAll().stream()
-                        .filter(user -> !user.getRole().equalsIgnoreCase("admin"))
-                        .toList()
-        );
+        roleFilter.getItems().addAll("Tous", "student", "formateur");
+        roleFilter.setValue("Tous"); // default value
+
+        // Add listeners
+        searchField.textProperty().addListener((obs, oldValue, newValue) -> {
+            filterUserList();
+        });
+
+        roleFilter.valueProperty().addListener((obs, oldVal, newVal) -> {
+            filterUserList();
+        });
+
+
+
     }
+    private void filterUserList() {
+        String searchText = searchField.getText().toLowerCase().trim();
+        String selectedRole = roleFilter.getValue();
+
+        List<User> filtered = serviceUser.getAll().stream()
+                .filter(user -> !user.getRole().equalsIgnoreCase("admin")) // exclude admin
+                .filter(user -> user.getNom().toLowerCase().contains(searchText) || user.getPrenom().toLowerCase().contains(searchText))
+                .filter(user -> selectedRole.equals("Tous") || user.getRole().equalsIgnoreCase(selectedRole))
+                .toList();
+
+        userListView.getItems().setAll(filtered);
+    }
+
 
     @FXML
     void handleBackButton(ActionEvent event) throws IOException {
