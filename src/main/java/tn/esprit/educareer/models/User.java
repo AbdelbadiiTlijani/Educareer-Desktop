@@ -32,6 +32,10 @@ public class User {
         this.date = date;
     }
 
+    public User() {
+
+    }
+
     public int getId() {
         return id;
     }
