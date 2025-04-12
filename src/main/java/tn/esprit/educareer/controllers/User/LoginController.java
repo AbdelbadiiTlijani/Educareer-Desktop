@@ -10,6 +10,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import tn.esprit.educareer.utils.UserSession;
+import  tn.esprit.educareer.models.User;
+
 import java.sql.Connection;
 
 import java.io.IOException;
@@ -115,6 +118,18 @@ public class LoginController implements Initializable {
 
                 // Verify password
                 if (BCrypt.checkpw(password, storedHash)) {
+                    // Create user object and set session
+                    User user = new User();
+                    user.setId(rs.getInt("id"));
+                    user.setNom(rs.getString("nom"));
+                    user.setPrenom(rs.getString("prenom"));
+                    user.setEmail(rs.getString("email"));
+                    user.setRole(rs.getString("role"));
+                    user.setPhoto_profil(rs.getString("photo_profil"));
+                    
+                    // Set the user session
+                    UserSession.getInstance().setCurrentUser(user);
+                    
                     // Login successful - redirect based on role
                     redirectBasedOnRole(role);
                 } else {
