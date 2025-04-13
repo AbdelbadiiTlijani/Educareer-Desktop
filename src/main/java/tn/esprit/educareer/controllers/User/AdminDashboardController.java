@@ -1,3 +1,6 @@
+
+
+
 package tn.esprit.educareer.controllers.User;
 
 import javafx.event.ActionEvent;
@@ -20,6 +23,10 @@ import tn.esprit.educareer.models.User;
 import tn.esprit.educareer.utils.UserSession;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -104,7 +111,7 @@ public class AdminDashboardController {
 
         // Load dashboard statistics
         loadDashboardStatistics();
-        
+
         // Set up user profile
         setupUserProfile();
     }
@@ -132,7 +139,7 @@ public class AdminDashboardController {
         button.setOnMouseExited(e -> button.setStyle(defaultStyle));
     }
 
-    void setupUserProfile() {
+    public void setupUserProfile() {
         User currentUser = UserSession.getInstance().getCurrentUser();
         if (currentUser != null) {
             // Set user name
@@ -142,43 +149,56 @@ public class AdminDashboardController {
             // Set user photo if available
             if (currentUser.getPhoto_profil() != null && !currentUser.getPhoto_profil().isEmpty()) {
                 try {
-                    // Construire le chemin de la photo depuis le dossier resources/photos
-                    String photoPath = "/photos/" + currentUser.getPhoto_profil();
-                    System.out.println("Loading image from: " + photoPath); // Pour le débogage
-                    Image image = new Image(getClass().getResourceAsStream(photoPath));
-                    userPhoto.setImage(image);
+                    // First try loading from file system
+                    String projectDir = System.getProperty("user.dir");
+                    Path imagePath = Paths.get(projectDir, "src", "main", "resources", "photos",
+                            currentUser.getPhoto_profil());
+
+                    if (Files.exists(imagePath)) {
+                        Image image = new Image(imagePath.toUri().toString());
+                        userPhoto.setImage(image);
+                    } else {
+                        // Try loading from resources as fallback
+                        String resourcePath = "/photos/" + currentUser.getPhoto_profil();
+                        InputStream resourceStream = getClass().getResourceAsStream(resourcePath);
+                        if (resourceStream != null) {
+                            Image image = new Image(resourceStream);
+                            userPhoto.setImage(image);
+                        } else {
+                            loadDefaultImage();
+                        }
+                    }
                 } catch (Exception e) {
                     System.out.println("Error loading user photo: " + e.getMessage());
-                    // Charger une image par défaut en cas d'erreur
-                    try {
-                        Image defaultImage = new Image(getClass().getResourceAsStream("/photos/default-avatar.png"));
-                        userPhoto.setImage(defaultImage);
-                    } catch (Exception ex) {
-                        System.out.println("Error loading default image: " + ex.getMessage());
-                    }
+                    loadDefaultImage();
                 }
             } else {
-                // Charger une image par défaut si aucune photo n'est définie
-                try {
-                    Image defaultImage = new Image(getClass().getResourceAsStream("/photos/default-avatar.png"));
-                    userPhoto.setImage(defaultImage);
-                } catch (Exception e) {
-                    System.out.println("Error loading default image: " + e.getMessage());
-                }
+                loadDefaultImage();
             }
         }
     }
+
+    private void loadDefaultImage() {
+        try {
+            Image defaultImage = new Image(getClass().getResourceAsStream("/photos/default-avatar.png"));
+            userPhoto.setImage(defaultImage);
+        } catch (Exception e) {
+            System.out.println("Error loading default image: " + e.getMessage());
+        }
+    }
+
+
 
     @FXML
     void handleLogout(ActionEvent event) {
         // Clear the user session
         UserSession.getInstance().clearSession();
-        
+
         try {
             // Navigate back to login page
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
             Parent root = loader.load();
-            
+
             Stage stage = (Stage) logoutButton.getScene().getWindow();
             Scene scene = new Scene(root, 1000, 700);
             stage.setScene(scene);
@@ -267,5 +287,9 @@ public class AdminDashboardController {
         alert.setContentText(content);
         alert.show();
     }
-
+    private void clearImageCache(ImageView imageView) {
+        imageView.setImage(null);
+        // Force garbage collection to clear cached images
+        System.gc();
+    }
 }
