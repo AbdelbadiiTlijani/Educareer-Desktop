@@ -1,5 +1,9 @@
 package tn.esprit.educareer.controllers.User;
 
+
+import tn.esprit.educareer.controllers.User.FormateurDashboarddController;
+
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -145,19 +149,33 @@ public class EditProfileController {
 
     @FXML
     void handleBackButton(ActionEvent event) throws IOException {
-        navigateToPage(event, "/User/AdminDashboard.fxml");
-    }
 
-    private void navigateToPage(ActionEvent event, String path) throws IOException {
-        URL fxmlLocation = getClass().getResource(path);
-        if (fxmlLocation == null) {
-            throw new IOException("FXML file not found at: " + path);
+        currentUser = UserSession.getInstance().getCurrentUser();
+
+        if (currentUser.getRole().equals("admin")) {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/AdminDashboard.fxml"));
+            root = loader.load();
+
+            AdminDashboardController dashboardController = loader.getController();
+            dashboardController.setupUserProfile(); // Refresh the user's profile
+
+        } else if (currentUser.getRole().equals("formateur")) {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/FormateurDashboard.fxml"));
+            root = loader.load();
+
+            FormateurDashboarddController dashboardController = loader.getController();
+            dashboardController.setupUserProfile(); // You can customize or remove if not needed
+
         }
-        root = FXMLLoader.load(getClass().getResource(path));
+
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
     }
+
+
 }
