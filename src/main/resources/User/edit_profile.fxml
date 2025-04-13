@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.auth.controllers.connexion.EditProfileController">
+    <content>
+        <BorderPane style="-fx-background-color: #f8f9fa;">
+            <top>
+                <StackPane style="-fx-background-color: #4CAF50; -fx-padding: 30 0 30 0;">
+                    <children>
+                        <Label style="-fx-font-size: 32; -fx-font-weight: bold; -fx-text-fill: white;" text="Edit Profile" />
+                    </children>
+                </StackPane>
+            </top>
+
+            <center>
+                <VBox alignment="TOP_CENTER" prefHeight="531.0" prefWidth="628.0" spacing="25" style="-fx-padding: 30;">
+                    <!-- User Profile Section -->
+                    <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-max-width: 700;">
+                        <effect>
+                            <DropShadow color="#00000033" radius="10" spread="0.05" />
+                        </effect>
+
+                        <HBox alignment="CENTER_LEFT" spacing="20">
+                            <StackPane style="-fx-min-width: 80; -fx-min-height: 80; -fx-max-width: 80; -fx-max-height: 80; -fx-background-color: #e0e0e0; -fx-background-radius: 40;">
+                                <Label style="-fx-font-size: 14; -fx-text-fill: #757575;" text="Profile" />
+                            </StackPane>
+
+                            <VBox spacing="5">
+                                <Label style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Personal Information" />
+                                <Label style="-fx-font-size: 14; -fx-text-fill: #757575;" text="Update your profile details below" />
+                            </VBox>
+                        </HBox>
+
+                        <Separator />
+
+                        <GridPane hgap="20" vgap="15">
+                            <columnConstraints>
+                                <javafx.scene.layout.ColumnConstraints percentWidth="30" />
+                                <javafx.scene.layout.ColumnConstraints percentWidth="70" />
+                            </columnConstraints>
+
+                            <!-- Name Field -->
+                            <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #555555;" text="Nom:" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+                            <TextField fx:id="nameField" promptText="Entrez votre nom" style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                            <!-- Email Field -->
+                            <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #555555;" text="Prenom" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                            <TextField fx:id="prenomField" promptText="Entrez votre prenom" style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                            <!-- CV Upload -->
+                            <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #555555;" text="photo :" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                            <HBox alignment="CENTER_LEFT" spacing="15" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                <Button fx:id="uploadPhotoButton" onAction="#handlePhotoUpload" prefHeight="41.0" prefWidth="139.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14; -fx-padding: 10 15; -fx-background-radius: 5;" text="Choisir Photo">
+                                    <effect>
+                                        <DropShadow color="#00000040" radius="5" />
+                                    </effect>
+                                </Button>
+                                <Label fx:id="cvFileLabel" style="-fx-font-size: 14; -fx-text-fill: #757575;" text="No file selected" />
+                            </HBox>
+                     <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                     </rowConstraints>
+                        </GridPane>
+
+                        <HBox alignment="CENTER" style="-fx-padding: 15 0 0 0;">
+                            <Button onAction="#handleSave" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;                                            -fx-padding: 12 30; -fx-background-radius: 5; -fx-cursor: hand;" text="Save Changes">
+                                <effect>
+                                    <DropShadow color="#00000040" radius="5" />
+                                </effect>
+                            </Button>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Posts Section -->
+                    <VBox spacing="15" style="-fx-max-width: 700;">
+                        <Label style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #333333; -fx-padding: 0 0 0 10;" />
+
+                        <!-- We'll replace the ListView with a VBox to contain our card-style posts -->
+                        <VBox fx:id="postsContainer" spacing="15" style="-fx-padding: 5;">
+                            <!-- Post cards will be added here programmatically -->
+                        </VBox>
+                    </VBox>
+                </VBox>
+            </center>
+
+            <bottom>
+                <HBox alignment="CENTER" style="-fx-padding: 20; -fx-background-color: #4CAF50;">
+                    <Label style="-fx-text-fill: white; -fx-font-size: 14;" text="© 2025 Educareer" />
+                </HBox>
+            </bottom>
+        </BorderPane>
+    </content>
+</ScrollPane>
