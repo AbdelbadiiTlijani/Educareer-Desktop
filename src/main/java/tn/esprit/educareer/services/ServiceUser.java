@@ -1,7 +1,6 @@
 package tn.esprit.educareer.services;
 import org.mindrot.jbcrypt.BCrypt;
 
-
 import tn.esprit.educareer.interfaces.IService;
 import tn.esprit.educareer.models.User;
 import tn.esprit.educareer.utils.MyConnection;
@@ -13,10 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServiceUser implements IService<User> {
-    Connection cnx ;
+    Connection cnx;
     public ServiceUser(){
-        cnx= MyConnection.getInstance().getCnx();
+        cnx = MyConnection.getInstance().getCnx();
     }
+
     private String hashPassword(String password) {
         String hashed = BCrypt.hashpw(password, BCrypt.gensalt(13));
         // Replace $2a$ with $2y$ for Symfony compatibility
@@ -42,26 +42,37 @@ public class ServiceUser implements IService<User> {
         } catch (SQLException e) {
             System.out.println("Erreur lors de l'ajout : " + e.getMessage());
         }
-
     }
 
     @Override
     public void modifier(User user) {
         try {
-            Statement st = cnx.createStatement();
-            String req = "UPDATE user SET "
-                    + "status = " + user.getStatus() + ", "
-                    + "nom = '" + user.getNom() + "', "
-                    + "prenom = '" + user.getPrenom() + "', "
-                    + "email = '" + user.getEmail() + "', "
-                    + "mdp = '" + user.getMdp() + "', "
-                    + "photo_profil = '" + user.getPhoto_profil() + "', "
-                    + "role = '" + user.getRole() + "', "
-                    + "verification_token = '" + user.getVerification_token() + "', "
-                    + "date_inscription = '" + user.getdate_inscription() + "', "
-                    + "date = '" + user.getDate() + "' "
-                    + "WHERE id = " + user.getId();
-            int rowsAffected = st.executeUpdate(req);
+            // Check if password has changed
+            String currentPassword = user.getMdp();
+            boolean passwordChanged = !currentPassword.startsWith("$2y$");
+
+            // Prepare the SQL statement sans date_inscription
+            String sql = "UPDATE user SET " +
+
+                    "nom = ?, " +
+                    "prenom = ?, " +
+
+                    "mdp = ?, " +
+                    "photo_profil = ? " +
+
+                    "WHERE id = ?";
+
+            PreparedStatement pst = cnx.prepareStatement(sql);
+
+            // Set parameters (date_inscription exclue)
+
+            pst.setString(1, user.getNom());
+            pst.setString(2, user.getPrenom());
+            pst.setString(3, passwordChanged ? hashPassword(currentPassword) : currentPassword);
+            pst.setString(4, user.getPhoto_profil());
+            pst.setInt(5, user.getId());
+
+            int rowsAffected = pst.executeUpdate();
 
             if (rowsAffected > 0) {
                 System.out.println("Utilisateur mis à jour avec succès !");
@@ -70,8 +81,10 @@ public class ServiceUser implements IService<User> {
             }
         } catch (SQLException e) {
             System.out.println("Erreur lors de la modification : " + e.getMessage());
+            e.printStackTrace();
         }
     }
+
 
     @Override
     public void supprimer(User user) {
@@ -91,12 +104,11 @@ public class ServiceUser implements IService<User> {
         }
     }
 
-
     @Override
     public List<User> getAll() {
         List<User> users = new ArrayList<>();
         try {
-            String req = "SELECT * FROM user"; // Assure-toi que la table s'appelle bien 'user'
+            String req = "SELECT * FROM user";
             PreparedStatement pst = cnx.prepareStatement(req);
             ResultSet rs = pst.executeQuery();
 
@@ -115,7 +127,6 @@ public class ServiceUser implements IService<User> {
                         rs.getString("date")
                 );
                 users.add(us);
-
             }
 
             System.out.println("Nombre total d'utilisateurs : " + users.size());
@@ -125,7 +136,6 @@ public class ServiceUser implements IService<User> {
         }
         return users;
     }
-
 
     @Override
     public User getOne(User user) {

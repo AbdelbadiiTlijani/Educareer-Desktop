@@ -3,7 +3,9 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -40,7 +42,7 @@
                 </graphic>
             </Button>
 
-            <Button fx:id="viewCompanyEmployeeButton" onAction="#handleViewCompanyEmployee" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Gestion Offres d'emploi">
+            <Button fx:id="viewOffre" onAction="#handleoffre" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Gestion Offres d'emploi">
                 <graphic>
                     <HBox alignment="CENTER_LEFT" spacing="10">
                         <Label style="-fx-font-size: 16;" text="🏢" />
@@ -87,6 +89,19 @@
                 </ImageView>
                 <Label fx:id="userName" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14;" text="" />
                 <Label fx:id="userRole" style="-fx-text-fill: #cccccc; -fx-font-size: 12;" text="" />
+                <Button fx:id="editProfileButton" onAction="#handleEditProfile" prefHeight="24" prefWidth="24" style="-fx-background-color: transparent; -fx-background-radius: 15; -fx-border-color: white; -fx-border-radius: 15; -fx-border-width: 1;">
+                    <graphic>
+                        <ImageView fitHeight="14" fitWidth="14">
+                            <image>
+                                <Image url="@/photos/edit_8215526.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    <tooltip>
+                        <Tooltip text="Edit Profile" />
+                    </tooltip>
+                </Button>
+
             </VBox>
 
 
@@ -180,7 +195,7 @@
                     </Rectangle>
                     <VBox alignment="CENTER" spacing="10">
                         <Label style="-fx-font-size: 24; -fx-text-fill: white;" text="🏢" />
-                        <Button onAction="#handleViewCompanyEmployee" style="-fx-background-color: white; -fx-text-fill: #9b59b6; -fx-font-weight: bold;" text="Voir les offres d'emploi" />
+                        <Button onAction="#handleoffre" style="-fx-background-color: white; -fx-text-fill: #9b59b6; -fx-font-weight: bold;" text="Voir les offres d'emploi" />
                     </VBox>
                 </StackPane>
 

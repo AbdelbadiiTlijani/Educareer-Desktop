@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
@@ -14,18 +15,25 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.auth.controllers.connexion.EditProfileController">
+<ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.User.EditProfileController">
     <content>
         <BorderPane style="-fx-background-color: #f8f9fa;">
             <top>
-                <StackPane style="-fx-background-color: #4CAF50; -fx-padding: 30 0 30 0;">
-                    <children>
-                        <Label style="-fx-font-size: 32; -fx-font-weight: bold; -fx-text-fill: white;" text="Edit Profile" />
-                    </children>
-                </StackPane>
+                <VBox>
+                    <StackPane style="-fx-background-color: #4CAF50; -fx-padding: 30 0 10 0;">
+                        <children>
+                            <Label style="-fx-font-size: 32; -fx-font-weight: bold; -fx-text-fill: white;" text="Edit Profile" />
+                        </children>
+                    </StackPane>
+
+                    <HBox alignment="TOP_LEFT" prefWidth="320.0" style="-fx-padding: 10 20 10 20;">
+                        <Button fx:id="backButton" onAction="#handleBackButton" style="-fx-background-color: #64748b; -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 5px 15px; -fx-background-radius: 20px; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(100, 116, 139, 0.4), 10, 0, 0, 2);" text="Retour" />
+                    </HBox>
+                </VBox>
             </top>
 
             <center>
+
                 <VBox alignment="TOP_CENTER" prefHeight="531.0" prefWidth="628.0" spacing="25" style="-fx-padding: 30;">
                     <!-- User Profile Section -->
                     <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-max-width: 700;">
@@ -60,17 +68,21 @@
                             <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #555555;" text="Prenom" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                             <TextField fx:id="prenomField" promptText="Entrez votre prenom" style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
+                            <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #555555;" text="Mot de passe :" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                            <PasswordField fx:id="passwordField" promptText="Entrez votre mot de passe" style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
                             <!-- CV Upload -->
-                            <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #555555;" text="photo :" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                            <HBox alignment="CENTER_LEFT" spacing="15" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                            <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #555555;" text="photo :" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                            <HBox alignment="CENTER_LEFT" spacing="15" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                 <Button fx:id="uploadPhotoButton" onAction="#handlePhotoUpload" prefHeight="41.0" prefWidth="139.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14; -fx-padding: 10 15; -fx-background-radius: 5;" text="Choisir Photo">
                                     <effect>
                                         <DropShadow color="#00000040" radius="5" />
                                     </effect>
                                 </Button>
-                                <Label fx:id="cvFileLabel" style="-fx-font-size: 14; -fx-text-fill: #757575;" text="No file selected" />
+                                <Label fx:id="PhotoFieldLabel" style="-fx-font-size: 14; -fx-text-fill: #757575;" text="No file selected" />
                             </HBox>
                      <rowConstraints>
+                        <RowConstraints />
                         <RowConstraints />
                         <RowConstraints />
                         <RowConstraints />

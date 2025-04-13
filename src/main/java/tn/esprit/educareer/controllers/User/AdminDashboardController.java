@@ -78,10 +78,14 @@ public class AdminDashboardController {
     private Label userGrowthLabel;
 
     @FXML
-    private Button viewCompanyEmployeeButton;
+    private Button viewOffre;
 
     @FXML
     private Button viewEventButton;
+
+    @FXML
+    private Button editProfileButton;
+
 
     @FXML
     private Button viewReclamationButton;
@@ -119,7 +123,7 @@ public class AdminDashboardController {
         String hoverStyle = "-fx-background-color: #34495e; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;";
 
         setupButtonHover(viewReclamationButton, defaultStyle, hoverStyle);
-        setupButtonHover(viewCompanyEmployeeButton, defaultStyle, hoverStyle);
+        setupButtonHover( viewOffre, defaultStyle, hoverStyle);
         setupButtonHover(viewUserButton, defaultStyle, hoverStyle);
         setupButtonHover(viewEventButton, defaultStyle, hoverStyle);
     }
@@ -127,14 +131,14 @@ public class AdminDashboardController {
         button.setOnMouseEntered(e -> button.setStyle(hoverStyle));
         button.setOnMouseExited(e -> button.setStyle(defaultStyle));
     }
-    
-    private void setupUserProfile() {
+
+    void setupUserProfile() {
         User currentUser = UserSession.getInstance().getCurrentUser();
         if (currentUser != null) {
             // Set user name
             userName.setText(currentUser.getNom() + " " + currentUser.getPrenom());
             userRole.setText(currentUser.getRole());
-            
+
             // Set user photo if available
             if (currentUser.getPhoto_profil() != null && !currentUser.getPhoto_profil().isEmpty()) {
                 try {
@@ -185,9 +189,41 @@ public class AdminDashboardController {
         }
     }
 
-    @FXML
-    void handleViewCompanyEmployee(ActionEvent event) {
 
+    @FXML
+    void handleoffre(ActionEvent event) {
+        try {
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/offre/OffreList.fxml"));
+            Scene scene = new Scene(loader.load(), 1000,700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) viewOffre.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+
+    }
+    @FXML
+    private void handleEditProfile(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/edit_profile.fxml"));
+            Scene scene = new Scene(loader.load(), 1000,700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) editProfileButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
