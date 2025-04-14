@@ -26,7 +26,6 @@ public class UpdateProjet {
 
     @FXML
     public void initialize() {
-        // Remplir le ComboBox des catégories
         ObservableList<CategorieProjet> categories = FXCollections.observableArrayList(serviceCategorie.getAll());
         categorieComboBox.setItems(categories);
 
@@ -64,13 +63,22 @@ public class UpdateProjet {
 
     @FXML
     private void updateProjet() {
+        String titre = titreField.getText().trim();
+        String contenu = contenuField.getText().trim();
         CategorieProjet selectedCategorie = categorieComboBox.getValue();
-        String titre = titreField.getText();
-        String contenu = contenuField.getText();
 
         if (selectedCategorie == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Veuillez sélectionner une catégorie.");
-            alert.show();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Veuillez sélectionner une catégorie.");
+            return;
+        }
+
+        if (titre.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Le titre du projet ne peut pas être vide.");
+            return;
+        }
+
+        if (contenu.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Le contenu du projet ne peut pas être vide.");
             return;
         }
 
@@ -80,7 +88,14 @@ public class UpdateProjet {
 
         serviceProjet.modifier(projet);
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Projet mis à jour avec succès !");
-        alert.show();
+        showAlert(Alert.AlertType.INFORMATION, "Succès", "Projet mis à jour avec succès !");
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

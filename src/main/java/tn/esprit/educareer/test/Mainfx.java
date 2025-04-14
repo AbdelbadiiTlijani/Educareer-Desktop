@@ -10,7 +10,7 @@ import tn.esprit.educareer.utils.MyConnection;
 public class Mainfx extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ReadCategoriesProjet.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ReadProjets.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
 

@@ -16,18 +16,27 @@ public class AddCategorieProjet {
 
     @FXML
     private TextField nomCategorieProjet;
-private ServiceCategorieProjet scp = new ServiceCategorieProjet();
+
+    private final ServiceCategorieProjet scp = new ServiceCategorieProjet();
+
     @FXML
     private Button add;
 
     @FXML
     void ajouterCategorieProjet(ActionEvent event) {
-        scp.ajouter(new CategorieProjet(nomCategorieProjet.getText(), 1,0));
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Succès");
-        alert.setContentText("Catégorie ajoutée avec succès !");
-        alert.showAndWait();
+        String nomCategorie = nomCategorieProjet.getText().trim();
+
+        if (nomCategorie.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Champ requis", "Veuillez saisir un nom de catégorie.");
+            return;
+        }
+
+        scp.ajouter(new CategorieProjet(nomCategorie, 1, 0));
+
+        showAlert(Alert.AlertType.INFORMATION, "Succès", "Catégorie ajoutée avec succès !");
+        nomCategorieProjet.clear();
     }
+
     @FXML
     private void goToListeCategorie() {
         try {
@@ -41,5 +50,11 @@ private ServiceCategorieProjet scp = new ServiceCategorieProjet();
         }
     }
 
-
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }

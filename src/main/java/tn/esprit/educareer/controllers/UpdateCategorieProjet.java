@@ -14,7 +14,7 @@ public class UpdateCategorieProjet {
 
     private CategorieProjet categorie;
 
-    ServiceCategorieProjet scp = new ServiceCategorieProjet();
+    private final ServiceCategorieProjet scp = new ServiceCategorieProjet();
 
     public void setCategorie(CategorieProjet cat) {
         this.categorie = cat;
@@ -26,25 +26,26 @@ public class UpdateCategorieProjet {
         String nouveauNom = tfCategorie.getText().trim();
 
         if (nouveauNom.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Champ vide");
-            alert.setHeaderText(null);
-            alert.setContentText("Veuillez entrer un nom de catégorie.");
-            alert.showAndWait();
+            showAlert(Alert.AlertType.WARNING, "Champ vide", "Veuillez entrer un nom de catégorie.");
             return;
         }
 
+        // Mise à jour de la catégorie
         categorie.setCategorie(nouveauNom);
         scp.modifier(categorie);
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Succès");
-        alert.setHeaderText(null);
-        alert.setContentText("Catégorie modifiée avec succès !");
-        alert.showAndWait();
+        showAlert(Alert.AlertType.INFORMATION, "Succès", "Catégorie modifiée avec succès !");
 
-        // Fermer la fenêtre
+        // Fermer la fenêtre après la modification
         Stage stage = (Stage) tfCategorie.getScene().getWindow();
         stage.close();
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

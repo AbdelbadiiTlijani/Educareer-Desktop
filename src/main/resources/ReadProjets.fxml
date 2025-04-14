@@ -29,8 +29,6 @@
             <Label text="Liste des projets enregistrés"
                    style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" />
 
-            <Label text="Vous pouvez modifier ou supprimer un projet depuis le tableau ci-dessous."
-                   style="-fx-font-size: 14px; -fx-text-fill: #666; -fx-font-style: italic;" />
 
             <AnchorPane style="-fx-background-color: white; -fx-background-radius: 10px; -fx-padding: 10px;">
                 <TableView fx:id="tableProjets"

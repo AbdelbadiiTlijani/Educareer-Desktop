@@ -19,7 +19,7 @@ public class AddProjet {
     @FXML
     private TextArea contenuField;
     @FXML
-    private ComboBox<CategorieProjet> categorieComboBox;  // Remplacer Integer par CategorieProjet
+    private ComboBox<CategorieProjet> categorieComboBox;
     @FXML
     private TextField formateurField;
 
@@ -27,14 +27,10 @@ public class AddProjet {
 
     @FXML
     public void initialize() {
-        // Charger les catégories dans le ComboBox
         ServiceCategorieProjet serviceCategorie = new ServiceCategorieProjet();
-        List<CategorieProjet> categories = serviceCategorie.getAll(); // Méthode qui retourne List<CategorieProjet>
-
-        // Ajouter les catégories au ComboBox
+        List<CategorieProjet> categories = serviceCategorie.getAll();
         categorieComboBox.getItems().addAll(categories);
 
-        // Pour bien afficher les noms dans le ComboBox
         categorieComboBox.setConverter(new StringConverter<>() {
             @Override
             public String toString(CategorieProjet object) {
@@ -43,18 +39,35 @@ public class AddProjet {
 
             @Override
             public CategorieProjet fromString(String string) {
-                return null; // non utilisé
+                return null;
             }
         });
     }
 
     @FXML
     private void ajouterProjet() {
-        // Vérifier que tout est rempli
-        if (categorieComboBox.getValue() == null || titreField.getText().isEmpty() ||
-                descriptionField.getText().isEmpty() || contenuField.getText().isEmpty() ||
-                formateurField.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Veuillez remplir tous les champs !");
+        if (categorieComboBox.getValue() == null) {
+            showAlert(Alert.AlertType.ERROR, "Champ manquant", "Veuillez sélectionner une catégorie.");
+            return;
+        }
+
+        if (titreField.getText().trim().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Champ manquant", "Le titre du projet est requis.");
+            return;
+        }
+
+        if (descriptionField.getText().trim().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Champ manquant", "La description du projet est requise.");
+            return;
+        }
+
+        if (contenuField.getText().trim().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Champ manquant", "Le contenu du projet est requis.");
+            return;
+        }
+
+        if (formateurField.getText().trim().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Champ manquant", "L'ID du formateur est requis.");
             return;
         }
 
