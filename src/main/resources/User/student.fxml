@@ -12,7 +12,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="dashboardPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f5f5f7;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.User.FormateurDashboarddController">
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<AnchorPane fx:id="dashboardPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f5f5f7;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.User.studentController">
 
     <!-- Left Sidebar Navigation Panel -->
     <VBox prefWidth="250" spacing="10" style="-fx-background-color: #2c3e50; -fx-padding: 15;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -59,6 +61,18 @@
                 </ImageView>
                 <Label fx:id="userName" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14;" text="" />
                 <Label fx:id="userRole" style="-fx-text-fill: #cccccc; -fx-font-size: 12;" text="" />
+                <Button fx:id="editProfileButton" onAction="#handleEditProfile" prefHeight="24" prefWidth="24" style="-fx-background-color: transparent; -fx-background-radius: 15; -fx-border-color: white; -fx-border-radius: 15; -fx-border-width: 1;">
+                    <graphic>
+                        <ImageView fitHeight="14" fitWidth="14">
+                            <image>
+                                <Image url="@/photos/edit_8215526.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    <tooltip>
+                        <Tooltip text="Edit Profile" />
+                    </tooltip>
+                </Button>
             </VBox>
 
 
