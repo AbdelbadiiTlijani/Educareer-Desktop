@@ -54,6 +54,15 @@ public class EditProfileController {
     private TextField prenomField;
 
     @FXML
+    private Label errorName;
+
+    @FXML
+    private Label errorPassword;
+
+    @FXML
+    private Label errorPrenom;
+
+    @FXML
     private Button uploadPhotoButton;
 
     private Stage stage;
@@ -74,6 +83,23 @@ public class EditProfileController {
             passwordField.setText(currentUser.getMdp());
             PhotoFieldLabel.setText(currentUser.getPhoto_profil());
         }
+        nameField.textProperty().addListener((observable, oldValue, newValue) -> {
+            errorName.setText("");
+            errorName.setVisible(false);
+            highlightField(nameField, false);
+        });
+
+        prenomField.textProperty().addListener((observable, oldValue, newValue) -> {
+            errorPrenom.setText("");
+            errorPrenom.setVisible(false);
+            highlightField(prenomField, false);
+        });
+
+        passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
+            errorPassword.setText("");
+            errorPassword.setVisible(false);
+            highlightField(passwordField, false);
+        });
     }
 
     @FXML
@@ -96,6 +122,14 @@ public class EditProfileController {
 
     @FXML
     void handleSave(ActionEvent event) {
+        clearErrors();
+
+        // Validate input fields
+        boolean isValid = validateInput();
+
+        if (!isValid) {
+            return; // Don't proceed if validation failed
+        }
         if (currentUser != null) {
             try {
                 // Update basic info
@@ -176,6 +210,114 @@ public class EditProfileController {
         stage.centerOnScreen();
         stage.show();
     }
+    private void highlightField(TextField field, boolean isError) {
+        if (isError) {
+            field.setStyle("-fx-background-color: #ffeeee;" + // test avec rose clair
+                    "-fx-border-color: red;" +
+                    "-fx-border-width: 2;" +
+                    "-fx-text-fill: red;");
+        } else {
+            field.setStyle("-fx-background-color: white;" +
+                    "-fx-border-color: lightgray;" +
+                    "-fx-border-width: 1;" +
+                    "-fx-text-fill: black;");
+        }
+
+    }
+    private void clearErrors() {
+        errorName.setText("");
+        errorName.setVisible(false);
+
+        errorPrenom.setText("");
+        errorPrenom.setVisible(false);
+
+        errorPassword.setText("");
+        errorPassword.setVisible(false);
+
+        highlightField(prenomField, false);
+        highlightField(nameField, false);
+        highlightField(passwordField, false);
+    }
+    private boolean validateInput() {
+        boolean isValid = true;
+
+        String name = nameField.getText().trim();
+        String prenom = prenomField.getText().trim();
+        String password = passwordField.getText();
+
+        if (name.isEmpty()) {
+            errorName.setText("Le nom est requis");
+            errorName.setVisible(true); // Make visible
+            highlightField(nameField, true);
+            isValid = false;
+        } else if (name.length() < 2) {
+            errorName.setText("Le nom doit contenir au moins 2 caractères");
+            errorName.setVisible(true); // Make visible
+            highlightField(nameField, true);
+            isValid = false;
+        } else if (!name.matches("^[A-Za-zÀ-ÖØ-öø-ÿ\\s'-]+$")) {
+            errorName.setText("Le nom ne doit contenir que des lettres");
+            errorName.setVisible(true); // Make visible
+            highlightField(nameField, true);
+            isValid = false;
+        } else {
+            errorName.setText("");
+            errorName.setVisible(false); // Hide when no error
+            highlightField(nameField, false);
+        }
+
+        // Similar changes for prenom and password validations
+        if (prenom.isEmpty()) {
+            errorPrenom.setText("Le prenom est requis");
+            errorPrenom.setVisible(true); // Make visible
+            highlightField(prenomField, true);
+            isValid = false;
+        } else if (prenom.length() < 2) {
+            errorPrenom.setText("Le prenom doit contenir au moins 2 caractères");
+            errorPrenom.setVisible(true); // Make visible
+            highlightField(prenomField, true);
+            isValid = false;
+        } else if (!prenom.matches("^[A-Za-zÀ-ÖØ-öø-ÿ\\s'-]+$")) {
+            errorPrenom.setText("Le prenom ne doit contenir que des lettres");
+            errorPrenom.setVisible(true); // Make visible
+            highlightField(prenomField, true);
+            isValid = false;
+        } else {
+            errorPrenom.setText("");
+            errorPrenom.setVisible(false); // Hide when no error
+            highlightField(prenomField, false);
+        }
+
+        if (password == null || password.isEmpty()) {
+            errorPassword.setText("Le mot de passe est requis");
+            errorPassword.setVisible(true); // Afficher l'erreur
+            highlightField(passwordField, true);
+            isValid = false;
+        } else if (password.length() < 8) {
+            errorPassword.setText("Le mot de passe doit contenir au moins 8 caractères");
+            errorPassword.setVisible(true); // Afficher l'erreur
+            highlightField(passwordField, true);
+            isValid = false;
+        } else if (!password.matches(".*[A-Z].*")) { // Vérifier si la majuscule est présente
+            errorPassword.setText("Le mot de passe doit contenir au moins une majuscule");
+            errorPassword.setVisible(true); // Afficher l'erreur
+            highlightField(passwordField, true);
+            isValid = false;
+        } else if (!password.matches(".*\\d.*")) { // Vérifier si le mot de passe contient un chiffre
+            errorPassword.setText("Le mot de passe doit contenir au moins un chiffre");
+            errorPassword.setVisible(true); // Afficher l'erreur
+            highlightField(passwordField, true);
+            isValid = false;
+        } else {
+            errorPassword.setText("");
+            errorPassword.setVisible(false); // Masquer l'erreur si pas de problème
+            highlightField(passwordField, false);
+        }
+
+
+        return isValid;
+    }
+
 
 
 }

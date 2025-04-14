@@ -33,7 +33,6 @@
             </top>
 
             <center>
-
                 <VBox alignment="TOP_CENTER" prefHeight="531.0" prefWidth="628.0" spacing="25" style="-fx-padding: 30;">
                     <!-- User Profile Section -->
                     <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-max-width: 700;">
@@ -56,22 +55,32 @@
 
                         <GridPane hgap="20" vgap="15">
                             <columnConstraints>
-                                <javafx.scene.layout.ColumnConstraints percentWidth="30" />
-                                <javafx.scene.layout.ColumnConstraints percentWidth="70" />
+                                <ColumnConstraints percentWidth="30" />
+                                <ColumnConstraints percentWidth="70" />
                             </columnConstraints>
 
                             <!-- Name Field -->
                             <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #555555;" text="Nom:" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
-                            <TextField fx:id="nameField" promptText="Entrez votre nom" style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                            <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <TextField fx:id="nameField" promptText="Entrez votre nom" style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;" />
+                                <Label fx:id="errorName" style="-fx-font-size: 12; -fx-text-fill: #e74c3c;" text="Erreur de validation" visible="false" />
+                            </VBox>
 
-                            <!-- Email Field -->
+                            <!-- Prenom Field -->
                             <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #555555;" text="Prenom" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                            <TextField fx:id="prenomField" promptText="Entrez votre prenom" style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                            <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <TextField fx:id="prenomField" promptText="Entrez votre prenom" style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;" />
+                                <Label fx:id="errorPrenom" style="-fx-font-size: 12; -fx-text-fill: #e74c3c;" text="Erreur de validation" visible="false" />
+                            </VBox>
 
+                            <!-- Password Field -->
                             <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #555555;" text="Mot de passe :" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                            <PasswordField fx:id="passwordField" promptText="Entrez votre mot de passe" style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                            <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                <PasswordField fx:id="passwordField" promptText="Entrez votre mot de passe" style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;" />
+                                <Label fx:id="errorPassword" style="-fx-font-size: 12; -fx-text-fill: #e74c3c;" text="Erreur de validation" visible="false" />
+                            </VBox>
 
-                            <!-- CV Upload -->
+                            <!-- Photo Upload -->
                             <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #555555;" text="photo :" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                             <HBox alignment="CENTER_LEFT" spacing="15" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                 <Button fx:id="uploadPhotoButton" onAction="#handlePhotoUpload" prefHeight="41.0" prefWidth="139.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14; -fx-padding: 10 15; -fx-background-radius: 5;" text="Choisir Photo">
@@ -81,16 +90,17 @@
                                 </Button>
                                 <Label fx:id="PhotoFieldLabel" style="-fx-font-size: 14; -fx-text-fill: #757575;" text="No file selected" />
                             </HBox>
-                     <rowConstraints>
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                     </rowConstraints>
+
+                            <rowConstraints>
+                                <RowConstraints />
+                                <RowConstraints />
+                                <RowConstraints />
+                                <RowConstraints />
+                            </rowConstraints>
                         </GridPane>
 
                         <HBox alignment="CENTER" style="-fx-padding: 15 0 0 0;">
-                            <Button onAction="#handleSave" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;                                            -fx-padding: 12 30; -fx-background-radius: 5; -fx-cursor: hand;" text="Save Changes">
+                            <Button onAction="#handleSave" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16; -fx-padding: 12 30; -fx-background-radius: 5; -fx-cursor: hand;" text="Save Changes">
                                 <effect>
                                     <DropShadow color="#00000040" radius="5" />
                                 </effect>
@@ -102,7 +112,6 @@
                     <VBox spacing="15" style="-fx-max-width: 700;">
                         <Label style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #333333; -fx-padding: 0 0 0 10;" />
 
-                        <!-- We'll replace the ListView with a VBox to contain our card-style posts -->
                         <VBox fx:id="postsContainer" spacing="15" style="-fx-padding: 5;">
                             <!-- Post cards will be added here programmatically -->
                         </VBox>
