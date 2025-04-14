@@ -42,7 +42,8 @@ public class AddCategorieProjet {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ReadCategoriesProjet.fxml"));
             Parent root = loader.load();
-            Scene scene = new Scene(root);
+            // Set up the scene with a larger aspect ratio
+            Scene scene = new Scene(root, 1000, 700);
             Stage stage = (Stage) nomCategorieProjet.getScene().getWindow();
             stage.setScene(scene);
         } catch (Exception e) {

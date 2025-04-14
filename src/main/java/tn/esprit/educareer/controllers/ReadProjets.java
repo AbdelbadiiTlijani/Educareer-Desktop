@@ -1,8 +1,10 @@
 package tn.esprit.educareer.controllers;
+import javafx.event.ActionEvent;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,6 +16,7 @@ import tn.esprit.educareer.models.Projet;
 import tn.esprit.educareer.services.ServiceProjet;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class ReadProjets {
 
@@ -27,6 +30,9 @@ public class ReadProjets {
     private TableColumn<Projet, String> colFormateur;
     @FXML
     private TableColumn<Projet, Void> colActions;
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
 
     private ServiceProjet serviceProjet = new ServiceProjet();
@@ -38,7 +44,7 @@ public class ReadProjets {
 
         colTitre.setCellValueFactory(new PropertyValueFactory<>("titre"));
         colCategorie.setCellValueFactory(new PropertyValueFactory<>("categorieNom"));
-        colFormateur.setCellValueFactory(new PropertyValueFactory<>("formateur_id"));
+
 
         addButtonToTable();
 
@@ -112,5 +118,24 @@ public class ReadProjets {
                 }
             }
         });
+    }
+    @FXML
+    private void handleBack(ActionEvent event) throws IOException{
+
+        navigateToPage(event , "/User/FormateurDashboard.fxml");
+    }
+
+
+    private void navigateToPage(ActionEvent event, String path) throws IOException {
+        URL fxmlLocation = getClass().getResource(path);
+        if (fxmlLocation == null) {
+            throw new IOException("FXML file not found at: " + path);
+        }
+        root = FXMLLoader.load(getClass().getResource(path));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.centerOnScreen();
+        stage.show();
     }
 }

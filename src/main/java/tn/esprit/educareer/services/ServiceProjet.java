@@ -37,12 +37,13 @@ public class ServiceProjet {
     // Modifier un projet
     public void modifier(Projet projet) {
         try {
-            String req = "UPDATE projet SET categorie_id = ?, titre = ?, contenu = ? WHERE id = ?";
+            String req = "UPDATE projet SET categorie_id = ?, titre = ?, contenu = ? , description=? WHERE id = ?";
             PreparedStatement pst = cnx.prepareStatement(req);
             pst.setInt(1, projet.getCategorie_id());
             pst.setString(2, projet.getTitre());
             pst.setString(3, projet.getContenu());
-            pst.setInt(4, projet.getId());
+            pst.setString(4, projet.getDescription());
+            pst.setInt(5, projet.getId());
 
             int rows = pst.executeUpdate();
             if (rows > 0) {

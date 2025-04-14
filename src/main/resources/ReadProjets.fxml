@@ -16,12 +16,20 @@
                 <Label text="Gestion des Projets"
                        style="-fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold;"
                        AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0"/>
-                <Button text="Ajouter Projet" onAction="#goToAjoutProjet"
+
+                <Button text="Retour" onAction="#handleBack"
                         style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20px; -fx-cursor: hand;"
                         AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0"/>
+
+                <Button text="Ajouter Projet" onAction="#goToAjoutProjet"
+                        style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20px; -fx-cursor: hand;"
+                        AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0"/>
+
+
             </children>
         </AnchorPane>
     </top>
+
 
     <!-- Content -->
     <center>
@@ -38,7 +46,6 @@
                     <columns>
                         <TableColumn fx:id="colTitre" text="Titre" />
                         <TableColumn fx:id="colCategorie" text="Catégorie" />
-                        <TableColumn fx:id="colFormateur" text="Formateur" />
                         <TableColumn fx:id="colActions" text="Actions" />
                     </columns>
                 </TableView>

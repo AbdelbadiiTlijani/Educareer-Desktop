@@ -22,9 +22,12 @@
 
         <TextArea fx:id="contenuField" promptText="Contenu du projet" prefHeight="100"
                   style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #34d399; -fx-padding: 8 12;"/>
-
+        <TextArea fx:id="descriptionField" promptText="Description du projet" prefHeight="80"
+                  style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #34d399; -fx-padding: 8 12;"/>
         <ComboBox fx:id="categorieComboBox" promptText="Sélectionner la catégorie"
                   style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #34d399;"/>
+
+
 
         <Button text="Mettre à jour le projet" onAction="#updateProjet"
                 style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold;

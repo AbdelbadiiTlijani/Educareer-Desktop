@@ -13,6 +13,10 @@ import tn.esprit.educareer.services.ServiceProjet;
 public class UpdateProjet {
 
     @FXML
+    private TextArea descriptionField;
+
+
+    @FXML
     private TextField titreField;
     @FXML
     private TextArea contenuField;
@@ -65,6 +69,12 @@ public class UpdateProjet {
     private void updateProjet() {
         String titre = titreField.getText().trim();
         String contenu = contenuField.getText().trim();
+        String description = descriptionField.getText().trim();
+
+        if (description.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "La description du projet ne peut pas être vide.");
+            return;
+        }
         CategorieProjet selectedCategorie = categorieComboBox.getValue();
 
         if (selectedCategorie == null) {
@@ -85,6 +95,7 @@ public class UpdateProjet {
         projet.setCategorie_id(selectedCategorie.getId());
         projet.setTitre(titre);
         projet.setContenu(contenu);
+        projet.setDescription(description);
 
         serviceProjet.modifier(projet);
 

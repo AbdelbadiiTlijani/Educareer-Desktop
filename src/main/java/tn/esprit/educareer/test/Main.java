@@ -10,8 +10,8 @@ public class Main {
     public static void main (String args[] ) {
         MyConnection mycnx =  MyConnection.getInstance();
 
-        ServiceCategorieProjet scp = new ServiceCategorieProjet();
-        CategorieProjet cp = new CategorieProjet("test",1,0);
+        ServiceUser scp = new ServiceUser();
+        User cp = new User(1,"validation", "seif","hgfhgjh@jk","admin123","bjj","formateur","fhjvhvhj","1999-01-20 00:00:00","2025-03-05 22:16:15");
         scp.ajouter(cp);
         //scp.getAll();
         //scp.supprimer(cp);

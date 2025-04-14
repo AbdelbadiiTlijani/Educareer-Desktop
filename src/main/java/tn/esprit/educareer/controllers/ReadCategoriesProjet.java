@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -16,9 +17,12 @@ import tn.esprit.educareer.models.CategorieProjet;
 import tn.esprit.educareer.services.ServiceCategorieProjet;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class ReadCategoriesProjet {
-
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
     @FXML private TableView<CategorieProjet> tableCategorie;
     @FXML private TableColumn<CategorieProjet, String> colNom;
     @FXML private TableColumn<CategorieProjet, Void> colCompteur;
@@ -124,7 +128,22 @@ public class ReadCategoriesProjet {
         }
     }
     @FXML
-    void handleBack(ActionEvent event) {
+    void handleBack(ActionEvent event) throws IOException {
 
+        navigateToPage(event , "/User/FormateurDashboard.fxml");
+    }
+
+
+    private void navigateToPage(ActionEvent event, String path) throws IOException {
+        URL fxmlLocation = getClass().getResource(path);
+        if (fxmlLocation == null) {
+            throw new IOException("FXML file not found at: " + path);
+        }
+        root = FXMLLoader.load(getClass().getResource(path));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.centerOnScreen();
+        stage.show();
     }
 }

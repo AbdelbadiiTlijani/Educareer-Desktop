@@ -10,9 +10,19 @@
             prefHeight="500.0" prefWidth="700.0"
             style="-fx-background-color: #f8f9fa;">
 
+
+
     <VBox spacing="20" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="30.0"
           AnchorPane.rightAnchor="30.0" AnchorPane.bottomAnchor="20.0"
           style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10;">
+        <Button text="Retour"
+                onAction="#handleBack"
+                layoutX="20.0" layoutY="10.0"
+                style="-fx-background-color: #e0e0e0; -fx-text-fill: #333; -fx-font-weight: bold; -fx-background-radius: 15; -fx-padding: 5 15; -fx-cursor: hand;">
+            <effect>
+                <DropShadow color="#00000033" radius="3"/>
+            </effect>
+        </Button>
 
         <effect>
             <DropShadow color="#00000033" radius="10" spread="0.05"/>
@@ -34,7 +44,9 @@
                   style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;"/>
 
         <TextField fx:id="formateurField" promptText="ID Formateur"
-                   style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;"/>
+                   style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;"
+                   visible="false" managed="false"/>
+
 
         <HBox alignment="CENTER_RIGHT">
             <Button text="Ajouter Projet" onAction="#ajouterProjet"

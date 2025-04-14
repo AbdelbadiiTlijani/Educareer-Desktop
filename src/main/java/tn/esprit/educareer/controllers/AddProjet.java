@@ -1,16 +1,31 @@
 package tn.esprit.educareer.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import tn.esprit.educareer.models.CategorieProjet;
 import tn.esprit.educareer.models.Projet;
+import tn.esprit.educareer.models.User;
 import tn.esprit.educareer.services.ServiceCategorieProjet;
 import tn.esprit.educareer.services.ServiceProjet;
+import tn.esprit.educareer.services.ServiceUser;
+import tn.esprit.educareer.utils.UserSession;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 public class AddProjet {
+    private tn.esprit.educareer.services.ServiceUser ServiceUser = new ServiceUser();
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
     @FXML
     private TextField titreField;
@@ -42,10 +57,17 @@ public class AddProjet {
                 return null;
             }
         });
+        User currentUser = UserSession.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            formateurField.setText(String.valueOf(currentUser.getId()));
+            formateurField.setDisable(true); // Optionnel : désactiver le champ pour éviter la modification
+        }
     }
 
     @FXML
     private void ajouterProjet() {
+        User currentUser = UserSession.getInstance().getCurrentUser();
+
         if (categorieComboBox.getValue() == null) {
             showAlert(Alert.AlertType.ERROR, "Champ manquant", "Veuillez sélectionner une catégorie.");
             return;
@@ -104,5 +126,29 @@ public class AddProjet {
         contenuField.clear();
         formateurField.clear();
         categorieComboBox.setValue(null);
+    }
+
+
+
+
+    @FXML
+    private void handleBack(ActionEvent event) throws IOException{
+
+        navigateToPage(event , "/ReadProjets.fxml");
+    }
+
+
+    private void navigateToPage(ActionEvent event, String path) throws IOException {
+        URL fxmlLocation = getClass().getResource(path);
+        if (fxmlLocation == null) {
+            throw new IOException("FXML file not found at: " + path);
+        }
+        root = FXMLLoader.load(getClass().getResource(path));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        // Set up the scene with a larger aspect ratio
+        Scene scene = new Scene(root, 1000, 700);
+        stage.setScene(scene);
+        stage.centerOnScreen();
+        stage.show();
     }
 }

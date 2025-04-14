@@ -4,30 +4,35 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import tn.esprit.educareer.utils.MyConnection;
+
+import java.io.IOException;
 
 public class Mainfx extends Application {
-    @Override
-    public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ReadProjets.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
 
-        stage.setTitle("Liste des projet");
-        stage.setScene(scene);
-        stage.show();
-
-
-
-
-
-
-
-    }
     public static void main(String[] args) {
         launch(args);
     }
 
+    @Override
+    public void start(Stage primaryStage) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
+        VBox root = loader.load();
 
+        // Set up the scene with a larger aspect ratio
+        Scene scene = new Scene(root, 1000, 700);
+        primaryStage.setTitle("EduCareer");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+
+
+
+
+
+
+
+
+    }
 }
