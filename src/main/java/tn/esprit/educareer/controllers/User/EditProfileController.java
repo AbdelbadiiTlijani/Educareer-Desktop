@@ -202,6 +202,18 @@ public class EditProfileController {
             FormateurDashboarddController dashboardController = loader.getController();
             dashboardController.setupUserProfile(); // You can customize or remove if not needed
 
+        } else if (currentUser.getRole().equals("student")) {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/student.fxml"));
+            root = loader.load();
+
+            studentController dashboardController = loader.getController();
+            dashboardController.setupUserProfile(); // You can also customize here
+
+        } else {
+            // Gérer les rôles inconnus ou afficher une alerte
+            System.out.println("Rôle inconnu : " + currentUser.getRole());
+            return;
         }
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
