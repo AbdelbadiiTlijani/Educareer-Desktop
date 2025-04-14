@@ -13,6 +13,8 @@ import javafx.stage.Stage;
 import tn.esprit.educareer.models.Projet;
 import tn.esprit.educareer.services.ServiceProjet;
 
+import java.io.IOException;
+
 public class ReadProjets {
 
     @FXML
@@ -35,9 +37,13 @@ public class ReadProjets {
         tableProjets.setItems(list);
 
         colTitre.setCellValueFactory(new PropertyValueFactory<>("titre"));
-        colCategorie.setCellValueFactory(new PropertyValueFactory<>("categorie_id"));
+        colCategorie.setCellValueFactory(new PropertyValueFactory<>("categorieNom"));
         colFormateur.setCellValueFactory(new PropertyValueFactory<>("formateur_id"));
+
+        addButtonToTable();
+
     }
+
 
     @FXML
     private void goToAjoutProjet() {
@@ -62,9 +68,31 @@ public class ReadProjets {
                 btnDelete.setStyle("-fx-background-color: #ff4d4d; -fx-text-fill: white;");
                 btnEdit.setOnAction(event -> {
                     Projet projet = getTableView().getItems().get(getIndex());
-                    // Appeler ta logique de modification ici
-                    System.out.println("Modifier: " + projet.getTitre());
+
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/UpdateProjet.fxml"));
+                        Parent root = loader.load();
+
+                        // Récupérer le contrôleur de UpdateProjet
+                        UpdateProjet controller = loader.getController();
+
+                        // Passer le projet à modifier
+                        controller.setProjet(projet); // Tu dois créer cette méthode dans UpdateProjet.java
+
+                        // Affichage de la scène (tu peux faire un nouveau Stage ou remplacer l’actuel)
+                        Stage stage = new Stage();
+                        stage.setTitle("Modifier Projet");
+                        stage.setScene(new Scene(root));
+                        stage.show();
+
+                        // Optionnel : cacher la fenêtre actuelle
+                        // ((Stage) tableProjets.getScene().getWindow()).hide();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 });
+
 
                 btnDelete.setOnAction(event -> {
                     Projet projet = getTableView().getItems().get(getIndex());

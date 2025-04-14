@@ -13,8 +13,8 @@
         <TextField fx:id="titreField" promptText="Titre du projet"/>
         <TextArea fx:id="contenuField" promptText="Contenu du projet"/>
         <ComboBox fx:id="categorieComboBox" promptText="Sélectionner la catégorie"/>
-        <TextField fx:id="formateurField" promptText="ID Formateur"/>
         <Button text="Mettre à jour le projet" onAction="#updateProjet"/>
     </VBox>
+
 
 </AnchorPane>

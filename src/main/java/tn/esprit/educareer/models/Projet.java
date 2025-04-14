@@ -2,12 +2,24 @@ package tn.esprit.educareer.models;
 
 public class Projet {
 
+
     private int id;
     private int categorie_id ;
     private String description;
     private String titre;
     private String contenu;
     private int formateur_id ;
+    private String categorieNom;
+
+    // Getter et Setter
+    public String getCategorieNom() {
+        return categorieNom;
+    }
+
+    public void setCategorieNom(String categorieNom) {
+        this.categorieNom = categorieNom;
+    }
+
 
     public Projet(int categorie_id, String titre,String description, String contenu, int formateur_id) {
         this.categorie_id = categorie_id;

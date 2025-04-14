@@ -16,8 +16,7 @@
                 <TableColumn fx:id="colTitre" text="Titre" />
                 <TableColumn fx:id="colCategorie" text="Catégorie" />
                 <TableColumn fx:id="colFormateur" text="Formateur" />
-                <TableColumn fx:id="colAction" text="Action">
-                    <!-- Actions: Update, Delete -->
+                <TableColumn fx:id="colActions" text="Action">                    <!-- Actions: Update, Delete -->
                 </TableColumn>
             </columns>
         </TableView>
