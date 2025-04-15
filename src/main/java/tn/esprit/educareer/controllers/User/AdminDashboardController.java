@@ -305,5 +305,25 @@ public class AdminDashboardController {
             e.printStackTrace(); // Tu peux aussi afficher une alerte ici
         }
     }
+    public void handleTypeEvent(ActionEvent actionEvent)
+
+    {
+        try {
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/TypeEvent/TypeEventList.fxml"));
+            Scene scene = new Scene(loader.load(), 1000,700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) viewOffre.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+
+    }
     }
 

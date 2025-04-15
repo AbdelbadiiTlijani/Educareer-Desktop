@@ -2,15 +2,22 @@ package tn.esprit.educareer.controllers.Event;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
 import tn.esprit.educareer.models.Event;
 import tn.esprit.educareer.models.TypeEvent;
 import tn.esprit.educareer.services.ServiceEvent;
 import tn.esprit.educareer.services.ServiceTypeEvent;
+
+import java.io.IOException;
 
 public class EditEventController {
     @FXML
@@ -119,7 +126,18 @@ public class EditEventController {
     // Méthode pour annuler la modification
     @FXML
     public void handleAnnuler(ActionEvent actionEvent) {
-        // Fermer la fenêtre actuelle
-        ((Stage) titreField.getScene().getWindow()).close();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/AdminDashboard.fxml"));
+            Parent root = loader.load();
+
+            // Récupère la scène actuelle à partir d’un des composants (par exemple titreField)
+            Stage stage = (Stage) titreField.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Dashboard Administrateur");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 }
