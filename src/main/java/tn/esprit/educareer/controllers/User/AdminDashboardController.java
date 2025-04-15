@@ -6,6 +6,7 @@ package tn.esprit.educareer.controllers.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -93,9 +94,11 @@ public class AdminDashboardController {
     @FXML
     private Button editProfileButton;
 
-
     @FXML
     private Button viewReclamationButton;
+
+    @FXML
+    private Button viewSeancebutton;
 
     @FXML
     private Button viewUserButton;;
@@ -138,6 +141,36 @@ public class AdminDashboardController {
         button.setOnMouseEntered(e -> button.setStyle(hoverStyle));
         button.setOnMouseExited(e -> button.setStyle(defaultStyle));
     }
+
+    @FXML
+    void handleViewCoursbutton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cours/listCours.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+            Stage stage = (Stage) viewUserButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+    }
+    @FXML
+    void handleViewSeancebutton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/seance/listSeance.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+            Stage stage = (Stage) viewUserButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+    }
+
 
     public void setupUserProfile() {
         User currentUser = UserSession.getInstance().getCurrentUser();
@@ -292,4 +325,64 @@ public class AdminDashboardController {
         // Force garbage collection to clear cached images
         System.gc();
     }
+    @FXML
+    void handleevent(ActionEvent event) {
+        try {
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/EventList.fxml"));
+            Scene scene = new Scene(loader.load(), 1000,700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) viewOffre.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+
+    }
+
+
+
+
+    @FXML
+    private Button viewTypeEventButton;
+    @FXML
+    void handleTypeEvent(ActionEvent event) {
+        try {
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/TypeEvent/TypeEventList.fxml"));
+            Scene scene = new Scene(loader.load(), 1000,700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) viewOffre.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+    }
+    @FXML
+    public void GestionEvent(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/AddEvent.fxml"));
+            Parent addEventPage = loader.load(); // Important : utiliser Parent ici, pas AnchorPane
+
+            Scene scene = new Scene(addEventPage);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace(); // Tu peux aussi afficher une alerte ici
+        }
+    }
+
 }

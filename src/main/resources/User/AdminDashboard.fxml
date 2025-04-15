@@ -70,13 +70,45 @@
                 </padding>
             </Label>
 
-            <Button fx:id="viewEventButton" onAction="#handleViewEvent" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Gestion Evennement ">
+            <Button fx:id="viewEventButton" onAction="#handleevent" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Gestion Evennement ">
                 <graphic>
                     <HBox alignment="CENTER_LEFT" spacing="10">
                         <Label style="-fx-font-size: 16;" text="🗓️" />
                     </HBox>
                 </graphic>
             </Button>
+         <Button fx:id="viewTypeEventButton" onAction="#handleTypeEvent" prefHeight="40.0" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Gestion Types d'evenements">
+            <graphic>
+               <HBox alignment="CENTER_LEFT" spacing="10">
+                  <children>
+                     <Label style="-fx-font-size: 16;" text="🗓️" />
+                  </children>
+               </HBox>
+            </graphic>
+         </Button>
+         <Label style="-fx-font-size: 12;" text="Cours" textFill="#a7a7a7">
+            <padding>
+               <Insets bottom="5" top="15" />
+            </padding>
+         </Label>
+         <Button fx:id="viewCoursbutton" onAction="#handleViewCoursbutton" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Gestion Cours">
+            <graphic>
+               <HBox alignment="CENTER_LEFT" spacing="10">
+                  <children>
+                     <Label style="-fx-font-size: 16;" text="🗓️" />
+                  </children>
+               </HBox>
+            </graphic>
+         </Button>
+         <Button fx:id="viewSeancebutton" onAction="#handleViewSeancebutton" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Gestion Seance">
+            <graphic>
+               <HBox alignment="CENTER_LEFT" spacing="10">
+                  <children>
+                     <Label style="-fx-font-size: 16;" text="🗓️" />
+                  </children>
+               </HBox>
+            </graphic>
+         </Button>
         </VBox>
 
         <VBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
@@ -221,7 +253,7 @@
                     </Rectangle>
                     <VBox alignment="CENTER" spacing="10">
                         <Label style="-fx-font-size: 24; -fx-text-fill: white;" text="🗓️" />
-                        <Button onAction="#handleViewEvent" style="-fx-background-color: white; -fx-text-fill: #2ecc71; -fx-font-weight: bold;" text="Evennements" />
+                        <Button onAction="#GestionEvent" style="-fx-background-color: white; -fx-text-fill: #2ecc71; -fx-font-weight: bold;" text="Evennements" />
                     </VBox>
                 </StackPane>
             </HBox>
