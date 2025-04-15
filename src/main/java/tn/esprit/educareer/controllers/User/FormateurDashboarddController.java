@@ -174,6 +174,7 @@ public class FormateurDashboarddController {
         }
 
 
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ReadProjets.fxml"));
             Scene scene = new Scene(loader.load(), 1000,700);
@@ -187,8 +188,6 @@ public class FormateurDashboarddController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     @FXML

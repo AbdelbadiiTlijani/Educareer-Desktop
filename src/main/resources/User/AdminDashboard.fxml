@@ -77,11 +77,10 @@
                     </HBox>
                 </graphic>
             </Button>
-<<<<<<< HEAD
+
          <Button fx:id="viewTypeEventButton" layoutX="10.0" layoutY="267.0" onAction="#handleTypeEvent" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Gestion Types d'evenements">
-=======
          <Button fx:id="viewTypeEventButton" onAction="#handleTypeEvent" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Gestion Types d'evenements">
->>>>>>> b354529 (Added some features on Update)
+
             <graphic>
                <HBox alignment="CENTER_LEFT" spacing="10">
                   <children>

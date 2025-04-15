@@ -4,14 +4,14 @@ import tn.esprit.educareer.interfaces.IService;
 import tn.esprit.educareer.models.TypeEvent;
 import tn.esprit.educareer.utils.MyConnection;
 
-<<<<<<< HEAD
+
 import java.sql.*;
-=======
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
->>>>>>> b354529 (Added some features on Update)
+
 import java.util.ArrayList;
 import java.util.List;
 

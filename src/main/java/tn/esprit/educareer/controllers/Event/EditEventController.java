@@ -3,10 +3,9 @@ package tn.esprit.educareer.controllers.Event;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-<<<<<<< HEAD
+
 import javafx.scene.Node;
-=======
->>>>>>> b354529 (Added some features on Update)
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
@@ -14,10 +13,9 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-<<<<<<< HEAD
 
-=======
->>>>>>> b354529 (Added some features on Update)
+
+
 import tn.esprit.educareer.models.Event;
 import tn.esprit.educareer.models.TypeEvent;
 import tn.esprit.educareer.services.ServiceEvent;

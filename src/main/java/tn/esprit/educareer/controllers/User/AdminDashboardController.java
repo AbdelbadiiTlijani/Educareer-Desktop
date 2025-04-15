@@ -94,9 +94,11 @@ public class AdminDashboardController {
     @FXML
     private Button editProfileButton;
 
-
     @FXML
     private Button viewReclamationButton;
+
+    @FXML
+    private Button viewSeancebutton;
 
     @FXML
     private Button viewUserButton;;
@@ -139,6 +141,36 @@ public class AdminDashboardController {
         button.setOnMouseEntered(e -> button.setStyle(hoverStyle));
         button.setOnMouseExited(e -> button.setStyle(defaultStyle));
     }
+
+    @FXML
+    void handleViewCoursbutton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cours/listCours.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+            Stage stage = (Stage) viewUserButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+    }
+    @FXML
+    void handleViewSeancebutton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/seance/listSeance.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+            Stage stage = (Stage) viewUserButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+    }
+
 
     public void setupUserProfile() {
         User currentUser = UserSession.getInstance().getCurrentUser();
@@ -331,6 +363,7 @@ public class AdminDashboardController {
         }
 
     }
+
     @FXML
     private Button viewTypeEventButton;
     @FXML
@@ -367,7 +400,6 @@ public class AdminDashboardController {
             e.printStackTrace(); // Tu peux aussi afficher une alerte ici
         }
     }
-
 
 
 }

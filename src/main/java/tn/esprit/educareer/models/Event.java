@@ -1,9 +1,7 @@
 package tn.esprit.educareer.models;
 import java.time.LocalDate;
-<<<<<<< HEAD
-=======
 
->>>>>>> b354529 (Added some features on Update)
+
 public class Event {
 
     private int id;

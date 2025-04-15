@@ -54,6 +54,7 @@ public class AddTypeEventController implements Initializable {
     private void goBackToTypeEventList() {
         try {
 
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/TypeEvent/TypeEventList.fxml"));
             Parent root = loader.load();
 
@@ -81,6 +82,7 @@ public class AddTypeEventController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Initialisation si nécessaire
     }
+
 
     @FXML
     private Button returnButton;
