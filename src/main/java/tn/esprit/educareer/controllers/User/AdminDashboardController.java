@@ -320,12 +320,31 @@ public class AdminDashboardController {
         alert.setContentText(content);
         alert.show();
     }
-    private void clearImageCache(ImageView imageView) {
-        imageView.setImage(null);
-        // Force garbage collection to clear cached images
-        System.gc();
+
+
+
+    public void handleevent(ActionEvent actionEvent)
+
+    {
+        try {
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/EventList.fxml"));
+            Scene scene = new Scene(loader.load(), 1000,700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) viewOffre.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+
     }
     @FXML
+
     void handleevent(ActionEvent event) {
         try {
             // Load the User List page
@@ -344,9 +363,6 @@ public class AdminDashboardController {
         }
 
     }
-
-
-
 
     @FXML
     private Button viewTypeEventButton;
@@ -384,5 +400,6 @@ public class AdminDashboardController {
             e.printStackTrace(); // Tu peux aussi afficher une alerte ici
         }
     }
+
 
 }
