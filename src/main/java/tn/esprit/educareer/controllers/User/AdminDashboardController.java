@@ -290,6 +290,7 @@ public class AdminDashboardController {
     }
 
 
+
     public void handleevent(ActionEvent actionEvent)
 
     {
@@ -366,6 +367,7 @@ public class AdminDashboardController {
             e.printStackTrace(); // Tu peux aussi afficher une alerte ici
         }
     }
+
 
 
 }
