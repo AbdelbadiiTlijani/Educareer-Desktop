@@ -311,24 +311,29 @@ public class AdminDashboardController {
 
     }
     @FXML
-    public void GestionEvent(ActionEvent event) {
+
+    void handleevent(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/AddEvent.fxml"));
-            Parent addEventPage = loader.load(); // Important : utiliser Parent ici, pas AnchorPane
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/EventList.fxml"));
+            Scene scene = new Scene(loader.load(), 1000,700);
 
-            Scene scene = new Scene(addEventPage);
+            // Get the stage and set the new scene
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Stage stage = (Stage) viewOffre.getScene().getWindow();
             stage.setScene(scene);
+            stage.centerOnScreen();
             stage.show();
-
         } catch (IOException e) {
-            e.printStackTrace(); // Tu peux aussi afficher une alerte ici
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
         }
-    }
-    public void handleTypeEvent(ActionEvent actionEvent)
 
-    {
+    }
+    @FXML
+    private Button viewTypeEventButton;
+    @FXML
+    void handleTypeEvent(ActionEvent event) {
         try {
             // Load the User List page
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/TypeEvent/TypeEventList.fxml"));
@@ -344,7 +349,23 @@ public class AdminDashboardController {
             e.printStackTrace();
             showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
         }
-
     }
+    @FXML
+    public void GestionEvent(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/AddEvent.fxml"));
+            Parent addEventPage = loader.load(); // Important : utiliser Parent ici, pas AnchorPane
+
+            Scene scene = new Scene(addEventPage);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace(); // Tu peux aussi afficher une alerte ici
+        }
     }
 
+
+}

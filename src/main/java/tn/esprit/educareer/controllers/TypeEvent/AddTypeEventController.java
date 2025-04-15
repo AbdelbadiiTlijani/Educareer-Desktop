@@ -4,6 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -18,6 +20,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AddTypeEventController implements Initializable {
+
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
     @FXML
     private TextField nomEField;
@@ -47,17 +53,21 @@ public class AddTypeEventController implements Initializable {
 
     private void goBackToTypeEventList() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/TypeEvent/TypeEvent.fxml"));
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/TypeEvent/TypeEventList.fxml"));
             Parent root = loader.load();
 
             Stage stage = (Stage) typeeventadd.getScene().getWindow();
-            stage.setScene(new Scene(root));
+            Scene scene = new Scene(root, 1000, 700);
+            stage.setScene(scene); // <-- ADD THIS LINE
+            stage.centerOnScreen(); // optional: to center the window
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de revenir à la liste des types.");
         }
     }
+
 
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
@@ -70,5 +80,26 @@ public class AddTypeEventController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Initialisation si nécessaire
+    }
+
+    @FXML
+    private Button returnButton;
+    @FXML
+    void handleReturn(ActionEvent event) throws IOException {
+        navigateToPage(event, "/TypeEvent/TypeEventList.fxml");
+    }
+
+
+    private void navigateToPage(ActionEvent event, String path) throws IOException {
+        URL fxmlLocation = getClass().getResource(path);
+        if (fxmlLocation == null) {
+            throw new IOException("FXML file not found at: " + path);
+        }
+        root = FXMLLoader.load(getClass().getResource(path));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, 1000, 700);
+        stage.setScene(scene);
+        stage.centerOnScreen();
+        stage.show();
     }
 }
