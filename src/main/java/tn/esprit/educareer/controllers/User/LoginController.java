@@ -143,7 +143,7 @@ public class LoginController implements Initializable {
                 fxmlPath = "/User/FormateurDashboard.fxml";
                 break;
             case "student":
-                fxmlPath = "/User/students.fxml";
+                fxmlPath = "/User/student.fxml";
                 break;
             default:
                 showAlert(Alert.AlertType.ERROR, "Role Error", "Unknown role: " + role);

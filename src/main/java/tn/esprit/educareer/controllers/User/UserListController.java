@@ -20,6 +20,10 @@ import tn.esprit.educareer.services.ServiceUser;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.io.InputStream;
 
 public class UserListController {
     private Stage stage;
@@ -66,17 +70,28 @@ public class UserListController {
                             profileImage.setPreserveRatio(true);
 
                             try {
-                                String photoPath = "/photos/" + user.getPhoto_profil();
-                                Image image = new Image(getClass().getResourceAsStream(photoPath));
-                                profileImage.setImage(image);
-                            } catch (Exception e) {
-                                // Load default image if user photo is not available
-                                try {
-                                    Image defaultImage = new Image(getClass().getResourceAsStream("/photos/default-avatar.png"));
-                                    profileImage.setImage(defaultImage);
-                                } catch (Exception ex) {
-                                    System.out.println("Error loading default image: " + ex.getMessage());
+                                // First try loading from file system
+                                String projectDir = System.getProperty("user.dir");
+                                Path imagePath = Paths.get(projectDir, "src", "main", "resources", "photos",
+                                        user.getPhoto_profil());
+
+                                if (Files.exists(imagePath)) {
+                                    Image image = new Image(imagePath.toUri().toString());
+                                    profileImage.setImage(image);
+                                } else {
+                                    // Try loading from resources as fallback
+                                    String resourcePath = "/photos/" + user.getPhoto_profil();
+                                    InputStream resourceStream = getClass().getResourceAsStream(resourcePath);
+                                    if (resourceStream != null) {
+                                        Image image = new Image(resourceStream);
+                                        profileImage.setImage(image);
+                                    } else {
+                                        loadDefaultImage(profileImage);
+                                    }
                                 }
+                            } catch (Exception e) {
+                                System.out.println("Error loading user photo: " + e.getMessage());
+                                loadDefaultImage(profileImage);
                             }
 
                             // Create labels for user information
@@ -129,8 +144,8 @@ public class UserListController {
         });
 
 
-
     }
+
     private void filterUserList() {
         String searchText = searchField.getText().toLowerCase().trim();
         String selectedRole = roleFilter.getValue();
@@ -162,5 +177,15 @@ public class UserListController {
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
+    }
+
+    // Add this helper method at the end of the class
+    private void loadDefaultImage(ImageView imageView) {
+        try {
+            Image defaultImage = new Image(getClass().getResourceAsStream("/photos/default-avatar.png"));
+            imageView.setImage(defaultImage);
+        } catch (Exception ex) {
+            System.out.println("Error loading default image: " + ex.getMessage());
+        }
     }
 }
