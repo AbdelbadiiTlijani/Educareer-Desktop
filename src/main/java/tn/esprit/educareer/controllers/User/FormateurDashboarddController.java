@@ -159,6 +159,20 @@ public class FormateurDashboarddController {
 
     @FXML
     void handleViewCompanyEmployee(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ReadProjets.fxml"));
+            Scene scene = new Scene(loader.load(), 1000,700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) editProfileButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -186,6 +200,25 @@ public class FormateurDashboarddController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    @FXML
+    private Button Categorie;
+    @FXML
+    void handleCategorie(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ReadCategoriesProjet.fxml"));
+            Scene scene = new Scene(loader.load(), 1000,700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) editProfileButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 

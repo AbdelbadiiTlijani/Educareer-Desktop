@@ -3,6 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
@@ -14,7 +16,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="dashboardPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f5f5f7;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.User.AdminDashboardController">
+<AnchorPane fx:id="dashboardPane" stylesheets="@style.css" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f5f5f7;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.User.AdminDashboardController">
 
     <!-- Left Sidebar Navigation Panel -->
     <VBox prefWidth="250" spacing="10" style="-fx-background-color: #2c3e50; -fx-padding: 15;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -70,50 +72,98 @@
                 </padding>
             </Label>
 
-            <Button fx:id="viewEventButton" onAction="#handleViewEvent" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Gestion Evennement ">
+            <Button fx:id="viewEventButton" onAction="#handleevent" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Gestion Evennement ">
                 <graphic>
                     <HBox alignment="CENTER_LEFT" spacing="10">
                         <Label style="-fx-font-size: 16;" text="🗓️" />
                     </HBox>
                 </graphic>
             </Button>
-        </VBox>
-
-        <VBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
-            <!-- User Profile Section -->
-            <VBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
-                <ImageView fx:id="userPhoto" fitHeight="50.0" fitWidth="50.0" preserveRatio="true">
-                    <effect>
-                        <DropShadow color="#00000033" radius="5" />
-                    </effect>
-                </ImageView>
-                <Label fx:id="userName" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14;" text="" />
-                <Label fx:id="userRole" style="-fx-text-fill: #cccccc; -fx-font-size: 12;" text="" />
-                <Button fx:id="editProfileButton" onAction="#handleEditProfile" prefHeight="24" prefWidth="24" style="-fx-background-color: transparent; -fx-background-radius: 15; -fx-border-color: white; -fx-border-radius: 15; -fx-border-width: 1;">
-                    <graphic>
-                        <ImageView fitHeight="14" fitWidth="14">
-                            <image>
-                                <Image url="@/photos/edit_8215526.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                    <tooltip>
-                        <Tooltip text="Edit Profile" />
-                    </tooltip>
-                </Button>
-
-            </VBox>
-
-
-            <Button fx:id="logoutButton" onAction="#handleLogout" prefHeight="40" prefWidth="220" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;" text="Logout">
+            <Button fx:id="viewTypeEventButton" onAction="#handleTypeEvent" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Gestion Types d'evenements">
+                <graphic>
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <children>
+                            <Label style="-fx-font-size: 16;" text="🗓️" />
+                        </children>
+                    </HBox>
+                </graphic>
             </Button>
         </VBox>
     </VBox>
 
     <!-- Main Content Area -->
     <AnchorPane style="-fx-background-color: #f5f5f7; -fx-padding: 20;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <VBox spacing="20" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+        <!-- Top User Profile Bar -->
+        <HBox alignment="CENTER_RIGHT" spacing="10" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+            <MenuButton fx:id="userProfileMenu" style="-fx-background-color: transparent; -fx-cursor: hand;">
+                <graphic>
+                    <HBox alignment="CENTER" spacing="10">
+                        <Label fx:id="userName" style="-fx-text-fill: #2c3e50; -fx-font-weight: bold;" text="Admin Name" />
+                        <ImageView fx:id="userPhoto" fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
+                            <effect>
+                                <DropShadow color="#00000033" radius="5" />
+                            </effect>
+                        </ImageView>
+                    </HBox>
+                </graphic>
+                <items>
+                    <MenuItem fx:id="editProfileMenuItem" onAction="#handleEditProfile" style="-fx-padding: 10 15 10 15;">
+                        <graphic>
+                            <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 5;">
+                                <ImageView fitHeight="20" fitWidth="20">
+                                    <image>
+                                        <Image url="@/photos/edit_8215526.png" />
+                                    </image>
+                                </ImageView>
+                                <VBox spacing="2">
+                                    <Label text="Modifier Profil" style="-fx-text-fill: #2c3e50; -fx-font-size: 14; -fx-font-weight: bold;" />
+                                    <Label text="Mettre à jour vos informations" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12;" />
+                                </VBox>
+                            </HBox>
+                        </graphic>
+                        <style>
+                            <![CDATA[
+                                .menu-item {
+                                    -fx-background-color: transparent;
+                                }
+                                .menu-item:hover {
+                                    -fx-background-color: #f5f5f7;
+                                }
+                            ]]>
+                        </style>
+                    </MenuItem>
 
+                    <MenuItem fx:id="logoutMenuItem" onAction="#handleLogout" style="-fx-padding: 10 15 10 15;">
+                        <graphic>
+                            <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 5;">
+                                <ImageView fitHeight="20" fitWidth="20">
+                                    <image>
+                                        <Image url="@/photos/logout_icon.png" />
+                                    </image>
+                                </ImageView>
+                                <VBox spacing="2">
+                                    <Label text="Déconnexion" style="-fx-text-fill: #e74c3c; -fx-font-size: 14; -fx-font-weight: bold;" />
+                                    <Label text="Se déconnecter de votre compte" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12;" />
+                                </VBox>
+                            </HBox>
+                        </graphic>
+                        <style>
+                            <![CDATA[
+                                .menu-item {
+                                    -fx-background-color: transparent;
+                                }
+                                .menu-item:hover {
+                                    -fx-background-color: #f5f5f7;
+                                }
+                            ]]>
+                        </style>
+                    </MenuItem>
+
+                </items>
+            </MenuButton>
+        </HBox>
+
+        <VBox spacing="20" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="60.0">
             <Label style="-fx-font-size: 24; -fx-font-weight: bold;" text="Bienvenue sur Admin Dashboard" />
 
             <HBox spacing="20">
@@ -221,7 +271,7 @@
                     </Rectangle>
                     <VBox alignment="CENTER" spacing="10">
                         <Label style="-fx-font-size: 24; -fx-text-fill: white;" text="🗓️" />
-                        <Button onAction="#handleViewEvent" style="-fx-background-color: white; -fx-text-fill: #2ecc71; -fx-font-weight: bold;" text="Evennements" />
+                        <Button onAction="#GestionEvent" style="-fx-background-color: white; -fx-text-fill: #2ecc71; -fx-font-weight: bold;" text="Evennements" />
                     </VBox>
                 </StackPane>
             </HBox>

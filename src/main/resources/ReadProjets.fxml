@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tn.esprit.educareer.controllers.ReadProjets"
+            style="-fx-background-color: #f5f7fa; -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+
+    <!-- Header -->
+    <top>
+        <AnchorPane prefHeight="100.0" style="-fx-background-color: linear-gradient(to right, #4e54c8, #8f94fb);">
+            <children>
+                <Label text="Gestion des Projets"
+                       style="-fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold;"
+                       AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0"/>
+
+                <Button text="Retour" onAction="#handleBack"
+                        style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20px; -fx-cursor: hand;"
+                        AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0"/>
+
+                <Button text="Ajouter Projet" onAction="#goToAjoutProjet"
+                        style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20px; -fx-cursor: hand;"
+                        AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0"/>
+
+
+            </children>
+        </AnchorPane>
+    </top>
+
+
+    <!-- Content -->
+    <center>
+        <VBox spacing="15" style="-fx-padding: 20px;">
+            <Label text="Liste des projets enregistrés"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" />
+
+
+            <AnchorPane style="-fx-background-color: white; -fx-background-radius: 10px; -fx-padding: 10px;">
+                <TableView fx:id="tableProjets"
+                           prefHeight="350.0"
+                           style="-fx-background-color: transparent; -fx-border-color: transparent;"
+                           AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <columns>
+                        <TableColumn fx:id="colTitre" text="Titre" />
+                        <TableColumn fx:id="colCategorie" text="Catégorie" />
+                        <TableColumn fx:id="colActions" text="Actions" />
+                    </columns>
+                </TableView>
+
+                <effect>
+                    <DropShadow color="#00000044" radius="10.0"/>
+                </effect>
+            </AnchorPane>
+
+            <padding>
+                <Insets top="10" bottom="10" left="10" right="10"/>
+            </padding>
+        </VBox>
+    </center>
+
+    <!-- Footer -->
+    <bottom>
+        <AnchorPane style="-fx-background-color: #333; -fx-min-height: 50px;">
+            <Label text="Panneau Admin - Gestion des projets"
+                   style="-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 12px;"
+                   AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0"/>
+        </AnchorPane>
+    </bottom>
+
+</BorderPane>
