@@ -30,20 +30,20 @@ public class listCoursController {
     @FXML
     private Button ViewCours;
 
-//        @FXML
-//        void handleAddCours(ActionEvent event) {
-//            try {
-//                FXMLLoader loader = new FXMLLoader(getClass().getResource("/cours/ajouterCours.fxml"));
-//                Scene scene = new Scene(loader.load(), 1000, 700);
-//                Stage stage = (Stage) ViewCours.getScene().getWindow();
-//                stage.setScene(scene);
-//                stage.centerOnScreen();
-//                stage.show();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
-//            }
-//        }
+    @FXML
+    void handleAddCours(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cours/ajouterCours.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+            Stage stage = (Stage) ViewCours.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getCause());
+        }
+    }
 
 
     @FXML
@@ -68,16 +68,10 @@ public class listCoursController {
     private Button ViewSeance;
 
 
-    @FXML
-    void handleAddCours(ActionEvent event) throws IOException {
-        navigateToPage(event, "/cours/ajouterCours.fxml");
-    }
-
-
-
     private void showErrorAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
+        alert.setResizable(true);
         alert.setHeaderText("Page Load Failed");
         alert.setContentText(content);
         alert.show();

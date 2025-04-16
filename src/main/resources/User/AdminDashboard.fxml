@@ -79,15 +79,38 @@
                     </HBox>
                 </graphic>
             </Button>
-            <Button fx:id="viewTypeEventButton" onAction="#handleTypeEvent" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Gestion Types d'evenements">
-                <graphic>
-                    <HBox alignment="CENTER_LEFT" spacing="10">
-                        <children>
-                            <Label style="-fx-font-size: 16;" text="🗓️" />
-                        </children>
-                    </HBox>
-                </graphic>
-            </Button>
+         <Button fx:id="viewTypeEventButton" onAction="#handleTypeEvent" prefHeight="40.0" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Gestion Types d'evenements">
+            <graphic>
+               <HBox alignment="CENTER_LEFT" spacing="10">
+                  <children>
+                     <Label style="-fx-font-size: 16;" text="🗓️" />
+                  </children>
+               </HBox>
+            </graphic>
+         </Button>
+         <Label style="-fx-font-size: 12;" text="Cours" textFill="#a7a7a7">
+            <padding>
+               <Insets bottom="5" top="15" />
+            </padding>
+         </Label>
+         <Button fx:id="viewCoursbutton" onAction="#handleViewCoursbutton" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Gestion Cours">
+            <graphic>
+               <HBox alignment="CENTER_LEFT" spacing="10">
+                  <children>
+                     <Label style="-fx-font-size: 16;" text="🗓️" />
+                  </children>
+               </HBox>
+            </graphic>
+         </Button>
+         <Button fx:id="viewSeancebutton" onAction="#handleViewSeancebutton" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Gestion Seance">
+            <graphic>
+               <HBox alignment="CENTER_LEFT" spacing="10">
+                  <children>
+                     <Label style="-fx-font-size: 16;" text="🗓️" />
+                  </children>
+               </HBox>
+            </graphic>
+         </Button>
         </VBox>
     </VBox>
 
