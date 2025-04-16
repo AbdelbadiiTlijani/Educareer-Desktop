@@ -1,0 +1,12 @@
+.menu-item:hover {
+    -fx-background-color: #ecf0f1;
+}
+
+.menu-item .label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #2c3e50;
+}
+
+.menu-item .label.logout {
+    -fx-text-fill: #e74c3c;
+}
