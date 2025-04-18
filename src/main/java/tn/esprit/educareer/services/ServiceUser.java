@@ -54,7 +54,7 @@ public class ServiceUser implements IService<User> {
                 "', '" + user.getDate() + "')";
 
         try {
-            Statement st = cnx.createStatement();
+            Statement st = cnx.createStatement(); // ✅ cnx est maintenant bien initialisée
             st.executeUpdate(req);
             System.out.println("User ajoutée");
         } catch (SQLException e) {
