@@ -109,27 +109,32 @@ public class LoginController implements Initializable {
             if (rs.next()) {
                 String storedHash = rs.getString("mdp");
                 String role = rs.getString("role");
+                int status = rs.getInt("status"); // Assuming the column is named 'status'
 
-                // Check if the stored hash starts with $2y$ (Symfony format)
+// Check if the stored hash starts with $2y$ (Symfony format)
                 if (storedHash.startsWith("$2y$")) {
-                    // Convert $2y$ to $2a$ for BCrypt.checkpw compatibility
                     storedHash = "$2a$" + storedHash.substring(4);
                 }
 
-                // Verify password
+// Verify password
                 if (BCrypt.checkpw(password, storedHash)) {
+                    // Check if formateur is not yet accepted
+                    if ("formateur".equalsIgnoreCase(role) && status == 0) {
+                        statusLabel.setText("Votre demande est en cours de traitement. Veuillez Patientez !");
+                        return;
+                    }
+
                     // Create user object and set session
                     User user = new User();
                     user.setId(rs.getInt("id"));
                     user.setNom(rs.getString("nom"));
                     user.setPrenom(rs.getString("prenom"));
                     user.setEmail(rs.getString("email"));
-                    user.setRole(rs.getString("role"));
+                    user.setRole(role);
                     user.setPhoto_profil(rs.getString("photo_profil"));
-                    
-                    // Set the user session
+
                     UserSession.getInstance().setCurrentUser(user);
-                    
+
                     // Login successful - redirect based on role
                     redirectBasedOnRole(role);
                 } else {
@@ -137,6 +142,7 @@ public class LoginController implements Initializable {
                     statusLabel.setText("Mot de passe incorrect");
                     highlightField(passwordField, true);
                 }
+
             } else {
                 // User not found
                 statusLabel.setText("Utilisateur non trouvé");

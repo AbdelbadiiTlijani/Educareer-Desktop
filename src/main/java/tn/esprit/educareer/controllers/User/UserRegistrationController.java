@@ -214,8 +214,16 @@ public class UserRegistrationController implements Initializable {
                     return;
                 }
             }
-            // Définir le rôle en fonction de la sélection
-            user.setRole(roleComboBox.getValue());
+            String selectedRole = roleComboBox.getValue();
+            user.setRole(selectedRole);
+
+// Gérer le statut en fonction du rôle
+            if ("formateur".equalsIgnoreCase(selectedRole)) {
+                user.setStatus(0); // en attente de validation
+
+            } else {
+                user.setStatus(1); // activé immédiatement pour les autres rôles
+            }
 
             // Générer un token de vérification
             String verificationToken = generateVerificationToken();
@@ -233,14 +241,18 @@ public class UserRegistrationController implements Initializable {
 
             // Ajouter l'utilisateur à la base de données
             serviceUser.ajouter(user);
-
+            if (selectedRole.equals("formateur")){
+                globalErrorLabel.setTextFill(javafx.scene.paint.Color.ORANGE);
+                globalErrorLabel.setText("Votre demande a été prise en compte. Un administrateur validera votre compte.");
+                globalErrorLabel.setVisible(true);
+            }else {
             // Afficher une alerte de succès
             globalErrorLabel.setTextFill(javafx.scene.paint.Color.GREEN);
             globalErrorLabel.setText("Inscription réussie ! Redirection...");
-            globalErrorLabel.setVisible(true);
+            globalErrorLabel.setVisible(true);}
 
             // Attendre un peu avant de rediriger
-            PauseTransition pause = new PauseTransition(Duration.seconds(2));
+            PauseTransition pause = new PauseTransition(Duration.seconds(3));
             pause.setOnFinished(e -> goToLoginPage());
             pause.play();
 

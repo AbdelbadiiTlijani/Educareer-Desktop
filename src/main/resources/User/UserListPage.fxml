@@ -35,6 +35,7 @@
             <HBox spacing="10">
                 <TextField fx:id="searchField" promptText="Rechercher par nom..." style="-fx-padding: 5px; -fx-background-radius: 5px;"/>
                 <ComboBox fx:id="roleFilter" promptText="Filtrer par rôle" style="-fx-background-radius: 5px;" />
+                <ComboBox fx:id="statusFilter" promptText="Filtrer par statut" style="-fx-background-radius: 5px;" />
             </HBox>
             <AnchorPane style="-fx-background-color: white; -fx-background-radius: 10px; -fx-padding: 5px; -fx-min-height: 400px;">
                 <ListView fx:id="userListView" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 5px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
