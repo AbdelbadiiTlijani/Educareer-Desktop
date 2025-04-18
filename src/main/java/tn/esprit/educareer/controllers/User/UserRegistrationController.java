@@ -246,10 +246,10 @@ public class UserRegistrationController implements Initializable {
                 globalErrorLabel.setText("Votre demande a été prise en compte. Un administrateur validera votre compte.");
                 globalErrorLabel.setVisible(true);
             }else {
-            // Afficher une alerte de succès
-            globalErrorLabel.setTextFill(javafx.scene.paint.Color.GREEN);
-            globalErrorLabel.setText("Inscription réussie ! Redirection...");
-            globalErrorLabel.setVisible(true);}
+                // Afficher une alerte de succès
+                globalErrorLabel.setTextFill(javafx.scene.paint.Color.GREEN);
+                globalErrorLabel.setText("Inscription réussie ! Redirection...");
+                globalErrorLabel.setVisible(true);}/////////
 
             // Attendre un peu avant de rediriger
             PauseTransition pause = new PauseTransition(Duration.seconds(3));
