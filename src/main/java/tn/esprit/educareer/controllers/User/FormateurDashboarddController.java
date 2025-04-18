@@ -3,10 +3,10 @@ package tn.esprit.educareer.controllers.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -23,8 +23,46 @@ import java.nio.file.Paths;
 
 public class FormateurDashboarddController {
 
+    //Projet
+    @FXML
+    private Button viewAjoutProjetButton;
+    @FXML
+    private Button viewAjoutTypeProjetButton;
+    @FXML
+    private Button ViewProjets;
+
+    //Cours
+    @FXML
+    private Button viewAjoutCoursButton;
+    @FXML
+    private Button viewAjoutTypeCoursButton;
+    @FXML
+    private Button ViewCours;
+
+    //Seance
+    @FXML
+    private Button viewAjoutSeancesButton;
+    @FXML
+    private Button viewAjoutTypeSeanceButton;
+    @FXML
+    private Button ViewSeances;
+
+
+    @FXML
+    private Button editProfileButton;
+
+
     @FXML
     private Label companyGrowthLabel;
+
+    @FXML
+    private MenuButton userProfileMenu;
+
+    @FXML
+    private MenuItem editProfileMenuItem;
+
+    @FXML
+    private MenuItem logoutMenuItem;
 
     @FXML
     private AnchorPane dashboardPane;
@@ -57,12 +95,192 @@ public class FormateurDashboarddController {
     private Label userRole;
 
     @FXML
-    private Button viewCompanyEmployeeButton;
-
-    @FXML
     private Button viewUserButton;
     @FXML
-    private Button editProfileButton;
+    private Button Categorie;
+    private tn.esprit.educareer.services.ServiceUser ServiceUser = new ServiceUser();
+
+    private void showErrorAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText("Page Load Failed");
+        alert.setContentText(content);
+        alert.show();
+    }
+
+    //Projet
+    @FXML
+    void handleAjoutProjetButton(ActionEvent event) {
+        try {
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/AddProjet.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) viewAjoutProjetButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    void handleAjoutTypeProjetButton(ActionEvent event) {
+        try {
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/AddCategorieProjet.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) viewAjoutTypeProjetButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    void handleViewProjets(ActionEvent event) {
+        try {
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/ReadProjets.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) ViewProjets.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+    }
+
+    //Cours
+    @FXML
+    void handleAjoutCoursButton(ActionEvent event) {
+        try {
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cours/ajouterCours.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) viewAjoutCoursButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    void handleAjoutTypeCoursButton(ActionEvent event) {
+        try {
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/categorieCours/ajouterCategorieCours.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) viewAjoutTypeCoursButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    void handleViewCours(ActionEvent event) {
+        try {
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cours/listCours.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) ViewProjets.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+    }
+
+    //Seances
+    @FXML
+    void handleAjoutSeancesButton(ActionEvent event) {
+        try {
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/seance/ajouterSeance.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) viewAjoutSeancesButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    void handleAjoutTypeSeanceButton(ActionEvent event) {
+        try {
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/seance/ajouterSeance.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) viewAjoutTypeSeanceButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    void handleViewSeances(ActionEvent event) {
+        try {
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/seance/listSeance.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) ViewSeances.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+    }
 
     @FXML
     void handleViewUser(ActionEvent event) {
@@ -71,24 +289,44 @@ public class FormateurDashboarddController {
 
     @FXML
     void handleLogout(ActionEvent event) {
-// Clear the user session
+        // Clear the user session
         UserSession.getInstance().clearSession();
 
         try {
-            // Navigate back to login page
+            // Charger la page de login
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
             Parent root = loader.load();
-
-            Stage stage = (Stage) logoutButton.getScene().getWindow();
             Scene scene = new Scene(root, 1000, 700);
-            stage.setScene(scene);
-            stage.centerOnScreen();
-            stage.show();
+
+            Stage stage = null;
+
+            // Récupérer la source de l'événement
+            Object source = event.getSource();
+
+            if (source instanceof MenuItem) {
+                // Si la source est un MenuItem, récupérer la fenêtre via son ContextMenu
+                ContextMenu contextMenu = ((MenuItem) source).getParentPopup();
+                if (contextMenu != null && contextMenu.getOwnerWindow() != null) {
+                    stage = (Stage) contextMenu.getOwnerWindow();
+                }
+            } else if (source instanceof Node) {
+                // Sinon, source classique (bouton, etc.)
+                stage = (Stage) ((Node) source).getScene().getWindow();
+            }
+
+            if (stage != null) {
+                stage.setScene(scene);
+                stage.centerOnScreen();
+                stage.show();
+            } else {
+                System.err.println("Impossible de déterminer le stage à partir de l'événement.");
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    private tn.esprit.educareer.services.ServiceUser ServiceUser = new ServiceUser();
+
     public void initialize() {
         System.out.println("Admin Dashboard initialized");
 
@@ -99,21 +337,23 @@ public class FormateurDashboarddController {
         // Set up user profile
         setupUserProfile();
     }
+
     public void setupUserProfile() {
         User currentUser = UserSession.getInstance().getCurrentUser();
         if (currentUser != null) {
             // Set user name
             userName.setText(currentUser.getNom() + " " + currentUser.getPrenom());
-            userRole.setText(currentUser.getRole());
-    
+
+            // We don't need to set userRole text anymore as it's not in the new UI
+            // userRole.setText(currentUser.getRole());  // This line causes the error
+
             // Set user photo if available
             if (currentUser.getPhoto_profil() != null && !currentUser.getPhoto_profil().isEmpty()) {
                 try {
                     // First try loading from file system
                     String projectDir = System.getProperty("user.dir");
-                    Path imagePath = Paths.get(projectDir, "src", "main", "resources", "photos",
-                            currentUser.getPhoto_profil());
-    
+                    Path imagePath = Paths.get(projectDir, "src", "main", "resources", "photos", currentUser.getPhoto_profil());
+
                     if (Files.exists(imagePath)) {
                         Image image = new Image(imagePath.toUri().toString());
                         userPhoto.setImage(image);
@@ -137,6 +377,7 @@ public class FormateurDashboarddController {
             }
         }
     }
+
     private void loadDefaultImage() {
         try {
             Image defaultImage = new Image(getClass().getResourceAsStream("/photos/default-avatar.png"));
@@ -145,51 +386,19 @@ public class FormateurDashboarddController {
             System.out.println("Error loading default image: " + e.getMessage());
         }
     }
+
     private void setupButtonHoverEffects() {
         String defaultStyle = "-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;";
         String hoverStyle = "-fx-background-color: #34495e; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;";
 
-        setupButtonHover(viewCompanyEmployeeButton, defaultStyle, hoverStyle);
         setupButtonHover(viewUserButton, defaultStyle, hoverStyle);
     }
+
     private void setupButtonHover(Button button, String defaultStyle, String hoverStyle) {
         button.setOnMouseEntered(e -> button.setStyle(hoverStyle));
         button.setOnMouseExited(e -> button.setStyle(defaultStyle));
     }
 
-    @FXML
-    void handleViewCompanyEmployee(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ReadProjets.fxml"));
-            Scene scene = new Scene(loader.load(), 1000,700);
-
-            // Get the stage and set the new scene
-
-            Stage stage = (Stage) editProfileButton.getScene().getWindow();
-            stage.setScene(scene);
-            stage.centerOnScreen();
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ReadProjets.fxml"));
-            Scene scene = new Scene(loader.load(), 1000,700);
-
-            // Get the stage and set the new scene
-
-            Stage stage = (Stage) editProfileButton.getScene().getWindow();
-            stage.setScene(scene);
-            stage.centerOnScreen();
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
 
     @FXML
     void handleViewEvent(ActionEvent event) {
@@ -200,33 +409,46 @@ public class FormateurDashboarddController {
     void handleViewReclamation(ActionEvent event) {
 
     }
+
     @FXML
-    private void handleEditProfile(ActionEvent event) {
+    public void handleEditProfile(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/edit_profile.fxml"));
-            Scene scene = new Scene(loader.load(), 1000,700);
+            MenuItem menuItem = (MenuItem) event.getSource();
 
-            // Get the stage and set the new scene
+            // Récupérer le ContextMenu parent du MenuItem
+            ContextMenu contextMenu = menuItem.getParentPopup();
+            if (contextMenu != null && contextMenu.getOwnerWindow() != null) {
+                // Récupérer la fenêtre (stage)
+                Stage stage = (Stage) contextMenu.getOwnerWindow();
 
-            Stage stage = (Stage) editProfileButton.getScene().getWindow();
-            stage.setScene(scene);
-            stage.centerOnScreen();
-            stage.show();
+                // Charger le fichier FXML
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/edit_profile.fxml"));
+                Scene scene = new Scene(loader.load(), 1000, 700);
+
+                // Appliquer la nouvelle scène au stage
+                stage.setScene(scene);
+                stage.centerOnScreen();
+                stage.show();
+            }
         } catch (IOException e) {
             e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Chargement échoué");
+            alert.setContentText("Impossible de charger la page du profil.");
+            alert.showAndWait();
         }
     }
-    @FXML
-    private Button Categorie;
+
     @FXML
     void handleCategorie(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ReadCategoriesProjet.fxml"));
-            Scene scene = new Scene(loader.load(), 1000,700);
+            Scene scene = new Scene(loader.load(), 1000, 700);
 
             // Get the stage and set the new scene
 
-            Stage stage = (Stage) editProfileButton.getScene().getWindow();
+            Stage stage = (Stage) Categorie.getScene().getWindow();
             stage.setScene(scene);
             stage.centerOnScreen();
             stage.show();
@@ -235,7 +457,6 @@ public class FormateurDashboarddController {
         }
 
     }
-
 
 
 }
