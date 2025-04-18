@@ -32,45 +32,70 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class AdminDashboardController {
 
+    //User
     @FXML
-    private Button companyEmployeeDetailedViewButton;
-
-    @FXML
-    private Label companyGrowthLabel;
-
-    @FXML
-    private AnchorPane dashboardPane;
-
+    private Button viewListUser;
     @FXML
     private Button logoutButton;
-
     @FXML
     private ImageView userPhoto;
-
     @FXML
     private Label userName;
+    @FXML
+    private Button editProfileButton;
+    @FXML
+    private Label userRole;
+
+
+    //Offre
+    @FXML
+    private Button viewAjoutOffrebutton;
+    @FXML
+    private Button viewAjoutTypeOffreButton;
+    @FXML
+    private Button viewListOffre;
+
+
+    //Réclamation
+    @FXML
+    private Button viewAjoutReclamationbutton;
+    @FXML
+    private Button viewAjoutTypeReclamationButton;
+    @FXML
+    private Button viewListReclamation;
+
+
+    //Event
+    @FXML
+    private Button viewAjoutEventbutton;
+    @FXML
+    private Button viewAjoutTypeEventButton;
+    @FXML
+    private Button viewListEvent;
+
 
     @FXML
     private HBox recentActivity1;
-
+    @FXML
+    private Button companyEmployeeDetailedViewButton;
+    @FXML
+    private Label companyGrowthLabel;
+    @FXML
+    private AnchorPane dashboardPane;
     @FXML
     private HBox recentActivity3;
-
     @FXML
     private Label recentActivityText1;
-
     @FXML
     private Label recentActivityText3;
-
     @FXML
     private Label recentActivityTime1;
-
     @FXML
     private Label recentActivityTime3;
 
+
     @FXML
     private Label reclamationStatusLabel;
-
     @FXML
     private Label totalCompaniesLabel;
     @FXML
@@ -84,10 +109,8 @@ public class AdminDashboardController {
 
     @FXML
     private Label totalReclamationsLabel;
-
     @FXML
     private Label totalUsersLabel;
-
     @FXML
     private Label userGrowthLabel;
 
@@ -113,6 +136,7 @@ public class AdminDashboardController {
     private Label userRole;
 
     private ServiceUser ServiceUser = new ServiceUser();
+
     public void initialize() {
         System.out.println("Admin Dashboard initialized");
 
@@ -121,10 +145,11 @@ public class AdminDashboardController {
 
         // Load dashboard statistics
         loadDashboardStatistics();
-
+//
         // Set up user profile
         setupUserProfile();
     }
+
     private void loadDashboardStatistics() {
         // Load user statistics
         int totalUsers = ServiceUser.getAll().size();
@@ -132,57 +157,33 @@ public class AdminDashboardController {
 
         // Calculate fictional growth rate (in a real app, you would calculate this from historical data)
         userGrowthLabel.setText("+12% this month");
-
-
     }
+
     private void setupButtonHoverEffects() {
         String defaultStyle = "-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;";
         String hoverStyle = "-fx-background-color: #34495e; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;";
 
-        setupButtonHover(viewReclamationButton, defaultStyle, hoverStyle);
-        setupButtonHover( viewOffre, defaultStyle, hoverStyle);
-        setupButtonHover(viewUserButton, defaultStyle, hoverStyle);
-        setupButtonHover(viewEventButton, defaultStyle, hoverStyle);
+        //Offre
+        setupButtonHover(viewAjoutOffrebutton, defaultStyle, hoverStyle);
+        setupButtonHover(viewAjoutTypeOffreButton, defaultStyle, hoverStyle);
+
+        //Réclamtion
+        setupButtonHover(viewAjoutReclamationbutton, defaultStyle, hoverStyle);
+        setupButtonHover(viewAjoutTypeReclamationButton, defaultStyle, hoverStyle);
+
+        //Event
+        setupButtonHover(viewAjoutEventbutton, defaultStyle, hoverStyle);
+        setupButtonHover(viewAjoutTypeEventButton, defaultStyle, hoverStyle);
     }
+
     private void setupButtonHover(Button button, String defaultStyle, String hoverStyle) {
         button.setOnMouseEntered(e -> button.setStyle(hoverStyle));
         button.setOnMouseExited(e -> button.setStyle(defaultStyle));
     }
 
-    @FXML
-    void handleViewCoursbutton(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cours/listCours.fxml"));
-            Scene scene = new Scene(loader.load(), 1000, 700);
-            Stage stage = (Stage) viewUserButton.getScene().getWindow();
-            stage.setScene(scene);
-            stage.centerOnScreen();
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
-        }
-    }
-    @FXML
-    void handleViewSeancebutton(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/seance/listSeance.fxml"));
-            Scene scene = new Scene(loader.load(), 1000, 700);
-            Stage stage = (Stage) viewUserButton.getScene().getWindow();
-            stage.setScene(scene);
-            stage.centerOnScreen();
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
-        }
-    }
-
-
     public void setupUserProfile() {
         User currentUser = UserSession.getInstance().getCurrentUser();
         if (currentUser != null) {
-            // Set user name
             userName.setText(currentUser.getNom() + " " + currentUser.getPrenom());
 
             // We don't need to set userRole text anymore as it's not in the new UI
@@ -193,8 +194,7 @@ public class AdminDashboardController {
                 try {
                     // First try loading from file system
                     String projectDir = System.getProperty("user.dir");
-                    Path imagePath = Paths.get(projectDir, "src", "main", "resources", "photos",
-                            currentUser.getPhoto_profil());
+                    Path imagePath = Paths.get(projectDir, "src", "main", "resources", "photos", currentUser.getPhoto_profil());
 
                     if (Files.exists(imagePath)) {
                         Image image = new Image(imagePath.toUri().toString());
@@ -230,58 +230,16 @@ public class AdminDashboardController {
     }
 
 
+    //Offre
 
-    @FXML
-    void handleLogout(ActionEvent event) {
-        // Clear the user session
-        UserSession.getInstance().clearSession();
-
-        try {
-            // Charger la page de login
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root, 1000, 700);
-
-            Stage stage = null;
-
-            // Récupérer la source de l'événement
-            Object source = event.getSource();
-
-            if (source instanceof MenuItem) {
-                // Si la source est un MenuItem, récupérer la fenêtre via son ContextMenu
-                ContextMenu contextMenu = ((MenuItem) source).getParentPopup();
-                if (contextMenu != null && contextMenu.getOwnerWindow() != null) {
-                    stage = (Stage) contextMenu.getOwnerWindow();
-                }
-            } else if (source instanceof Node) {
-                // Sinon, source classique (bouton, etc.)
-                stage = (Stage) ((Node) source).getScene().getWindow();
-            }
-
-            if (stage != null) {
-                stage.setScene(scene);
-                stage.centerOnScreen();
-                stage.show();
-            } else {
-                System.err.println("Impossible de déterminer le stage à partir de l'événement.");
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    @FXML
-    void handleoffre(ActionEvent event) {
+    public void handleAjoutOffreButton(ActionEvent event) {
         try {
             // Load the User List page
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/offre/OffreList.fxml"));
-            Scene scene = new Scene(loader.load(), 1000,700);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/offre/AjouterOffre.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
 
             // Get the stage and set the new scene
-
-            Stage stage = (Stage) viewOffre.getScene().getWindow();
+            Stage stage = (Stage) viewAjoutOffrebutton.getScene().getWindow();
             stage.setScene(scene);
             stage.centerOnScreen();
             stage.show();
@@ -289,8 +247,97 @@ public class AdminDashboardController {
             e.printStackTrace();
             showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
         }
-
     }
+
+    public void handleAjoutTypeOffreButton(ActionEvent event) {
+        try {
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/offre/AjouterTypeOffre.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+
+            // Get the stage and set the new scene
+            Stage stage = (Stage) viewAjoutTypeOffreButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+    }
+
+    public void handleListOffre(ActionEvent event) {
+        try {
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/offre/OffreList.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) viewListOffre.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+    }
+
+    //
+//    //Réclamation
+    public void handleAjoutReclamationButton(ActionEvent event) {
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/AddEvent.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) viewAjoutReclamationbutton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+    public void handleAjoutTypeReclamationButton(ActionEvent event) {
+        try {
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/AddEvent.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) viewAjoutTypeReclamationButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+    }
+
+    public void handleListReclamation(ActionEvent event) {
+        try {
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/offre/OffreList.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) viewListReclamation.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+    }
+
+    //
+//
+//    //Evenements
+    public void handleAjoutEvenementButton(ActionEvent event) {
     @FXML
     public void handleEditProfile(ActionEvent event) {
         try {
@@ -305,7 +352,16 @@ public class AdminDashboardController {
                 // Charger le fichier FXML
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/edit_profile.fxml"));
                 Scene scene = new Scene(loader.load(), 1000, 700);
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/AddEvent.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
 
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) viewAjoutEventbutton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
                 // Appliquer la nouvelle scène au stage
                 stage.setScene(scene);
                 stage.centerOnScreen();
@@ -318,6 +374,7 @@ public class AdminDashboardController {
             alert.setHeaderText("Chargement échoué");
             alert.setContentText("Impossible de charger la page du profil.");
             alert.showAndWait();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
         }
     }
 
@@ -332,16 +389,15 @@ public class AdminDashboardController {
 
     }
 
-    @FXML
-    void handleViewUser(ActionEvent event) {
+    public void handleAjoutTypeEventButton(ActionEvent event) {
         try {
             // Load the User List page
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/UserListPage.fxml"));
-            Scene scene = new Scene(loader.load(), 1000,700);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/TypeEvent/AddTypeEvent.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
 
             // Get the stage and set the new scene
 
-            Stage stage = (Stage) viewUserButton.getScene().getWindow();
+            Stage stage = (Stage) viewAjoutTypeEventButton.getScene().getWindow();
             stage.setScene(scene);
             stage.centerOnScreen();
             stage.show();
@@ -349,7 +405,6 @@ public class AdminDashboardController {
             e.printStackTrace();
             showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
         }
-
     }
 
     @FXML
@@ -374,11 +429,11 @@ public class AdminDashboardController {
         try {
             // Load the User List page
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/EventList.fxml"));
-            Scene scene = new Scene(loader.load(), 1000,700);
+            Scene scene = new Scene(loader.load(), 1000, 700);
 
             // Get the stage and set the new scene
 
-            Stage stage = (Stage) viewOffre.getScene().getWindow();
+            Stage stage = (Stage) viewListEvent.getScene().getWindow();
             stage.setScene(scene);
             stage.centerOnScreen();
             stage.show();
@@ -386,20 +441,23 @@ public class AdminDashboardController {
             e.printStackTrace();
             showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
         }
-
     }
+
+
+    //User
+    public void handleListUser(ActionEvent event) {
     @FXML
     private Button viewTypeEventButton;
     @FXML
     void handleTypeEvent(ActionEvent event) {
         try {
             // Load the User List page
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/TypeEvent/TypeEventList.fxml"));
-            Scene scene = new Scene(loader.load(), 1000,700);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/UserListPage.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
 
             // Get the stage and set the new scene
 
-            Stage stage = (Stage) viewOffre.getScene().getWindow();
+            Stage stage = (Stage) viewListUser.getScene().getWindow();
             stage.setScene(scene);
             stage.centerOnScreen();
             stage.show();
@@ -408,6 +466,7 @@ public class AdminDashboardController {
             showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
         }
     }
+
     @FXML
     public void GestionEvent(ActionEvent event) {
         try {
@@ -425,5 +484,16 @@ public class AdminDashboardController {
         }
     }
 
+    @FXML
+    void openCompanyEmployeeDetailedView(ActionEvent event) {
 
+    }
+
+    private void showErrorAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText("Page Load Failed");
+        alert.setContentText(content);
+        alert.show();
+    }
 }

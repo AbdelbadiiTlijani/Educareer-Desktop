@@ -1,4 +1,4 @@
-package tn.esprit.educareer.controllers;
+package tn.esprit.educareer.controllers.projets;
 import javafx.event.ActionEvent;
 
 import javafx.collections.FXCollections;
@@ -54,7 +54,7 @@ public class ReadProjets {
     @FXML
     private void goToAjoutProjet() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddProjet.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/AddProjet.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
             Stage stage = (Stage) tableProjets.getScene().getWindow();
@@ -76,7 +76,7 @@ public class ReadProjets {
                     Projet projet = getTableView().getItems().get(getIndex());
 
                     try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/UpdateProjet.fxml"));
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/UpdateProjet.fxml"));
                         Parent root = loader.load();
 
                         // Récupérer le contrôleur de UpdateProjet

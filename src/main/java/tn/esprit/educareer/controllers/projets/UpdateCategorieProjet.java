@@ -1,4 +1,4 @@
-package tn.esprit.educareer.controllers;
+package tn.esprit.educareer.controllers.projets;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
