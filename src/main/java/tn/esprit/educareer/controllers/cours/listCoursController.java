@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import tn.esprit.educareer.models.Cours;
 import tn.esprit.educareer.services.ServiceCours;
+import tn.esprit.educareer.utils.UserSession;
 
 import java.io.IOException;
 import java.net.URL;
@@ -80,7 +81,10 @@ public class listCoursController {
 
     @FXML
     void handleBackButton(ActionEvent event) throws IOException {
-        navigateToPage(event, "/User/AdminDashboard.fxml");
+        if (UserSession.getInstance().getCurrentUser().getRole().equals("admin"))
+            navigateToPage(event, "/User/AdminDashboard.fxml");
+        else if (UserSession.getInstance().getCurrentUser().getRole().equals("formateur"))
+            navigateToPage(event, "/User/FormateurDashboard.fxml");
     }
 
     private void navigateToPage(ActionEvent event, String path) throws IOException {

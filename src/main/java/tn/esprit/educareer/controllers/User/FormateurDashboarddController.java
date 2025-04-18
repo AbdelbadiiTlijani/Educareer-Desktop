@@ -6,9 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -48,6 +46,10 @@ public class FormateurDashboarddController {
     private Button viewAjoutTypeSeanceButton;
     @FXML
     private Button ViewSeances;
+
+
+    @FXML
+    private Button editProfileButton;
 
 
     @FXML
@@ -93,10 +95,10 @@ public class FormateurDashboarddController {
     private Label userRole;
 
     @FXML
-    private Button viewCompanyEmployeeButton;
-
-    @FXML
     private Button viewUserButton;
+    @FXML
+    private Button Categorie;
+    private tn.esprit.educareer.services.ServiceUser ServiceUser = new ServiceUser();
 
     private void showErrorAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -105,7 +107,6 @@ public class FormateurDashboarddController {
         alert.setContentText(content);
         alert.show();
     }
-
 
     //Projet
     @FXML
@@ -126,6 +127,7 @@ public class FormateurDashboarddController {
             showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
         }
     }
+
     @FXML
     void handleAjoutTypeProjetButton(ActionEvent event) {
         try {
@@ -144,6 +146,7 @@ public class FormateurDashboarddController {
             showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
         }
     }
+
     @FXML
     void handleViewProjets(ActionEvent event) {
         try {
@@ -182,11 +185,12 @@ public class FormateurDashboarddController {
             showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
         }
     }
+
     @FXML
     void handleAjoutTypeCoursButton(ActionEvent event) {
         try {
             // Load the User List page
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cours/ajouterCategorieCours.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/categorieCours/ajouterCategorieCours.fxml"));
             Scene scene = new Scene(loader.load(), 1000, 700);
 
             // Get the stage and set the new scene
@@ -200,11 +204,12 @@ public class FormateurDashboarddController {
             showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
         }
     }
+
     @FXML
     void handleViewCours(ActionEvent event) {
         try {
             // Load the User List page
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/ReadProjets.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cours/listCours.fxml"));
             Scene scene = new Scene(loader.load(), 1000, 700);
 
             // Get the stage and set the new scene
@@ -238,6 +243,7 @@ public class FormateurDashboarddController {
             showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
         }
     }
+
     @FXML
     void handleAjoutTypeSeanceButton(ActionEvent event) {
         try {
@@ -256,11 +262,12 @@ public class FormateurDashboarddController {
             showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
         }
     }
+
     @FXML
     void handleViewSeances(ActionEvent event) {
         try {
             // Load the User List page
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/seance/ReadProjets.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/seance/listSeance.fxml"));
             Scene scene = new Scene(loader.load(), 1000, 700);
 
             // Get the stage and set the new scene
@@ -275,11 +282,16 @@ public class FormateurDashboarddController {
         }
     }
 
+    @FXML
+    void handleViewUser(ActionEvent event) {
+
+    }
 
     @FXML
     void handleLogout(ActionEvent event) {
         // Clear the user session
         UserSession.getInstance().clearSession();
+
         try {
             // Charger la page de login
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
@@ -315,7 +327,6 @@ public class FormateurDashboarddController {
         }
     }
 
-    private tn.esprit.educareer.services.ServiceUser ServiceUser = new ServiceUser();
     public void initialize() {
         System.out.println("Admin Dashboard initialized");
 
@@ -326,6 +337,7 @@ public class FormateurDashboarddController {
         // Set up user profile
         setupUserProfile();
     }
+
     public void setupUserProfile() {
         User currentUser = UserSession.getInstance().getCurrentUser();
         if (currentUser != null) {
@@ -340,8 +352,7 @@ public class FormateurDashboarddController {
                 try {
                     // First try loading from file system
                     String projectDir = System.getProperty("user.dir");
-                    Path imagePath = Paths.get(projectDir, "src", "main", "resources", "photos",
-                            currentUser.getPhoto_profil());
+                    Path imagePath = Paths.get(projectDir, "src", "main", "resources", "photos", currentUser.getPhoto_profil());
 
                     if (Files.exists(imagePath)) {
                         Image image = new Image(imagePath.toUri().toString());
@@ -380,7 +391,6 @@ public class FormateurDashboarddController {
         String defaultStyle = "-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;";
         String hoverStyle = "-fx-background-color: #34495e; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;";
 
-        setupButtonHover(viewCompanyEmployeeButton, defaultStyle, hoverStyle);
         setupButtonHover(viewUserButton, defaultStyle, hoverStyle);
     }
 
@@ -389,25 +399,16 @@ public class FormateurDashboarddController {
         button.setOnMouseExited(e -> button.setStyle(defaultStyle));
     }
 
+
     @FXML
-    void handleViewCompanyEmployee(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/ReadProjets.fxml"));
-            Scene scene = new Scene(loader.load(), 1000, 700);
-
-            // Get the stage and set the new scene
-
-            Stage stage = (Stage) viewCompanyEmployeeButton.getScene().getWindow();
-            stage.setScene(scene);
-            stage.centerOnScreen();
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+    void handleViewEvent(ActionEvent event) {
 
     }
 
+    @FXML
+    void handleViewReclamation(ActionEvent event) {
+
+    }
 
     @FXML
     public void handleEditProfile(ActionEvent event) {
@@ -438,13 +439,12 @@ public class FormateurDashboarddController {
             alert.showAndWait();
         }
     }
-    @FXML
-    private Button Categorie;
+
     @FXML
     void handleCategorie(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ReadCategoriesProjet.fxml"));
-            Scene scene = new Scene(loader.load(), 1000,700);
+            Scene scene = new Scene(loader.load(), 1000, 700);
 
             // Get the stage and set the new scene
 
@@ -457,7 +457,6 @@ public class FormateurDashboarddController {
         }
 
     }
-
 
 
 }

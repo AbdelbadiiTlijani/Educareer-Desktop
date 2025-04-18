@@ -1,6 +1,3 @@
-
-
-
 package tn.esprit.educareer.controllers.User;
 
 import javafx.event.ActionEvent;
@@ -14,11 +11,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-
 import javafx.stage.Stage;
-
-import tn.esprit.educareer.services.ServiceUser;
 import tn.esprit.educareer.models.User;
+import tn.esprit.educareer.services.ServiceUser;
 import tn.esprit.educareer.utils.UserSession;
 
 import java.io.IOException;
@@ -26,26 +21,90 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class AdminDashboardController {
 
-    //User
     @FXML
-    private Button viewListUser;
+    private Button companyEmployeeDetailedViewButton;
+
+    @FXML
+    private Label companyGrowthLabel;
+
+    @FXML
+    private AnchorPane dashboardPane;
+
     @FXML
     private Button logoutButton;
+
     @FXML
     private ImageView userPhoto;
+
     @FXML
     private Label userName;
+
+    @FXML
+    private HBox recentActivity1;
+
+    @FXML
+    private HBox recentActivity3;
+
+    @FXML
+    private Label recentActivityText1;
+
+    @FXML
+    private Label recentActivityText3;
+
+    @FXML
+    private Label recentActivityTime1;
+
+    @FXML
+    private Label recentActivityTime3;
+
+    @FXML
+    private Label reclamationStatusLabel;
+
+    @FXML
+    private Label totalCompaniesLabel;
+    @FXML
+    private MenuButton userProfileMenu;
+
+    @FXML
+    private MenuItem editProfileMenuItem;
+
+    @FXML
+    private MenuItem logoutMenuItem;
+
+    @FXML
+    private Label totalReclamationsLabel;
+
+    @FXML
+    private Label totalUsersLabel;
+
+    @FXML
+    private Label userGrowthLabel;
+
+    @FXML
+    private Button viewOffre;
+
+    @FXML
+    private Button viewEventButton;
+
     @FXML
     private Button editProfileButton;
+
+
+    @FXML
+    private Button viewReclamationButton;
+
+    @FXML
+    private Button viewUserButton;
+
     @FXML
     private Label userRole;
 
+    private ServiceUser ServiceUser = new ServiceUser();
+    @FXML
+    private Button viewTypeEventButton;
 
     //Offre
     @FXML
@@ -73,69 +132,11 @@ public class AdminDashboardController {
     @FXML
     private Button viewListEvent;
 
-
-    @FXML
-    private HBox recentActivity1;
-    @FXML
-    private Button companyEmployeeDetailedViewButton;
-    @FXML
-    private Label companyGrowthLabel;
-    @FXML
-    private AnchorPane dashboardPane;
-    @FXML
-    private HBox recentActivity3;
-    @FXML
-    private Label recentActivityText1;
-    @FXML
-    private Label recentActivityText3;
-    @FXML
-    private Label recentActivityTime1;
-    @FXML
-    private Label recentActivityTime3;
-
-
-    @FXML
-    private Label reclamationStatusLabel;
-    @FXML
-    private Label totalCompaniesLabel;
-    @FXML
-    private MenuButton userProfileMenu;
-
-    @FXML
-    private MenuItem editProfileMenuItem;
-
-    @FXML
-    private MenuItem logoutMenuItem;
-
-    @FXML
-    private Label totalReclamationsLabel;
-    @FXML
-    private Label totalUsersLabel;
-    @FXML
-    private Label userGrowthLabel;
-
-    @FXML
-    private Button viewOffre;
-
-    @FXML
-    private Button viewEventButton;
-
-    @FXML
-    private Button editProfileButton;
-
-
-    @FXML
-    private Button viewReclamationButton;
-
     @FXML
     private Button viewSeancebutton;
 
     @FXML
-    private Button viewUserButton;;
-    @FXML
-    private Label userRole;
-
-    private ServiceUser ServiceUser = new ServiceUser();
+    private Button viewCoursbutton;
 
     public void initialize() {
         System.out.println("Admin Dashboard initialized");
@@ -145,7 +146,7 @@ public class AdminDashboardController {
 
         // Load dashboard statistics
         loadDashboardStatistics();
-//
+
         // Set up user profile
         setupUserProfile();
     }
@@ -184,6 +185,7 @@ public class AdminDashboardController {
     public void setupUserProfile() {
         User currentUser = UserSession.getInstance().getCurrentUser();
         if (currentUser != null) {
+            // Set user name
             userName.setText(currentUser.getNom() + " " + currentUser.getPrenom());
 
             // We don't need to set userRole text anymore as it's not in the new UI
@@ -229,9 +231,79 @@ public class AdminDashboardController {
         }
     }
 
+    @FXML
+    void handleLogout(ActionEvent event) {
+        // Clear the user session
+        UserSession.getInstance().clearSession();
+
+        try {
+            // Charger la page de login
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 1000, 700);
+
+            Stage stage = null;
+
+            // Récupérer la source de l'événement
+            Object source = event.getSource();
+
+            if (source instanceof MenuItem) {
+                // Si la source est un MenuItem, récupérer la fenêtre via son ContextMenu
+                ContextMenu contextMenu = ((MenuItem) source).getParentPopup();
+                if (contextMenu != null && contextMenu.getOwnerWindow() != null) {
+                    stage = (Stage) contextMenu.getOwnerWindow();
+                }
+            } else if (source instanceof Node) {
+                // Sinon, source classique (bouton, etc.)
+                stage = (Stage) ((Node) source).getScene().getWindow();
+            }
+
+            if (stage != null) {
+                stage.setScene(scene);
+                stage.centerOnScreen();
+                stage.show();
+            } else {
+                System.err.println("Impossible de déterminer le stage à partir de l'événement.");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void handleEditProfile(ActionEvent event) {
+        try {
+            MenuItem menuItem = (MenuItem) event.getSource();
+
+            // Récupérer le ContextMenu parent du MenuItem
+            ContextMenu contextMenu = menuItem.getParentPopup();
+            if (contextMenu != null && contextMenu.getOwnerWindow() != null) {
+                // Récupérer la fenêtre (stage)
+                Stage stage = (Stage) contextMenu.getOwnerWindow();
+
+                // Charger le fichier FXML
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/edit_profile.fxml"));
+                Scene scene = new Scene(loader.load(), 1000, 700);
+
+                // Appliquer la nouvelle scène au stage
+                stage.setScene(scene);
+                stage.centerOnScreen();
+                stage.show();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Chargement échoué");
+            alert.setContentText("Impossible de charger la page du profil.");
+            alert.showAndWait();
+        }
+    }
+
 
     //Offre
-
+    @FXML
     public void handleAjoutOffreButton(ActionEvent event) {
         try {
             // Load the User List page
@@ -249,6 +321,7 @@ public class AdminDashboardController {
         }
     }
 
+    @FXML
     public void handleAjoutTypeOffreButton(ActionEvent event) {
         try {
             // Load the User List page
@@ -266,6 +339,7 @@ public class AdminDashboardController {
         }
     }
 
+    @FXML
     public void handleListOffre(ActionEvent event) {
         try {
             // Load the User List page
@@ -284,11 +358,12 @@ public class AdminDashboardController {
         }
     }
 
-    //
-//    //Réclamation
+    //Réclamation
+    @FXML
     public void handleAjoutReclamationButton(ActionEvent event) {
+        try {
             // Load the User List page
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/AddEvent.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(""));
             Scene scene = new Scene(loader.load(), 1000, 700);
 
             // Get the stage and set the new scene
@@ -297,11 +372,17 @@ public class AdminDashboardController {
             stage.setScene(scene);
             stage.centerOnScreen();
             stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
             showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+    }
+
+    @FXML
     public void handleAjoutTypeReclamationButton(ActionEvent event) {
         try {
             // Load the User List page
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/AddEvent.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(""));
             Scene scene = new Scene(loader.load(), 1000, 700);
 
             // Get the stage and set the new scene
@@ -316,10 +397,11 @@ public class AdminDashboardController {
         }
     }
 
+    @FXML
     public void handleListReclamation(ActionEvent event) {
         try {
             // Load the User List page
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/offre/OffreList.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(""));
             Scene scene = new Scene(loader.load(), 1000, 700);
 
             // Get the stage and set the new scene
@@ -334,24 +416,29 @@ public class AdminDashboardController {
         }
     }
 
-    //
-//
-//    //Evenements
-    public void handleAjoutEvenementButton(ActionEvent event) {
     @FXML
-    public void handleEditProfile(ActionEvent event) {
+    public void handleListEvent(ActionEvent event) {
         try {
-            MenuItem menuItem = (MenuItem) event.getSource();
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/EventList.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
 
-            // Récupérer le ContextMenu parent du MenuItem
-            ContextMenu contextMenu = menuItem.getParentPopup();
-            if (contextMenu != null && contextMenu.getOwnerWindow() != null) {
-                // Récupérer la fenêtre (stage)
-                Stage stage = (Stage) contextMenu.getOwnerWindow();
+            // Get the stage and set the new scene
 
-                // Charger le fichier FXML
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/edit_profile.fxml"));
-                Scene scene = new Scene(loader.load(), 1000, 700);
+            Stage stage = (Stage) viewListReclamation.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+    }
+
+    //Evenements
+    @FXML
+    public void handleAjoutEvenementButton(ActionEvent event) {
+        try {
             // Load the User List page
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/AddEvent.fxml"));
             Scene scene = new Scene(loader.load(), 1000, 700);
@@ -362,18 +449,13 @@ public class AdminDashboardController {
             stage.setScene(scene);
             stage.centerOnScreen();
             stage.show();
-                // Appliquer la nouvelle scène au stage
-                stage.setScene(scene);
-                stage.centerOnScreen();
-                stage.show();
-            }
+            // Appliquer la nouvelle scène au stage
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+
         } catch (IOException e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText("Chargement échoué");
-            alert.setContentText("Impossible de charger la page du profil.");
-            alert.showAndWait();
             showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
         }
     }
@@ -389,6 +471,57 @@ public class AdminDashboardController {
 
     }
 
+    @FXML
+    void handleViewUser(ActionEvent event) {
+        try {
+            // Load the User List page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/UserListPage.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+
+            // Get the stage and set the new scene
+
+            Stage stage = (Stage) viewUserButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+
+    }
+
+    @FXML
+    void handleViewSeancebutton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/seance/listSeance.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+            Stage stage = (Stage) viewUserButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    void handleViewCoursbutton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cours/listCours.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+            Stage stage = (Stage) viewUserButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+    }
+
+    @FXML
     public void handleAjoutTypeEventButton(ActionEvent event) {
         try {
             // Load the User List page
@@ -411,6 +544,7 @@ public class AdminDashboardController {
     void openCompanyEmployeeDetailedView(ActionEvent event) {
 
     }
+
     private void showErrorAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -418,13 +552,14 @@ public class AdminDashboardController {
         alert.setContentText(content);
         alert.show();
     }
+
     private void clearImageCache(ImageView imageView) {
         imageView.setImage(null);
         // Force garbage collection to clear cached images
         System.gc();
     }
-    @FXML
 
+    @FXML
     void handleevent(ActionEvent event) {
         try {
             // Load the User List page
@@ -434,30 +569,6 @@ public class AdminDashboardController {
             // Get the stage and set the new scene
 
             Stage stage = (Stage) viewListEvent.getScene().getWindow();
-            stage.setScene(scene);
-            stage.centerOnScreen();
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
-        }
-    }
-
-
-    //User
-    public void handleListUser(ActionEvent event) {
-    @FXML
-    private Button viewTypeEventButton;
-    @FXML
-    void handleTypeEvent(ActionEvent event) {
-        try {
-            // Load the User List page
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/UserListPage.fxml"));
-            Scene scene = new Scene(loader.load(), 1000, 700);
-
-            // Get the stage and set the new scene
-
-            Stage stage = (Stage) viewListUser.getScene().getWindow();
             stage.setScene(scene);
             stage.centerOnScreen();
             stage.show();
@@ -482,18 +593,5 @@ public class AdminDashboardController {
         } catch (IOException e) {
             e.printStackTrace(); // Tu peux aussi afficher une alerte ici
         }
-    }
-
-    @FXML
-    void openCompanyEmployeeDetailedView(ActionEvent event) {
-
-    }
-
-    private void showErrorAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText("Page Load Failed");
-        alert.setContentText(content);
-        alert.show();
     }
 }
