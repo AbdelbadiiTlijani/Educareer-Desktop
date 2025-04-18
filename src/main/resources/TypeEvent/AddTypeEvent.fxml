@@ -29,6 +29,7 @@
                 <children>
                     <VBox spacing="15.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
                         <Label style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Nom du type" />
+
                         <TextField fx:id="nomEField" promptText="Saisir le nom du type" style="-fx-background-radius: 8px; -fx-padding: 10px;" />
                         <Button fx:id="typeeventadd" onAction="#typeeventadd" style="-fx-background-color: linear-gradient(to right, #4e54c8, #8f94fb); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20px; -fx-padding: 10px 20px;" text="Ajouter" />
                         <Button fx:id="returnButton" onAction="#handleReturn" style="-fx-background-color: transparent; -fx-text-fill: #4e54c8; -fx-font-weight: bold; -fx-border-color: #4e54c8; -fx-border-radius: 20px; -fx-padding: 10px 20px;" text="Retour" />

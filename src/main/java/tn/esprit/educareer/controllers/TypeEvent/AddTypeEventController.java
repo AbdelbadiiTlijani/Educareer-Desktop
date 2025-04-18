@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,6 +20,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AddTypeEventController implements Initializable {
+
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -51,6 +53,7 @@ public class AddTypeEventController implements Initializable {
 
     private void goBackToTypeEventList() {
         try {
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/TypeEvent/TypeEventList.fxml"));
             Parent root = loader.load();
 
@@ -78,6 +81,7 @@ public class AddTypeEventController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Initialisation si nécessaire
     }
+
     @FXML
     private Button returnButton;
     @FXML

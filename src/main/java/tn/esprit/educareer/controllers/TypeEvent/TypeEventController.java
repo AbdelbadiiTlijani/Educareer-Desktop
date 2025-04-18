@@ -104,6 +104,7 @@ public class TypeEventController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/TypeEvent/AddTypeEvent.fxml"));
         Parent root = loader.load();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
 // Set up the scene with a larger aspect ratio
         Scene scene = new Scene(root, 1000, 700);        stage.setScene(scene);
         stage.centerOnScreen();

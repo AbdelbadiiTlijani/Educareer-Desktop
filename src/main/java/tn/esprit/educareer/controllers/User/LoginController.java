@@ -1,4 +1,5 @@
 package tn.esprit.educareer.controllers.User;
+
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import org.mindrot.jbcrypt.BCrypt;
@@ -11,7 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tn.esprit.educareer.utils.UserSession;
-import  tn.esprit.educareer.models.User;
+import tn.esprit.educareer.models.User;
 
 import java.sql.Connection;
 
@@ -41,15 +42,13 @@ public class LoginController implements Initializable {
 
     @FXML
     private PasswordField passwordField;
+
     private Connection cnx;
-
-    public LoginController() {
-        cnx = MyConnection.getInstance().getCnx(); }
-
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // ✅ Initialisation ici
+        cnx = MyConnection.getInstance().getCnx();
 
         backButton.setOnAction(event -> goBack());
 
@@ -66,17 +65,13 @@ public class LoginController implements Initializable {
             statusLabel.setText("");
         });
     }
+
     private void goBack() {
         try {
-            // Charger l'écran précédent (ajustez le chemin selon votre structure)
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
             VBox root = loader.load();
-
-            // Obtenir la scène actuelle
             Stage stage = (Stage) backButton.getScene().getWindow();
-
-            // Définir la nouvelle scène
-            Scene scene = new Scene(root, 1000, 700);;
+            Scene scene = new Scene(root, 1000, 700);
             stage.setScene(scene);
             stage.centerOnScreen();
             stage.show();
@@ -84,23 +79,18 @@ public class LoginController implements Initializable {
             e.printStackTrace();
         }
     }
+
     @FXML
     void handleLogin(ActionEvent event) {
-        // Clear previous error messages
         clearErrors();
-
-        // Validate input fields
         boolean isValid = validateInput();
 
-        if (!isValid) {
-            return; // Don't proceed if validation failed
-        }
+        if (!isValid) return;
 
         String email = emailField.getText().trim();
         String password = passwordField.getText();
 
         try {
-            // Query user from database
             String query = "SELECT * FROM user WHERE email = ?";
             PreparedStatement pst = cnx.prepareStatement(query);
             pst.setString(1, email);
@@ -111,10 +101,11 @@ public class LoginController implements Initializable {
                 String role = rs.getString("role");
                 int status = rs.getInt("status"); // Assuming the column is named 'status'
 
-// Check if the stored hash starts with $2y$ (Symfony format)
+
                 if (storedHash.startsWith("$2y$")) {
                     storedHash = "$2a$" + storedHash.substring(4);
                 }
+
 
 // Verify password
                 if (BCrypt.checkpw(password, storedHash)) {
@@ -135,16 +126,13 @@ public class LoginController implements Initializable {
 
                     UserSession.getInstance().setCurrentUser(user);
 
-                    // Login successful - redirect based on role
                     redirectBasedOnRole(role);
                 } else {
-                    // Invalid password
                     statusLabel.setText("Mot de passe incorrect");
                     highlightField(passwordField, true);
                 }
 
             } else {
-                // User not found
                 statusLabel.setText("Utilisateur non trouvé");
                 highlightField(emailField, true);
             }
@@ -156,6 +144,7 @@ public class LoginController implements Initializable {
             e.printStackTrace();
         }
     }
+
     private void redirectBasedOnRole(String role) throws IOException {
         String fxmlPath;
 
@@ -174,17 +163,10 @@ public class LoginController implements Initializable {
                 return;
         }
 
-        // Load the appropriate FXML
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
         Parent root = loader.load();
-
-        // Create new scene
         Scene scene = new Scene(root , 1000 , 700);
-
-        // Get the current stage
         Stage stage = (Stage) emailField.getScene().getWindow();
-
-        // Set the new scene
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
@@ -197,13 +179,12 @@ public class LoginController implements Initializable {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
     private boolean validateInput() {
         boolean isValid = true;
-
         String email = emailField.getText().trim();
         String password = passwordField.getText();
 
-        // Validate email
         if (email.isEmpty()) {
             emailErrorLabel.setText("L'email est requis");
             highlightField(emailField, true);
@@ -216,7 +197,6 @@ public class LoginController implements Initializable {
             highlightField(emailField, false);
         }
 
-        // Validate password
         if (password.isEmpty()) {
             passwordErrorLabel.setText("Le mot de passe est requis");
             highlightField(passwordField, true);
@@ -233,7 +213,7 @@ public class LoginController implements Initializable {
             field.setStyle("-fx-background-color: rgba(30, 41, 59, 0.7); " +
                     "-fx-background-radius: 8px; " +
                     "-fx-border-radius: 8px; " +
-                    "-fx-border-color: #ef4444; " + // Red border for error
+                    "-fx-border-color: #ef4444; " +
                     "-fx-border-width: 1px; " +
                     "-fx-text-fill: #f8fafc; " +
                     "-fx-padding: 8px; " +
@@ -242,7 +222,7 @@ public class LoginController implements Initializable {
             field.setStyle("-fx-background-color: rgba(30, 41, 59, 0.7); " +
                     "-fx-background-radius: 8px; " +
                     "-fx-border-radius: 8px; " +
-                    "-fx-border-color: rgba(59, 130, 246, 0.2); " + // Normal border
+                    "-fx-border-color: rgba(59, 130, 246, 0.2); " +
                     "-fx-border-width: 1px; " +
                     "-fx-text-fill: #f8fafc; " +
                     "-fx-padding: 8px; " +
@@ -257,5 +237,4 @@ public class LoginController implements Initializable {
         highlightField(emailField, false);
         highlightField(passwordField, false);
     }
-
 }
