@@ -1,4 +1,4 @@
-package tn.esprit.educareer.controllers;
+package tn.esprit.educareer.controllers.projets;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

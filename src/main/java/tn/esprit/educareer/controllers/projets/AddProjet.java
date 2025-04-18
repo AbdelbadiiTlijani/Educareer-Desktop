@@ -1,4 +1,4 @@
-package tn.esprit.educareer.controllers;
+package tn.esprit.educareer.controllers.projets;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -134,7 +134,7 @@ public class AddProjet {
     @FXML
     private void handleBack(ActionEvent event) throws IOException{
 
-        navigateToPage(event , "/ReadProjets.fxml");
+        navigateToPage(event , "/Projet/ReadProjets.fxml");
     }
 
 

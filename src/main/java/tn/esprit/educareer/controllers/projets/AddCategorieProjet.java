@@ -1,4 +1,4 @@
-package tn.esprit.educareer.controllers;
+package tn.esprit.educareer.controllers.projets;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,7 +40,7 @@ public class AddCategorieProjet {
     @FXML
     private void goToListeCategorie() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ReadCategoriesProjet.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/ReadCategoriesProjet.fxml"));
             Parent root = loader.load();
             // Set up the scene with a larger aspect ratio
             Scene scene = new Scene(root, 1000, 700);

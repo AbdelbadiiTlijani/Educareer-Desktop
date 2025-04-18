@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f8f9fa;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.AddCategorieProjet">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f8f9fa;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.projets.AddCategorieProjet">
     <children>
         <!-- En-tête verte -->
         <HBox alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="600.0" style="-fx-background-color: #4CAF50; -fx-padding: 20;">
