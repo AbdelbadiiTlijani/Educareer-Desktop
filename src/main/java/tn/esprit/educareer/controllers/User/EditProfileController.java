@@ -217,7 +217,7 @@ public class EditProfileController {
         }
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
+        Scene scene = new Scene(root, 1000, 700);
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();

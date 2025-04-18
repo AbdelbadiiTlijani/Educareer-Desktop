@@ -4,8 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-
-
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
@@ -17,6 +15,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
+
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <AnchorPane fx:id="dashboardPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f5f5f7;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.User.FormateurDashboarddController">
 
     <!-- Left Sidebar Navigation Panel -->
@@ -53,8 +54,6 @@
                 </graphic>
             </Button>
 
-
-
          <Button fx:id="Categorie" onAction="#handleCategorie" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Gestion Categorie Projets">
             <graphic>
                <HBox alignment="CENTER_LEFT" spacing="10">
@@ -66,40 +65,82 @@
          </Button>
         </VBox>
 
-        <VBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
-            <!-- User Profile Section -->
-            <VBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
-                <ImageView fx:id="userPhoto" fitHeight="50.0" fitWidth="50.0" preserveRatio="true">
-                    <effect>
-                        <DropShadow color="#00000033" radius="5" />
-                    </effect>
-                </ImageView>
-                <Label fx:id="userName" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14;" text="" />
-                <Label fx:id="userRole" style="-fx-text-fill: #cccccc; -fx-font-size: 12;" text="" />
-                <Button fx:id="editProfileButton" onAction="#handleEditProfile" prefHeight="24" prefWidth="24" style="-fx-background-color: transparent; -fx-background-radius: 15; -fx-border-color: white; -fx-border-radius: 15; -fx-border-width: 1;">
-                    <graphic>
-                        <ImageView fitHeight="14" fitWidth="14">
-                            <image>
-                                <Image url="@/photos/edit_8215526.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                    <tooltip>
-                        <Tooltip text="Edit Profile" />
-                    </tooltip>
-                </Button>
-            </VBox>
 
-
-            <Button fx:id="logoutButton" onAction="#handleLogout" prefHeight="40" prefWidth="220" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;" text="Logout">
-            </Button>
-        </VBox>
     </VBox>
 
     <!-- Main Content Area -->
     <AnchorPane style="-fx-background-color: #f5f5f7; -fx-padding: 20;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <VBox spacing="20" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+        <!-- Top User Profile Bar -->
+        <HBox alignment="CENTER_RIGHT" spacing="10" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+            <MenuButton fx:id="userProfileMenu" style="-fx-background-color: transparent; -fx-cursor: hand;">
+                <graphic>
+                    <HBox alignment="CENTER" spacing="10">
+                        <Label fx:id="userName" style="-fx-text-fill: #2c3e50; -fx-font-weight: bold;" text="Formateur Name" />
+                        <ImageView fx:id="userPhoto" fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
+                            <effect>
+                                <DropShadow color="#00000033" radius="5" />
+                            </effect>
+                        </ImageView>
+                    </HBox>
+                </graphic>
+                <items>
+                    <MenuItem fx:id="editProfileMenuItem" onAction="#handleEditProfile" style="-fx-padding: 10 15 10 15;">
+                        <graphic>
+                            <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 5;">
+                                <ImageView fitHeight="20" fitWidth="20">
+                                    <image>
+                                        <Image url="@/photos/edit_8215526.png" />
+                                    </image>
+                                </ImageView>
+                                <VBox spacing="2">
+                                    <Label text="Modifier Profil" style="-fx-text-fill: #2c3e50; -fx-font-size: 14; -fx-font-weight: bold;" />
+                                    <Label text="Mettre à jour vos informations" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12;" />
+                                </VBox>
+                            </HBox>
+                        </graphic>
+                        <style>
+                            <![CDATA[
+                            .menu-item {
+                                -fx-background-color: transparent;
+                            }
+                            .menu-item:hover {
+                                -fx-background-color: #f5f5f7;
+                            }
+                        ]]>
+                        </style>
+                    </MenuItem>
 
+                    <MenuItem fx:id="logoutMenuItem" onAction="#handleLogout" style="-fx-padding: 10 15 10 15;">
+                        <graphic>
+                            <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 5;">
+                                <ImageView fitHeight="20" fitWidth="20">
+                                    <image>
+                                        <Image url="@/photos/logout_icon.png" />
+                                    </image>
+                                </ImageView>
+                                <VBox spacing="2">
+                                    <Label text="Déconnexion" style="-fx-text-fill: #e74c3c; -fx-font-size: 14; -fx-font-weight: bold;" />
+                                    <Label text="Se déconnecter de votre compte" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12;" />
+                                </VBox>
+                            </HBox>
+                        </graphic>
+                        <style>
+                            <![CDATA[
+                            .menu-item {
+                                -fx-background-color: transparent;
+                            }
+                            .menu-item:hover {
+                                -fx-background-color: #f5f5f7;
+                            }
+                        ]]>
+                        </style>
+                    </MenuItem>
+                </items>
+            </MenuButton>
+        </HBox>
+
+        <VBox spacing="20" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="60.0">
+            <!-- Rest of your existing content remains the same -->
             <Label style="-fx-font-size: 24; -fx-font-weight: bold;" text="Bienvenue sur Formateur Dashboard" />
 
             <HBox spacing="20">
@@ -114,7 +155,7 @@
                         <padding>
                             <Insets left="15" right="15" />
                         </padding>
-                        <Label style="-fx-font-size: 16; -fx-text-fill: #7f8c8d;" text="Utilisateurs Total" />
+                        <Label style="-fx-font-size: 16; -fx-text-fill: #7f8c8d;" text="Cours Total" />
                         <Label fx:id="totalUsersLabel" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #3498db;" text="248" />
                         <Label fx:id="userGrowthLabel" style="-fx-font-size: 12; -fx-text-fill: #27ae60;" text="+12% this month" />
                     </VBox>
@@ -131,7 +172,7 @@
                         <padding>
                             <Insets left="15" right="15" />
                         </padding>
-                        <Label style="-fx-font-size: 16; -fx-text-fill: #7f8c8d;" text="Offres D'emploi" />
+                        <Label style="-fx-font-size: 16; -fx-text-fill: #7f8c8d;" text="Projets" />
                         <Label fx:id="totalCompaniesLabel" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #9b59b6;" text="42" />
                         <Label fx:id="companyGrowthLabel" style="-fx-font-size: 12; -fx-text-fill: #27ae60;" text="+5% this month" />
                     </VBox>
@@ -148,7 +189,7 @@
                         <padding>
                             <Insets left="15" right="15" />
                         </padding>
-                        <Label style="-fx-font-size: 16; -fx-text-fill: #7f8c8d;" text="Evennements " />
+                        <Label style="-fx-font-size: 16; -fx-text-fill: #7f8c8d;" text="Catégories" />
                         <Label fx:id="totalReclamationsLabel" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #e74c3c;" text="18" />
                         <Label fx:id="reclamationStatusLabel" style="-fx-font-size: 12; -fx-text-fill: #e67e22;" text="3 new today" />
                     </VBox>
@@ -160,10 +201,30 @@
 
             <HBox spacing="15">
                 <!-- Quick Access Card 1 -->
-                <StackPane />
+                <StackPane>
+                    <Rectangle arcHeight="10" arcWidth="10" fill="#3498db" height="100" width="155">
+                        <effect>
+                            <DropShadow color="#00000033" radius="5" />
+                        </effect>
+                    </Rectangle>
+                    <VBox alignment="CENTER" spacing="10">
+                        <Label style="-fx-font-size: 24; -fx-text-fill: white;" text="📚" />
+                        <Button onAction="#handleViewUser" style="-fx-background-color: white; -fx-text-fill: #3498db; -fx-font-weight: bold;" text="Gérer les cours" />
+                    </VBox>
+                </StackPane>
 
                 <!-- Quick Access Card 2 -->
-                <StackPane />
+                <StackPane>
+                    <Rectangle arcHeight="10" arcWidth="10" fill="#9b59b6" height="100" width="155">
+                        <effect>
+                            <DropShadow color="#00000033" radius="5" />
+                        </effect>
+                    </Rectangle>
+                    <VBox alignment="CENTER" spacing="10">
+                        <Label style="-fx-font-size: 24; -fx-text-fill: white;" text="📂" />
+                        <Button onAction="#handleViewCompanyEmployee" style="-fx-background-color: white; -fx-text-fill: #9b59b6; -fx-font-weight: bold;" text="Gérer les projets" />
+                    </VBox>
+                </StackPane>
 
                 <!-- Quick Access Card 3 -->
                 <StackPane>
@@ -173,28 +234,10 @@
                         </effect>
                     </Rectangle>
                     <VBox alignment="CENTER" spacing="10">
-                        <Label style="-fx-font-size: 24; -fx-text-fill: white;" text="📋" />
-                        <Button onAction="#handleViewReclamation" style="-fx-background-color: white; -fx-text-fill: #e74c3c; -fx-font-weight: bold;" text="Cours" />
+                        <Label style="-fx-font-size: 24; -fx-text-fill: white;" text="🏷️" />
+                        <Button onAction="#handleCategorie" style="-fx-background-color: white; -fx-text-fill: #e74c3c; -fx-font-weight: bold;" text="Catégories" />
                     </VBox>
                 </StackPane>
-
-                <!-- Quick Access Card 4 -->
-                <StackPane>
-                    <Rectangle arcHeight="10" arcWidth="10" fill="#2ecc71" height="100" width="155">
-                        <effect>
-                            <DropShadow color="#00000033" radius="5" />
-                        </effect>
-                    </Rectangle>
-                    <VBox alignment="CENTER" prefWidth="495.0" spacing="10">
-                        <Label style="-fx-font-size: 24; -fx-text-fill: white;" text="🗓️" />
-                        <Button onAction="#handleViewEvent" style="-fx-background-color: white; -fx-text-fill: #2ecc71; -fx-font-weight: bold;" text="Projets" />
-                    </VBox>
-                </StackPane>
-            </HBox>
-
-            <!-- NEW BUTTON ADDED: Company & Employees Detailed View -->
-            <HBox alignment="CENTER" spacing="15">
-                <StackPane />
             </HBox>
         </VBox>
     </AnchorPane>

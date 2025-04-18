@@ -25,6 +25,24 @@ public class ServiceUser implements IService<User> {
         }
         return hashed;
     }
+    public void approuverUser(User user) {
+        String sql = "UPDATE user SET status = 1 WHERE id = ?";
+        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
+            ps.setInt(1, user.getId());
+            int rowsAffected = ps.executeUpdate();
+
+            if (rowsAffected > 0) {
+                user.setStatus(1); // Update local object
+                System.out.println("Utilisateur approuvé avec succès !");
+            } else {
+                System.out.println("Aucun utilisateur trouvé avec l'ID: " + user.getId());
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de l'approbation : " + e.getMessage());
+        }
+    }
+
 
     @Override
     public void ajouter(User user) {

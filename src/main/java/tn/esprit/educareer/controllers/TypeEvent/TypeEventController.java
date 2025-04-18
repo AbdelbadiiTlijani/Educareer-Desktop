@@ -105,12 +105,8 @@ public class TypeEventController implements Initializable {
         Parent root = loader.load();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-
 // Set up the scene with a larger aspect ratio
         Scene scene = new Scene(root, 1000, 700);        stage.setScene(scene);
-
         stage.centerOnScreen();
         stage.show();
     }
