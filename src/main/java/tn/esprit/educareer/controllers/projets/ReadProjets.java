@@ -56,7 +56,7 @@ public class ReadProjets {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/AddProjet.fxml"));
             Parent root = loader.load();
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root , 1000 , 700);
             Stage stage = (Stage) tableProjets.getScene().getWindow();
             stage.setScene(scene);
         } catch (Exception e) {

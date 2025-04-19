@@ -68,13 +68,13 @@
                           style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;"
                     >
                         <Button fx:id="viewAjoutCoursButton" onAction="#handleAjoutCoursButton"
-                                styleClass="sidebar-button" text="📘  Ajouter des évenements"
+                                styleClass="sidebar-button" text="📘  Ajouter des Cours"
                                 style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;"
                         />
 
                         <Button fx:id="viewAjoutTypeCoursButton" onAction="#handleAjoutTypeCoursButton"
                                 style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;"
-                                styleClass="sidebar-button" text="🕒  Ajouter des type évenements"/>
+                                styleClass="sidebar-button" text="🕒  Ajouter des type Cours"/>
                     </VBox>
                 </content>
             </TitledPane>

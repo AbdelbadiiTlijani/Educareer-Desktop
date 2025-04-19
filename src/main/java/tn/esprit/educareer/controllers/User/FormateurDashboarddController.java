@@ -133,7 +133,7 @@ public class FormateurDashboarddController {
         try {
             // Load the User List page
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/AddCategorieProjet.fxml"));
-            Scene scene = new Scene(loader.load(), 1000, 700);
+            Scene scene = new Scene(loader.load());
 
             // Get the stage and set the new scene
 

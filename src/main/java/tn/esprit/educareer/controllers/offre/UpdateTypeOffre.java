@@ -33,7 +33,7 @@ public class UpdateTypeOffre {
     private void navigateToPage(ActionEvent event, String path) throws IOException {
         root = FXMLLoader.load(getClass().getResource(path));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
+        scene = new Scene(root , 1000 , 700);
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();

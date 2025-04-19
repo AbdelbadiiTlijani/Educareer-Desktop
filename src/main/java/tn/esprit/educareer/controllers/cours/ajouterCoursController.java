@@ -176,7 +176,7 @@ public class ajouterCoursController {
 
     private void goBack() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/FormateurDashboard.fxml"));
             Stage stage = (Stage) backButton.getScene().getWindow();
             Scene scene = new Scene(loader.load(), 1000, 700);
             stage.setScene(scene);

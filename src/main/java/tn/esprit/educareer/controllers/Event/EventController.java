@@ -48,7 +48,7 @@ public class EventController implements Initializable {
         }
         root = FXMLLoader.load(fxmlLocation);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
+        scene = new Scene(root , 1000 , 700);
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
@@ -117,7 +117,7 @@ public class EventController implements Initializable {
             editEventController.setEvent(event);
 
             Stage stage = (Stage) eventListView.getScene().getWindow();
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root , 1000 , 700);
             stage.setScene(scene);
             stage.show();
 
