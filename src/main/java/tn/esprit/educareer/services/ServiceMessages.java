@@ -113,4 +113,16 @@ public class ServiceMessages {
         }
         return null;
     }
+
+    public void markMessagesAsRead(int senderId, int recipientId) {
+        String query = "UPDATE messages SET is_read = 1 WHERE sender_id = ? AND recipient_id = ?";
+        try (PreparedStatement ps = cnx.prepareStatement(query)) {
+            ps.setInt(1, senderId);
+            ps.setInt(2, recipientId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -5,6 +5,7 @@ import tn.esprit.educareer.utils.MyConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import tn.esprit.educareer.models.User;
 
 public class ServiceProjet {
 
@@ -96,6 +97,36 @@ public class ServiceProjet {
         }
         return projets;
     }
+
+    // Récupérer un formateur par ID avec tous ses détails
+    public User getFormateurDetailsById(int formateurId) {
+        User formateur = null;
+        try {
+            String req = "SELECT id, nom, prenom, email, role FROM user WHERE id = ?";
+            PreparedStatement pst = cnx.prepareStatement(req);
+            pst.setInt(1, formateurId);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                formateur = new User(
+                        rs.getInt("id"),
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getString("email"),
+                        "",  // L'email est récupéré, donc mot de passe non requis ici
+                        "",  // Photo de profil
+                        rs.getString("role"),
+                        "",  // Token de vérification
+                        "",  // Date d'inscription
+                        ""   // Date (si besoin)
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return formateur;
+    }
+
 
 
 }
