@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tn.esprit.educareer.models.Seance;
 import tn.esprit.educareer.services.ServiceSeance;
+import tn.esprit.educareer.utils.UserSession;
 
 import java.io.IOException;
 import java.net.URL;
@@ -23,15 +24,15 @@ import java.util.ResourceBundle;
 
 public class listSeanceContoller implements Initializable {
 
+    private final ServiceSeance serviceSeance = new ServiceSeance();
     private Stage stage;
     private Scene scene;
     private Parent root;
-
     @FXML
     private ListView<Seance> seanceListView;
-
-    private final ServiceSeance serviceSeance = new ServiceSeance();
     private ObservableList<Seance> allSeances;
+    @FXML
+    private Button addSeanceButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -115,9 +116,6 @@ public class listSeanceContoller implements Initializable {
     }
 
     @FXML
-    private Button addSeanceButton;
-
-    @FXML
     private void handleBackButton() {
         System.out.println("Retour cliqué !");
     }
@@ -129,7 +127,10 @@ public class listSeanceContoller implements Initializable {
 
     @FXML
     void handleBackButton(ActionEvent event) throws IOException {
-        navigateToPage(event, "/User/AdminDashboard.fxml");
+        if (UserSession.getInstance().getCurrentUser().getRole().equals("admin"))
+            navigateToPage(event, "/User/AdminDashboard.fxml");
+        else if (UserSession.getInstance().getCurrentUser().getRole().equals("formateur"))
+            navigateToPage(event, "/User/FormateurDashboard.fxml");
     }
 
 }

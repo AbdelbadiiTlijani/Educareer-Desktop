@@ -112,7 +112,7 @@ public class AddEventController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/AdminDashboard.fxml"));
             Parent root = loader.load();
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root , 1000 , 700);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.show();

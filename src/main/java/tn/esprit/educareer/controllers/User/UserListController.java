@@ -70,7 +70,6 @@ public class UserListController {
                             HBox container = new HBox(10);
                             container.setStyle("-fx-padding: 10px; -fx-background-color: white; -fx-background-radius: 5px;");
 
-                            // Create and set up the profile image
                             ImageView profileImage = new ImageView();
                             profileImage.setFitHeight(50);
                             profileImage.setFitWidth(50);
@@ -101,7 +100,6 @@ public class UserListController {
                                 loadDefaultImage(profileImage);
                             }
 
-                            // Create labels for user information
                             VBox userInfo = new VBox(5);
                             Label nameLabel = new Label(user.getNom() + " " + user.getPrenom());
                             nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
@@ -198,11 +196,9 @@ public class UserListController {
         roleFilter.getItems().addAll("Tous", "student", "formateur");
         roleFilter.setValue("Tous"); // default value
 
-        // Setup the status filter
         statusFilter.getItems().addAll("Tous", "Actif", "Inactif");
         statusFilter.setValue("Tous"); // default value
 
-        // Add listeners
         searchField.textProperty().addListener((obs, oldValue, newValue) -> {
             filterUserList();
         });
@@ -258,7 +254,7 @@ public class UserListController {
         stage.show();
     }
 
-    // Add this helper method at the end of the class
+
     private void loadDefaultImage(ImageView imageView) {
         try {
             Image defaultImage = new Image(getClass().getResourceAsStream("/photos/default-avatar.png"));

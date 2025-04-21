@@ -74,10 +74,8 @@ public class EditProfileController {
 
     @FXML
     public void initialize() {
-        // Get current user from session
         currentUser = UserSession.getInstance().getCurrentUser();
         if (currentUser != null) {
-            // Set default values in fields
             nameField.setText(currentUser.getNom());
             prenomField.setText(currentUser.getPrenom());
             passwordField.setText(currentUser.getMdp());
@@ -107,12 +105,10 @@ public class EditProfileController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Profile Photo");
         
-        // Set extension filters
         FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter(
             "Image Files", "*.jpg", "*.jpeg", "*.png", "*.gif");
         fileChooser.getExtensionFilters().add(imageFilter);
         
-        // Show open file dialog
         selectedPhotoFile = fileChooser.showOpenDialog(stage);
         
         if (selectedPhotoFile != null) {
@@ -124,20 +120,17 @@ public class EditProfileController {
     void handleSave(ActionEvent event) {
         clearErrors();
 
-        // Validate input fields
         boolean isValid = validateInput();
 
         if (!isValid) {
-            return; // Don't proceed if validation failed
+            return;
         }
         if (currentUser != null) {
             try {
-                // Update basic info
                 currentUser.setNom(nameField.getText());
                 currentUser.setPrenom(prenomField.getText());
                 currentUser.setMdp(passwordField.getText());
 
-                // Handle photo upload if a new photo was selected
                 if (selectedPhotoFile != null) {
                     // Generate unique filename
                     String originalFilename = selectedPhotoFile.getName();
@@ -148,7 +141,6 @@ public class EditProfileController {
                     Path targetDirectory = Paths.get("src", "main", "resources", "photos");
                     Path targetPath = targetDirectory.resolve(uniqueFilename);
 
-                    // Ensure directory exists
                     if (!Files.exists(targetDirectory)) {
                         Files.createDirectories(targetDirectory);
                     }
@@ -160,16 +152,12 @@ public class EditProfileController {
                     currentUser.setPhoto_profil(uniqueFilename);
                 }
 
-                // Update user in database
                 serviceUser.modifier(currentUser);
                 
-                // Update session
                 UserSession.getInstance().setCurrentUser(currentUser);
 
-                // Reset selected file
                 selectedPhotoFile = null;
                 
-                // Show success message
                 PhotoFieldLabel.setText("Profile updated successfully!");
                 
 
@@ -211,7 +199,6 @@ public class EditProfileController {
             dashboardController.setupUserProfile(); // You can also customize here
 
         } else {
-            // Gérer les rôles inconnus ou afficher une alerte
             System.out.println("Rôle inconnu : " + currentUser.getRole());
             return;
         }
@@ -274,11 +261,10 @@ public class EditProfileController {
             isValid = false;
         } else {
             errorName.setText("");
-            errorName.setVisible(false); // Hide when no error
+            errorName.setVisible(false);
             highlightField(nameField, false);
         }
 
-        // Similar changes for prenom and password validations
         if (prenom.isEmpty()) {
             errorPrenom.setText("Le prenom est requis");
             errorPrenom.setVisible(true); // Make visible
@@ -296,33 +282,33 @@ public class EditProfileController {
             isValid = false;
         } else {
             errorPrenom.setText("");
-            errorPrenom.setVisible(false); // Hide when no error
+            errorPrenom.setVisible(false);
             highlightField(prenomField, false);
         }
 
         if (password == null || password.isEmpty()) {
             errorPassword.setText("Le mot de passe est requis");
-            errorPassword.setVisible(true); // Afficher l'erreur
+            errorPassword.setVisible(true);
             highlightField(passwordField, true);
             isValid = false;
         } else if (password.length() < 8) {
             errorPassword.setText("Le mot de passe doit contenir au moins 8 caractères");
-            errorPassword.setVisible(true); // Afficher l'erreur
+            errorPassword.setVisible(true);
             highlightField(passwordField, true);
             isValid = false;
-        } else if (!password.matches(".*[A-Z].*")) { // Vérifier si la majuscule est présente
+        } else if (!password.matches(".*[A-Z].*")) {
             errorPassword.setText("Le mot de passe doit contenir au moins une majuscule");
-            errorPassword.setVisible(true); // Afficher l'erreur
+            errorPassword.setVisible(true);
             highlightField(passwordField, true);
             isValid = false;
         } else if (!password.matches(".*\\d.*")) { // Vérifier si le mot de passe contient un chiffre
             errorPassword.setText("Le mot de passe doit contenir au moins un chiffre");
-            errorPassword.setVisible(true); // Afficher l'erreur
+            errorPassword.setVisible(true);
             highlightField(passwordField, true);
             isValid = false;
         } else {
             errorPassword.setText("");
-            errorPassword.setVisible(false); // Masquer l'erreur si pas de problème
+            errorPassword.setVisible(false);
             highlightField(passwordField, false);
         }
 

@@ -1,4 +1,4 @@
-package tn.esprit.educareer.controllers;
+package tn.esprit.educareer.controllers.projets;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -99,7 +99,7 @@ public class ReadCategoriesProjet {
 
     private void ouvrirUpdate(CategorieProjet categorie) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/UpdateCategorieProjet.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/UpdateCategorieProjet.fxml"));
             Parent root = loader.load();
 
             UpdateCategorieProjet controller = loader.getController();
@@ -118,7 +118,7 @@ public class ReadCategoriesProjet {
     @FXML
     private void goToAjoutCategorie() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddCategorieProjet.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/AddCategorieProjet.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
             Stage stage = (Stage) tableCategorie.getScene().getWindow();
