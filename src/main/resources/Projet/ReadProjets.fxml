@@ -6,7 +6,7 @@
 <?import javafx.geometry.Insets?>
 
 <BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="tn.esprit.educareer.controllers.ReadProjets"
+            fx:controller="tn.esprit.educareer.controllers.projets.ReadProjets"
             style="-fx-background-color: #f5f7fa; -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
 
     <!-- Header -->

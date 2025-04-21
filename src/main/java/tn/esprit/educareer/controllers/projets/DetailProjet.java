@@ -1,9 +1,8 @@
-package tn.esprit.educareer.controllers;
+package tn.esprit.educareer.controllers.projets;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import tn.esprit.educareer.models.Projet;
-import tn.esprit.educareer.services.ServiceProjet;
 
 public class DetailProjet {
 

@@ -130,7 +130,7 @@ public class EditEventController {
 
             // Récupère la scène actuelle à partir d’un des composants (par exemple titreField)
             Stage stage = (Stage) titreField.getScene().getWindow();
-            stage.setScene(new Scene(root));
+            stage.setScene(new Scene(root , 1000 ,700));
             stage.setTitle("Dashboard Administrateur");
             stage.show();
         } catch (IOException e) {

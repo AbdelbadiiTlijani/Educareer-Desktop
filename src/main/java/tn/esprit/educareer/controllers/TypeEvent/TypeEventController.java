@@ -50,7 +50,7 @@ public class TypeEventController implements Initializable {
         }
         root = FXMLLoader.load(fxmlLocation);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
+        scene = new Scene(root , 1000 , 700);
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();

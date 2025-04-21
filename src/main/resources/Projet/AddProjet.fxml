@@ -6,7 +6,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="tn.esprit.educareer.controllers.AddProjet"
+            fx:controller="tn.esprit.educareer.controllers.projets.AddProjet"
             prefHeight="500.0" prefWidth="700.0"
             style="-fx-background-color: #f8f9fa;">
 

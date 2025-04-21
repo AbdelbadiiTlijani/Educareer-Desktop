@@ -92,7 +92,7 @@ public class AjouterOffre {
 
     @FXML
     void handleBackButton(ActionEvent event) throws IOException {
-        navigateToPage(event, "/User/AdminDashboard.fxml");
+        navigateToPage(event, "/offre/OffreList.fxml");
     }
 
     // Méthode pour naviguer vers une autre page
@@ -103,7 +103,7 @@ public class AjouterOffre {
         }
         root = FXMLLoader.load(getClass().getResource(path));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
+        scene = new Scene(root , 1000 , 700);
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();

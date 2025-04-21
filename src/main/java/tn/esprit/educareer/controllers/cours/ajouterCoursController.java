@@ -1,6 +1,5 @@
 package tn.esprit.educareer.controllers.cours;
 
-import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,9 +11,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import tn.esprit.educareer.models.Cours;
 import tn.esprit.educareer.models.CategorieCours;
+import tn.esprit.educareer.models.User;
 import tn.esprit.educareer.services.ServiceCours;
 import tn.esprit.educareer.services.ServiceCategorieCours;
 
@@ -41,6 +40,8 @@ public class ajouterCoursController {
 
     @FXML
     private ComboBox<CategorieCours> categorieComboBox;
+    @FXML
+    private ComboBox<User> formateurComboBox;
 
     @FXML
     private Button ajoutCoursButton;
@@ -50,6 +51,10 @@ public class ajouterCoursController {
 
     @FXML
     private Label globalErrorLabel;
+    @FXML
+    private Label categorieErrorLabel;
+    @FXML
+    private Label formateurErrorLabel;
 
     @FXML
     private Label nomCoursErrorLabel;
@@ -171,7 +176,7 @@ public class ajouterCoursController {
 
     private void goBack() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/FormateurDashboard.fxml"));
             Stage stage = (Stage) backButton.getScene().getWindow();
             Scene scene = new Scene(loader.load(), 1000, 700);
             stage.setScene(scene);

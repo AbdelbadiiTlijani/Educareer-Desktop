@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import tn.esprit.educareer.models.Cours;
 import tn.esprit.educareer.services.ServiceCours;
+import tn.esprit.educareer.utils.UserSession;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,20 +31,20 @@ public class listCoursController {
     @FXML
     private Button ViewCours;
 
-//        @FXML
-//        void handleAddCours(ActionEvent event) {
-//            try {
-//                FXMLLoader loader = new FXMLLoader(getClass().getResource("/cours/ajouterCours.fxml"));
-//                Scene scene = new Scene(loader.load(), 1000, 700);
-//                Stage stage = (Stage) ViewCours.getScene().getWindow();
-//                stage.setScene(scene);
-//                stage.centerOnScreen();
-//                stage.show();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
-//            }
-//        }
+    @FXML
+    void handleAddCours(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cours/ajouterCours.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+            Stage stage = (Stage) ViewCours.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getCause());
+        }
+    }
 
 
     @FXML
@@ -68,16 +69,10 @@ public class listCoursController {
     private Button ViewSeance;
 
 
-    @FXML
-    void handleAddCours(ActionEvent event) throws IOException {
-        navigateToPage(event, "/cours/ajouterCours.fxml");
-    }
-
-
-
     private void showErrorAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
+        alert.setResizable(true);
         alert.setHeaderText("Page Load Failed");
         alert.setContentText(content);
         alert.show();
@@ -86,7 +81,10 @@ public class listCoursController {
 
     @FXML
     void handleBackButton(ActionEvent event) throws IOException {
-        navigateToPage(event, "/User/AdminDashboard.fxml");
+        if (UserSession.getInstance().getCurrentUser().getRole().equals("admin"))
+            navigateToPage(event, "/User/AdminDashboard.fxml");
+        else if (UserSession.getInstance().getCurrentUser().getRole().equals("formateur"))
+            navigateToPage(event, "/User/FormateurDashboard.fxml");
     }
 
     private void navigateToPage(ActionEvent event, String path) throws IOException {
