@@ -94,8 +94,7 @@ public class FormateurDashboarddController {
     @FXML
     private Label userRole;
 
-    @FXML
-    private Button viewUserButton;
+
     @FXML
     private Button Categorie;
     private tn.esprit.educareer.services.ServiceUser ServiceUser = new ServiceUser();
@@ -391,7 +390,6 @@ public class FormateurDashboarddController {
         String defaultStyle = "-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;";
         String hoverStyle = "-fx-background-color: #34495e; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;";
 
-        setupButtonHover(viewUserButton, defaultStyle, hoverStyle);
     }
 
     private void setupButtonHover(Button button, String defaultStyle, String hoverStyle) {
