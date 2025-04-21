@@ -103,4 +103,20 @@ public class ServiceCategorieProjet implements IService<CategorieProjet> {
     public CategorieProjet getOne(CategorieProjet categorieProjet) {
         return null;
     }
+
+
+
+    public CategorieProjet findByNameIgnoreCase(String name) {
+        List<CategorieProjet> all = getAll();
+        for (CategorieProjet c : all) {
+            if (c.getCategorie().equalsIgnoreCase(name)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+
+
+
 }

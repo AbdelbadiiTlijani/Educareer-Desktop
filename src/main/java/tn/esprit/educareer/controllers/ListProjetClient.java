@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
-public class ReadProjets {
+public class ListProjetClient {
 
     private Stage stage;
     private Scene scene;

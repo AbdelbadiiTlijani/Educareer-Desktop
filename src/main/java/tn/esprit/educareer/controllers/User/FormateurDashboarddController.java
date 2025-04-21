@@ -160,7 +160,7 @@ public class FormateurDashboarddController {
     @FXML
     void handleViewCompanyEmployee(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ReadProjets.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ChatBox.fxml"));
             Scene scene = new Scene(loader.load(), 1000,700);
 
             // Get the stage and set the new scene

@@ -10,8 +10,6 @@
             prefHeight="500.0" prefWidth="700.0"
             style="-fx-background-color: #f8f9fa;">
 
-
-
     <VBox spacing="20" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="30.0"
           AnchorPane.rightAnchor="30.0" AnchorPane.bottomAnchor="20.0"
           style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10;">
@@ -41,12 +39,16 @@
                   style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;"/>
 
         <ComboBox fx:id="categorieComboBox" promptText="Sélectionner la catégorie"
+                  onAction="#handleCategorieSelection"
                   style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;"/>
+
+        <TextField fx:id="nouvelleCategorieField" promptText="Nom de la nouvelle catégorie"
+                   visible="false" managed="false"
+                   style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;"/>
 
         <TextField fx:id="formateurField" promptText="ID Formateur"
                    style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;"
                    visible="false" managed="false"/>
-
 
         <HBox alignment="CENTER_RIGHT">
             <Button text="Ajouter Projet" onAction="#ajouterProjet"
@@ -57,5 +59,4 @@
             </Button>
         </HBox>
     </VBox>
-
 </AnchorPane>
