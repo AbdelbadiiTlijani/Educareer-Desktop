@@ -69,16 +69,12 @@ public class UserRegistrationController implements Initializable {
     private ServiceUser serviceUser = new ServiceUser();
     private String selectedPhotoPath = "";
 
-    // Vos autres éléments FXML avec @FXML
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Initialiser les options du ComboBox
         roleComboBox.getItems().addAll("formateur", "student");
-        // Configurer le bouton d'inscription
         registerButton.setOnAction(event -> registerUser());
 
-        // Configurer le bouton de retour
         backButton.setOnAction(event -> goBack());
         PhotoButton.setOnAction(event -> selectPhoto());
 
@@ -99,12 +95,10 @@ public class UserRegistrationController implements Initializable {
     }
     private void registerUser() {
         try {
-            // Réinitialiser tous les messages d'erreur et styles
             resetErrorMessages();
 
             boolean isValid = true;
 
-            // Validation du nom
             if (nameField.getText().isEmpty()) {
                 nameErrorLabel.setText("Le nom est obligatoire");
                 nameField.setStyle(errorStyle);
@@ -115,7 +109,6 @@ public class UserRegistrationController implements Initializable {
                 isValid = false;
             }
 
-            // Validation du prénom
             if (firstNameField.getText().isEmpty()) {
                 firstNameErrorLabel.setText("Le prénom est obligatoire");
                 firstNameField.setStyle(errorStyle);
@@ -125,7 +118,6 @@ public class UserRegistrationController implements Initializable {
                 firstNameField.setStyle(errorStyle);
                 isValid = false;
             }
-            // Validation de la photo
             if (selectedPhotoPath.isEmpty()) {
 
                 photoErrorLabel.setText("Une photo de profil est obligatoire");
@@ -133,7 +125,6 @@ public class UserRegistrationController implements Initializable {
                 isValid = false;
             }
 
-            // Validation de l'email
             if (emailField.getText().isEmpty()) {
                 emailErrorLabel.setText("L'email est obligatoire");
                 emailField.setStyle(errorStyle);
@@ -144,7 +135,6 @@ public class UserRegistrationController implements Initializable {
                 isValid = false;
             }
 
-            // Validation du mot de passe
             if (passwordField.getText().isEmpty()) {
                 passwordErrorLabel.setText("Le mot de passe est obligatoire");
                 passwordField.setStyle(errorStyle);
@@ -159,7 +149,6 @@ public class UserRegistrationController implements Initializable {
                 isValid = false;
             }
 
-            // Validation du rôle
             if (roleComboBox.getValue() == null) {
                 roleErrorLabel.setText("Veuillez sélectionner un rôle");
                 roleComboBox.setStyle(errorStyle);
@@ -167,7 +156,6 @@ public class UserRegistrationController implements Initializable {
             }
 
 
-            // Validation de la date de naissance
             if (birthDatePicker.getValue() == null) {
                 birthDateErrorLabel.setText("La date de naissance est obligatoire");
                 birthDatePicker.setStyle(errorStyle);
@@ -183,7 +171,6 @@ public class UserRegistrationController implements Initializable {
                 }
             }
 
-            // Si des erreurs sont présentes, afficher un message global
             if (!isValid) {
                 globalErrorLabel.setText("Veuillez corriger les erreurs dans le formulaire");
                 globalErrorLabel.setVisible(true);
@@ -191,19 +178,15 @@ public class UserRegistrationController implements Initializable {
             }
 
 
-            // Sinon, continuer avec l'inscription
             User user = new User();
 
-            // Définir le statut à 1 comme demandé
             user.setStatus(1);
 
-            // Définir les informations de base
             user.setNom(nameField.getText());
             user.setPrenom(firstNameField.getText());
             user.setEmail(emailField.getText());
             user.setMdp(passwordField.getText());
 
-// Handle profile photo
             if (!selectedPhotoPath.isEmpty()) {
                 try {
                     String savedPhotoPath = savePhotoToDirectory(selectedPhotoPath);
@@ -217,41 +200,33 @@ public class UserRegistrationController implements Initializable {
             String selectedRole = roleComboBox.getValue();
             user.setRole(selectedRole);
 
-// Gérer le statut en fonction du rôle
             if ("formateur".equalsIgnoreCase(selectedRole)) {
-                user.setStatus(0); // en attente de validation
-
+                user.setStatus(0);
             } else {
-                user.setStatus(1); // activé immédiatement pour les autres rôles
+                user.setStatus(1);
             }
 
-            // Générer un token de vérification
             String verificationToken = generateVerificationToken();
             user.setVerification_token(verificationToken);
 
-            // Définir la date d'inscription à maintenant
             java.util.Date now = new java.util.Date();
             java.sql.Date sqlDate = new java.sql.Date(now.getTime());
             user.setdate_inscription(sqlDate.toString());
 
-            // Définir la date de naissance
             LocalDate birthDate = birthDatePicker.getValue();
             java.sql.Date sqlBirthDate = java.sql.Date.valueOf(birthDate);
             user.setDate(sqlBirthDate.toString());
 
-            // Ajouter l'utilisateur à la base de données
             serviceUser.ajouter(user);
             if (selectedRole.equals("formateur")){
                 globalErrorLabel.setTextFill(javafx.scene.paint.Color.ORANGE);
                 globalErrorLabel.setText("Votre demande a été prise en compte. Un administrateur validera votre compte.");
                 globalErrorLabel.setVisible(true);
             }else {
-                // Afficher une alerte de succès
                 globalErrorLabel.setTextFill(javafx.scene.paint.Color.GREEN);
                 globalErrorLabel.setText("Inscription réussie ! Redirection...");
                 globalErrorLabel.setVisible(true);}/////////
 
-            // Attendre un peu avant de rediriger
             PauseTransition pause = new PauseTransition(Duration.seconds(3));
             pause.setOnFinished(e -> goToLoginPage());
             pause.play();

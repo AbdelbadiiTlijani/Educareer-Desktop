@@ -79,17 +79,13 @@ public class studentController {
         try {
             MenuItem menuItem = (MenuItem) event.getSource();
 
-            // Récupérer le ContextMenu parent du MenuItem
             ContextMenu contextMenu = menuItem.getParentPopup();
             if (contextMenu != null && contextMenu.getOwnerWindow() != null) {
-                // Récupérer la fenêtre (stage)
                 Stage stage = (Stage) contextMenu.getOwnerWindow();
 
-                // Charger le fichier FXML
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/edit_profile.fxml"));
                 Scene scene = new Scene(loader.load(), 1000, 700);
 
-                // Appliquer la nouvelle scène au stage
                 stage.setScene(scene);
                 stage.centerOnScreen();
                 stage.show();
@@ -107,26 +103,19 @@ public class studentController {
     public void initialize() {
         System.out.println("Admin Dashboard initialized");
 
-        // Add hover effects for menu buttons
         setupButtonHoverEffects();
 
 
-        // Set up user profile
         setupUserProfile();
     }
     public void setupUserProfile() {
         User currentUser = UserSession.getInstance().getCurrentUser();
         if (currentUser != null) {
-            // Set user name
             userName.setText(currentUser.getNom() + " " + currentUser.getPrenom());
 
-            // We don't need to set userRole text anymore as it's not in the new UI
-            // userRole.setText(currentUser.getRole());  // This line causes the error
 
-            // Set user photo if available
             if (currentUser.getPhoto_profil() != null && !currentUser.getPhoto_profil().isEmpty()) {
                 try {
-                    // First try loading from file system
                     String projectDir = System.getProperty("user.dir");
                     Path imagePath = Paths.get(projectDir, "src", "main", "resources", "photos",
                             currentUser.getPhoto_profil());
@@ -135,7 +124,6 @@ public class studentController {
                         Image image = new Image(imagePath.toUri().toString());
                         userPhoto.setImage(image);
                     } else {
-                        // Try loading from resources as fallback
                         String resourcePath = "/photos/" + currentUser.getPhoto_profil();
                         InputStream resourceStream = getClass().getResourceAsStream(resourcePath);
                         if (resourceStream != null) {
@@ -177,28 +165,23 @@ public class studentController {
 
     @FXML
     void handleLogout(ActionEvent event) {
-        // Clear the user session
         UserSession.getInstance().clearSession();
 
         try {
-            // Charger la page de login
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root, 1000, 700);
 
             Stage stage = null;
 
-            // Récupérer la source de l'événement
             Object source = event.getSource();
 
             if (source instanceof MenuItem) {
-                // Si la source est un MenuItem, récupérer la fenêtre via son ContextMenu
                 ContextMenu contextMenu = ((MenuItem) source).getParentPopup();
                 if (contextMenu != null && contextMenu.getOwnerWindow() != null) {
                     stage = (Stage) contextMenu.getOwnerWindow();
                 }
             } else if (source instanceof Node) {
-                // Sinon, source classique (bouton, etc.)
                 stage = (Stage) ((Node) source).getScene().getWindow();
             }
 
