@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import tn.esprit.educareer.models.User;
 import tn.esprit.educareer.services.ServiceUser;
+import tn.esprit.educareer.services.EmailService;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,12 +29,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.InputStream;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 
 public class UserListController {
     private Stage stage;
     private Scene scene;
     private Parent root;
     private ServiceUser serviceUser = new ServiceUser();
+    // Email service configuration - replace with your actual SMTP settings
+    private EmailService emailService = new EmailService(
+            "badi3tlijani12@gmail.com",     // Your Gmail address
+            "dgbk saoi bviw igml"  // Your Gmail App Password
+    );
 
     @FXML
     private ListView<User> userListView;
@@ -70,7 +78,6 @@ public class UserListController {
                             HBox container = new HBox(10);
                             container.setStyle("-fx-padding: 10px; -fx-background-color: white; -fx-background-radius: 5px;");
 
-                            // Create and set up the profile image
                             ImageView profileImage = new ImageView();
                             profileImage.setFitHeight(50);
                             profileImage.setFitWidth(50);
@@ -101,7 +108,6 @@ public class UserListController {
                                 loadDefaultImage(profileImage);
                             }
 
-                            // Create labels for user information
                             VBox userInfo = new VBox(5);
                             Label nameLabel = new Label(user.getNom() + " " + user.getPrenom());
                             nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
@@ -159,8 +165,60 @@ public class UserListController {
 
                                     // Vérifie si l'utilisateur a cliqué sur OK
                                     if (alert.showAndWait().get() == ButtonType.OK) {
-                                        serviceUser.approuverUser(user);
-                                        filterUserList(); // rafraîchir la liste pour retirer le bouton "Approuver"
+                                        // Show loading indicator
+                                        Button clickedButton = (Button) event.getSource();
+                                        clickedButton.setDisable(true);
+                                        clickedButton.setText("Traitement...");
+
+                                        // Create a background task for email sending
+                                        Task<Void> emailTask = new Task<>() {
+                                            @Override
+                                            protected Void call() {
+                                                try {
+                                                    // Send email notification
+                                                    sendApprovalEmail(user);
+                                                    // Update user status in database
+                                                    serviceUser.approuverUser(user);
+                                                    return null;
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                    return null;
+                                                }
+                                            }
+                                        };
+
+                                        // Handle task completion
+                                        emailTask.setOnSucceeded(e -> {
+                                            Platform.runLater(() -> {
+                                                // Show success message
+                                                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                                                successAlert.setTitle("Succès");
+                                                successAlert.setHeaderText("Formateur approuvé");
+                                                successAlert.setContentText("Le formateur a été approuvé avec succès et un email de notification a été envoyé.");
+                                                successAlert.showAndWait();
+
+                                                // Refresh the list
+                                                filterUserList();
+                                            });
+                                        });
+
+                                        emailTask.setOnFailed(e -> {
+                                            Platform.runLater(() -> {
+                                                // Show error message
+                                                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                                                errorAlert.setTitle("Erreur");
+                                                errorAlert.setHeaderText("Erreur lors de l'approbation");
+                                                errorAlert.setContentText("Une erreur est survenue. Veuillez réessayer.");
+                                                errorAlert.showAndWait();
+
+                                                // Reset button
+                                                clickedButton.setDisable(false);
+                                                clickedButton.setText("Approuver");
+                                            });
+                                        });
+
+                                        // Start the task
+                                        new Thread(emailTask).start();
                                     }
                                 });
 
@@ -198,11 +256,9 @@ public class UserListController {
         roleFilter.getItems().addAll("Tous", "student", "formateur");
         roleFilter.setValue("Tous"); // default value
 
-        // Setup the status filter
         statusFilter.getItems().addAll("Tous", "Actif", "Inactif");
         statusFilter.setValue("Tous"); // default value
 
-        // Add listeners
         searchField.textProperty().addListener((obs, oldValue, newValue) -> {
             filterUserList();
         });
@@ -214,6 +270,49 @@ public class UserListController {
         statusFilter.valueProperty().addListener((obs, oldVal, newVal) -> {
             filterUserList();
         });
+    }
+
+    private void sendApprovalEmail(User user) {
+        String recipientEmail = user.getEmail();
+        String subject = "EduCareer - Votre compte formateur a été approuvé";
+
+        // Create HTML email content
+        String emailContent =
+                "<html>" +
+                        "<head>" +
+                        "<style>" +
+                        "body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }" +
+                        ".container { max-width: 600px; margin: 0 auto; padding: 20px; }" +
+                        ".header { background-color: #4e54c8; color: white; padding: 20px; text-align: center; }" +
+                        ".content { padding: 20px; border: 1px solid #ddd; border-top: none; }" +
+                        ".footer { font-size: 12px; text-align: center; margin-top: 20px; color: #777; }" +
+                        ".button { display: inline-block; background-color: #27ae60; color: white; padding: 10px 20px; " +
+                        "text-decoration: none; border-radius: 5px; margin-top: 20px; }" +
+                        "</style>" +
+                        "</head>" +
+                        "<body>" +
+                        "<div class='container'>" +
+                        "<div class='header'>" +
+                        "<h1>Félicitations " + user.getPrenom() + " " + user.getNom() + " !</h1>" +
+                        "</div>" +
+                        "<div class='content'>" +
+                        "<p>Votre compte formateur sur EduCareer a été approuvé.</p>" +
+                        "<p>Vous pouvez maintenant vous connecter et commencer à créer des cours, interagir avec les étudiants " +
+                        "et accéder à toutes les fonctionnalités de formateur.</p>" +
+                        "<p>Nous sommes ravis de vous accueillir dans notre communauté d'enseignants.</p>" +
+                        "<center><a href='http://www.educareer.tn/login' class='button'>Se connecter maintenant</a></center>" +
+                        "<p>Si vous avez des questions, n'hésitez pas à contacter notre équipe de support.</p>" +
+                        "<p>Bien cordialement,<br>L'équipe EduCareer</p>" +
+                        "</div>" +
+                        "<div class='footer'>" +
+                        "© " + java.time.Year.now().getValue() + " EduCareer. Tous droits réservés." +
+                        "</div>" +
+                        "</div>" +
+                        "</body>" +
+                        "</html>";
+
+        // Send the email
+        emailService.sendEmail(recipientEmail, subject, emailContent);
     }
 
     private void filterUserList() {
@@ -258,7 +357,7 @@ public class UserListController {
         stage.show();
     }
 
-    // Add this helper method at the end of the class
+
     private void loadDefaultImage(ImageView imageView) {
         try {
             Image defaultImage = new Image(getClass().getResourceAsStream("/photos/default-avatar.png"));

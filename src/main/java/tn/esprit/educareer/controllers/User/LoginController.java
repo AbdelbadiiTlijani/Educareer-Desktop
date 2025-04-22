@@ -68,14 +68,11 @@ public class LoginController implements Initializable {
     }
     private void goBack() {
         try {
-            // Charger l'écran précédent (ajustez le chemin selon votre structure)
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
             VBox root = loader.load();
 
-            // Obtenir la scène actuelle
             Stage stage = (Stage) backButton.getScene().getWindow();
 
-            // Définir la nouvelle scène
             Scene scene = new Scene(root, 1000, 700);;
             stage.setScene(scene);
             stage.centerOnScreen();
@@ -86,14 +83,12 @@ public class LoginController implements Initializable {
     }
     @FXML
     void handleLogin(ActionEvent event) {
-        // Clear previous error messages
         clearErrors();
 
-        // Validate input fields
         boolean isValid = validateInput();
 
         if (!isValid) {
-            return; // Don't proceed if validation failed
+            return;
         }
 
         String email = emailField.getText().trim();
@@ -109,7 +104,7 @@ public class LoginController implements Initializable {
             if (rs.next()) {
                 String storedHash = rs.getString("mdp");
                 String role = rs.getString("role");
-                int status = rs.getInt("status"); // Assuming the column is named 'status'
+                int status = rs.getInt("status");
 
 // Check if the stored hash starts with $2y$ (Symfony format)
                 if (storedHash.startsWith("$2y$")) {
@@ -124,7 +119,6 @@ public class LoginController implements Initializable {
                         return;
                     }
 
-                    // Create user object and set session
                     User user = new User();
                     user.setId(rs.getInt("id"));
                     user.setNom(rs.getString("nom"));
@@ -135,7 +129,6 @@ public class LoginController implements Initializable {
 
                     UserSession.getInstance().setCurrentUser(user);
 
-                    // Login successful - redirect based on role
                     redirectBasedOnRole(role);
                 } else {
                     // Invalid password
@@ -144,7 +137,6 @@ public class LoginController implements Initializable {
                 }
 
             } else {
-                // User not found
                 statusLabel.setText("Utilisateur non trouvé");
                 highlightField(emailField, true);
             }
@@ -174,17 +166,13 @@ public class LoginController implements Initializable {
                 return;
         }
 
-        // Load the appropriate FXML
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
         Parent root = loader.load();
 
-        // Create new scene
         Scene scene = new Scene(root , 1000 , 700);
 
-        // Get the current stage
         Stage stage = (Stage) emailField.getScene().getWindow();
 
-        // Set the new scene
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
@@ -203,7 +191,6 @@ public class LoginController implements Initializable {
         String email = emailField.getText().trim();
         String password = passwordField.getText();
 
-        // Validate email
         if (email.isEmpty()) {
             emailErrorLabel.setText("L'email est requis");
             highlightField(emailField, true);
@@ -216,7 +203,6 @@ public class LoginController implements Initializable {
             highlightField(emailField, false);
         }
 
-        // Validate password
         if (password.isEmpty()) {
             passwordErrorLabel.setText("Le mot de passe est requis");
             highlightField(passwordField, true);
