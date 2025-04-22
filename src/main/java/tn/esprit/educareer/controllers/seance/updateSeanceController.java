@@ -83,7 +83,7 @@ public class updateSeanceController {
             // Mettre à jour l'objet Seance
             seanceToUpdate.setTitre(newTitre);
             seanceToUpdate.setDescription(newDescription);
-            seanceToUpdate.setDate_heure(newDateHeure);
+//            seanceToUpdate.setDate_heure(newDateHeure);
             seanceToUpdate.setDuree(newDuree);
 
             // Sauvegarder via le service

@@ -17,8 +17,8 @@ public class ServiceCategorieCours implements IService<CategorieCours> {
 
     @Override
     public void ajouter(CategorieCours categorieCours) {
+        String req = "INSERT INTO categorie_cours (nom) VALUES (?)";
         try {
-            String req = "INSERT INTO categorie_cours (nom) VALUES (?)";
             PreparedStatement pst = cnx.prepareStatement(req);
             pst.setString(1, categorieCours.getNom());
             pst.executeUpdate();
@@ -95,4 +95,22 @@ public class ServiceCategorieCours implements IService<CategorieCours> {
         }
         return null;
     }
+
+    public CategorieCours getOneById(int id) {
+        String req = "SELECT * FROM categorie_cours WHERE id=?";
+        try {
+            PreparedStatement pst = cnx.prepareStatement(req);
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                return new CategorieCours(rs.getInt("id"), rs.getString("nom"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la récupération de la catégorie : " + e.getMessage());
+        }
+        return null;
+    }
+
+
 }

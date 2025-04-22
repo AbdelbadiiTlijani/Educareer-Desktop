@@ -41,12 +41,15 @@
                style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;" text=""
                GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-        <!-- Lien document -->
         <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;" text="Document:"
                GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-        <TextField fx:id="documentCours" promptText="Lien vers le document"
-                   style="-fx-background-color: rgba(30,41,59,0.7); -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: rgba(59,130,246,0.2); -fx-border-width: 1px; -fx-text-fill: #f8fafc;"
-                   GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Button fx:id="chooseDocumentButton" text="Choisir un fichier"
+                    onAction="#handleChooseDocument"
+                    style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 8px;"/>
+            <Label fx:id="documentFileNameLabel" text="Aucun fichier choisi"
+                   style="-fx-text-fill: #f8fafc;"/>
+        </HBox>
         <Label fx:id="documentCoursErrorLabel"
                style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;" text=""
                GridPane.columnIndex="1" GridPane.rowIndex="3"/>
@@ -54,9 +57,13 @@
         <!-- Lien image -->
         <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;" text="Image:"
                GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-        <TextField fx:id="imageCours" promptText="Lien vers l'image du cours"
-                   style="-fx-background-color: rgba(30,41,59,0.7); -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: rgba(59,130,246,0.2); -fx-border-width: 1px; -fx-text-fill: #f8fafc;"
-                   GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+        <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <Button fx:id="chooseImageButton" text="Choisir une image"
+                    onAction="#handleChooseImage"
+                    style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 8px;"/>
+            <Label fx:id="imageFileNameLabel" text="Aucun fichier choisi"
+                   style="-fx-text-fill: #f8fafc;"/>
+        </HBox>
         <Label fx:id="imageCoursErrorLabel"
                style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;" text=""
                GridPane.columnIndex="1" GridPane.rowIndex="5"/>

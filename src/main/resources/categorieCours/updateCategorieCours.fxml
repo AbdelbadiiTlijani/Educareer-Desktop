@@ -2,43 +2,55 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1"
-            style="-fx-background-color: #f5f7fa; -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
-            xmlns="http://javafx.com/javafx/23.0.1"
-            fx:controller="tn.esprit.educareer.controllers.categorieCours.updateCategorieCoursController">
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx/23.0.1"
+      fx:controller="tn.esprit.educareer.controllers.categorieCours.updateCategorieCoursController"
+      alignment="CENTER"
+      prefHeight="745.0" prefWidth="538.0"
+      spacing="20"
+      style="-fx-background-color: linear-gradient(to bottom, #0f172a, #1e293b); -fx-padding: 40px;">
 
-    <!-- Header Section -->
-    <top>
-        <AnchorPane prefHeight="100.0" style="-fx-background-color: linear-gradient(to right, #4e54c8, #8f94fb);">
-            <children>
-                <Label text="Mise à Jour Catégorie Cours"
-                       style="-fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold;"
-                       AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0"/>
-            </children>
-        </AnchorPane>
-    </top>
+    <!-- Back Button -->
+    <HBox alignment="TOP_LEFT" prefWidth="320.0">
+        <Button fx:id="backButton"
+                text="Retour"
+                style="-fx-background-color: #64748b; -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 5px 15px; -fx-background-radius: 20px; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(100, 116, 139, 0.4), 10, 0, 0, 2);"/>
+    </HBox>
 
-    <!-- Content Section -->
-    <center>
-        <VBox spacing="15" alignment="CENTER" style="-fx-padding: 30px;">
-            <Label text="Modifier le nom de la catégorie" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    <!-- Title -->
+    <Label text="Modifier Catégorie"
+           style="-fx-font-family: 'Segoe UI'; -fx-font-size: 32px; -fx-text-fill: #f8fafc; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 15, 0, 0, 2);"/>
 
-            <!-- Champ Nom -->
-            <TextField fx:id="nomCategorie" promptText="Nom de la catégorie"
-                       style="-fx-padding: 10px; -fx-background-radius: 5px;"/>
+    <!-- Error Label (optionnel) -->
+    <Label fx:id="globalErrorLabel"
+           text=""
+           visible="false"
+           wrapText="true"
+           style="-fx-font-family: 'Segoe UI'; -fx-font-size: 14px; -fx-text-fill: #ef4444; -fx-font-weight: bold;"/>
 
-            <!-- Bouton Mettre à jour -->
-            <Button onAction="#handleUpdateButton" text="Mettre à jour"
-                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10px 20px; -fx-background-radius: 5px;"/>
-        </VBox>
-    </center>
+    <!-- Form -->
+    <GridPane alignment="CENTER" hgap="15" vgap="1.0" prefWidth="458.0">
+        <columnConstraints>
+            <ColumnConstraints minWidth="100"/>
+            <ColumnConstraints minWidth="200"/>
+        </columnConstraints>
 
-    <!-- Footer -->
-    <bottom>
-        <AnchorPane style="-fx-background-color: #333; -fx-min-height: 40px;">
-            <Label text="© Admin - Mise à jour catégorie" style="-fx-text-fill: white; -fx-font-size: 12px;"
-                   AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="10.0"/>
-        </AnchorPane>
-    </bottom>
+        <!-- Nom de la catégorie -->
+        <Label text="Nom Catégorie"
+               GridPane.columnIndex="0" GridPane.rowIndex="0"
+               style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;"/>
+        <TextField fx:id="nomCategorie"
+                   promptText="Nom de la catégorie"
+                   GridPane.columnIndex="1" GridPane.rowIndex="0"
+                   style="-fx-background-color: rgba(30, 41, 59, 0.7); -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: rgba(59, 130, 246, 0.2); -fx-border-width: 1px; -fx-text-fill: #f8fafc; -fx-padding: 8px; -fx-font-size: 14px;"/>
+        <Label fx:id="nomCategorieErrorLabel"
+               text=""
+               GridPane.columnIndex="1" GridPane.rowIndex="1"
+               style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;"/>
+    </GridPane>
 
-</BorderPane>
+    <!-- Update Button -->
+    <Button fx:id="updateCategorieCours" onAction="#handleUpdateButton"
+            text="Mettre à jour"
+            style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 10px 30px; -fx-background-radius: 25px; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(16, 185, 129, 0.4), 15, 0, 0, 4);"/>
+</VBox>

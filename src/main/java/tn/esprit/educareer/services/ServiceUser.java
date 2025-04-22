@@ -2,6 +2,7 @@ package tn.esprit.educareer.services;
 import org.mindrot.jbcrypt.BCrypt;
 
 import tn.esprit.educareer.interfaces.IService;
+import tn.esprit.educareer.models.CategorieCours;
 import tn.esprit.educareer.models.User;
 import tn.esprit.educareer.utils.MyConnection;
 
@@ -157,6 +158,32 @@ public class ServiceUser implements IService<User> {
 
     @Override
     public User getOne(User user) {
+        return null;
+    }
+
+    public User getOneById(int id) {
+        String req = "SELECT * FROM user WHERE id=?";
+        try {
+            PreparedStatement pst = cnx.prepareStatement(req);
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                return new User(rs.getInt("id"),
+                        rs.getInt("status"),
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getString("email"),
+                        rs.getString("mdp"),
+                        rs.getString("photo_profil"),
+                        rs.getString("role"),
+                        rs.getString("verification_token"),
+                        rs.getString("date_inscription"),
+                        rs.getString("date"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la récupération de la catégorie : " + e.getMessage());
+        }
         return null;
     }
 }
