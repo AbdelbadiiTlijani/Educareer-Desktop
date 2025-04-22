@@ -1,76 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox alignment="CENTER" prefHeight="745.0" prefWidth="538.0" spacing="20"
+      style="-fx-background-color: linear-gradient(to bottom, #0f172a, #1e293b); -fx-padding: 40px;"
+      xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="tn.esprit.educareer.controllers.seance.updateSeanceController">
 
-<BorderPane style="-fx-background-color: #f5f7fa; -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
-            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="tn.esprit.educareer.controllers.seance.updateSeanceController">
+    <!-- Back Button -->
+    <HBox alignment="TOP_LEFT" prefWidth="320.0">
+        <Button fx:id="backButton" onAction="#handleBack"
+                style="-fx-background-color: #64748b; -fx-text-fill: white; -fx-font-family: 'Segoe UI';
+                       -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 5px 15px;
+                       -fx-background-radius: 20px; -fx-cursor: hand;
+                       -fx-effect: dropshadow(gaussian, rgba(100, 116, 139, 0.4), 10, 0, 0, 2);"
+                text="Retour"/>
+    </HBox>
 
-    <!-- Header Section -->
-    <top>
-        <AnchorPane prefHeight="115.0" prefWidth="511.0"
-                    style="-fx-background-color: linear-gradient(to right, #4e54c8, #8f94fb); -fx-min-height: 100px; -fx-padding: 10px;">
-            <children>
-                <Label style="-fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold;"
-                       text="Mise à Jour Séance Cours" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0"/>
+    <!-- Title -->
+    <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 32px; -fx-text-fill: #f8fafc;
+                 -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 15, 0, 0, 2);"
+           text="Modifier la Séance"/>
 
-                <Button onAction="#handleBackButton"
-                        style="-fx-background-color: rgba(255, 255, 255, 0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5px 15px; -fx-border-radius: 20px; -fx-background-radius: 20px; -fx-cursor: hand;"
-                        text="Retour" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0"/>
-            </children>
-        </AnchorPane>
-    </top>
+    <!-- Error Label -->
+    <Label fx:id="errorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 14px;
+                                   -fx-text-fill: #ef4444; -fx-font-weight: bold;" text=""
+           visible="false" wrapText="true"/>
+    <!-- Global Error Label -->
+    <Label fx:id="globalErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 14px; -fx-text-fill: #ef4444; -fx-font-weight: bold;" text="" visible="false" wrapText="true" />
+    <!-- Form -->
+    <GridPane alignment="CENTER" hgap="15" vgap="8">
+        <columnConstraints>
+            <ColumnConstraints minWidth="100"/>
+            <ColumnConstraints minWidth="200"/>
+        </columnConstraints>
 
-    <!-- Content Section -->
-    <center>
-        <VBox spacing="15" style="-fx-padding: 20px;">
-            <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;"
-                   text="Modifier Séance de Cours"/>
+        <!-- Titre -->
+        <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;"
+               text="Titre de la séance :" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="titreSeance" promptText="Titre"
+                   style="-fx-background-color: rgba(30,41,59,0.7); -fx-background-radius: 8px;
+                          -fx-border-radius: 8px; -fx-border-color: rgba(59,130,246,0.2);
+                          -fx-border-width: 1px; -fx-text-fill: #f8fafc;"
+                   GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        <Label fx:id="titreErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px;
+                                            -fx-text-fill: #ef4444;" text=""
+               GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-            <!-- Titre -->
-            <TextField fx:id="titreSeance" promptText="Titre de la séance"
-                       style="-fx-padding: 10px; -fx-background-radius: 5px;"/>
+        <!-- Description -->
+        <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;"
+               text="Description :" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="descriptionSeance" promptText="Description"
+                   style="-fx-background-color: rgba(30,41,59,0.7); -fx-background-radius: 8px;
+                          -fx-border-radius: 8px; -fx-border-color: rgba(59,130,246,0.2);
+                          -fx-border-width: 1px; -fx-text-fill: #f8fafc;"
+                   GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        <Label fx:id="descriptionErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px;
+                                                 -fx-text-fill: #ef4444;" text=""
+               GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
-            <!-- Description -->
-            <TextField fx:id="descriptionSeance" promptText="Description de la séance"
-                       style="-fx-padding: 10px; -fx-background-radius: 5px;"/>
+        <!-- Date -->
+        <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;"
+               text="Date et Heure :" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <DatePicker fx:id="dateSeance" style="-fx-background-color: rgba(30,41,59,0.7);
+                                             -fx-background-radius: 8px; -fx-border-radius: 8px;
+                                             -fx-border-color: rgba(59,130,246,0.2);
+                                             -fx-border-width: 1px; -fx-text-fill: #f8fafc;"
+                    GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+        <Label fx:id="dateErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px;
+                                           -fx-text-fill: #ef4444;" text=""
+               GridPane.rowIndex="5" GridPane.columnIndex="1"/>
 
-            <!-- Date et Heure -->
-            <TextField fx:id="dateSeance" promptText="Date et heure de la séance (Ex: 2025-04-14 14:00)"
-                       style="-fx-padding: 10px; -fx-background-radius: 5px;"/>
+        <!-- Durée -->
+        <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;"
+               text="Durée (minutes) :" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+        <TextField fx:id="dureeSeance" promptText="Durée"
+                   style="-fx-background-color: rgba(30,41,59,0.7); -fx-background-radius: 8px;
+                          -fx-border-radius: 8px; -fx-border-color: rgba(59,130,246,0.2);
+                          -fx-border-width: 1px; -fx-text-fill: #f8fafc;"
+                   GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+        <Label fx:id="dureeErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px;
+                                              -fx-text-fill: #ef4444;" text=""
+               GridPane.rowIndex="7" GridPane.columnIndex="1"/>
 
-            <!-- Durée -->
-            <TextField fx:id="dureeSeance" promptText="Durée en minutes"
-                       style="-fx-padding: 10px; -fx-background-radius: 5px;"/>
+        <!-- Cours -->
+        <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;"
+               text="Cours associé :" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="coursComboBox" promptText="Sélectionner un cours"
+                  style="-fx-background-color: rgba(30,41,59,0.7); -fx-background-radius: 8px;
+                         -fx-border-radius: 8px; -fx-border-color: rgba(59,130,246,0.2);
+                         -fx-border-width: 1px; -fx-text-fill: #f8fafc;"
+                  GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+        <Label fx:id="coursErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px;
+                                             -fx-text-fill: #ef4444;" text=""
+               GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+    </GridPane>
 
-            <!-- Cours associé -->
-            <ComboBox fx:id="coursComboBox" promptText="Sélectionner un cours" style="-fx-background-radius: 5px;"/>
-
-            <!-- Update Button -->
-            <Button onAction="#handleUpdateButton" text="Mettre à jour"
-                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10px 15px; -fx-background-radius: 5px; -fx-cursor: hand;"/>
-
-            <!-- Error Label (for validation messages) -->
-            <Label fx:id="errorLabel" style="-fx-font-size: 14px; -fx-text-fill: #ef4444; -fx-font-weight: bold;"
-                   text="" visible="false"/>
-        </VBox>
-    </center>
-
-    <!-- Footer Section -->
-    <bottom>
-        <AnchorPane style="-fx-background-color: #333; -fx-min-height: 50px;">
-            <Label style="-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 12px;"
-                   text="Panneau Admin - Mise à Jour Séance Cours" AnchorPane.bottomAnchor="10.0"
-                   AnchorPane.rightAnchor="20.0"/>
-        </AnchorPane>
-    </bottom>
-</BorderPane>
+    <!-- Submit Button -->
+    <Button fx:id="updateSeanceButton" onAction="#handleUpdateButton"
+            style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-family: 'Segoe UI';
+                   -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 10px 30px;
+                   -fx-background-radius: 25px; -fx-cursor: hand;
+                   -fx-effect: dropshadow(gaussian, rgba(16,185,129,0.4), 15, 0, 0, 4);"
+            text="Mettre à jour la Séance"/>
+</VBox>

@@ -12,7 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import tn.esprit.educareer.models.User;
-import tn.esprit.educareer.services.ServiceUser;
+import tn.esprit.educareer.services.*;
 import tn.esprit.educareer.utils.UserSession;
 
 import java.io.IOException;
@@ -38,6 +38,17 @@ public class FormateurDashboarddController {
     private Button viewAjoutTypeCoursButton;
     @FXML
     private Button ViewCours;
+    @FXML
+    private Label totalCoursLabel;
+    @FXML
+    private Label totalCatégorieCoursLabel;
+    @FXML
+    private Label reclamationStatusLabel;
+
+    @FXML
+    private Label userGrowthLabel;
+
+
 
     //Seance
     @FXML
@@ -46,14 +57,15 @@ public class FormateurDashboarddController {
     private Button viewAjoutTypeSeanceButton;
     @FXML
     private Button ViewSeances;
+    @FXML
+    private Label totalSeanceLabel;
+    @FXML
+    private Label companyGrowthLabel;
+
 
 
     @FXML
     private Button editProfileButton;
-
-
-    @FXML
-    private Label companyGrowthLabel;
 
     @FXML
     private MenuButton userProfileMenu;
@@ -71,19 +83,13 @@ public class FormateurDashboarddController {
     private Button logoutButton;
 
     @FXML
-    private Label reclamationStatusLabel;
+    private Label categorieStatusLabel;
 
     @FXML
     private Label totalCompaniesLabel;
 
     @FXML
     private Label totalReclamationsLabel;
-
-    @FXML
-    private Label totalUsersLabel;
-
-    @FXML
-    private Label userGrowthLabel;
 
     @FXML
     private Label userName;
@@ -98,7 +104,11 @@ public class FormateurDashboarddController {
     private Button viewUserButton;
     @FXML
     private Button Categorie;
-    private tn.esprit.educareer.services.ServiceUser ServiceUser = new ServiceUser();
+
+    ServiceUser ServiceUser = new ServiceUser();
+    ServiceCours serviceCours = new ServiceCours();
+    ServiceSeance serviceSeance = new ServiceSeance();
+    ServiceCategorieCours serviceCategorieCours = new ServiceCategorieCours();
 
     private void showErrorAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -333,6 +343,8 @@ public class FormateurDashboarddController {
         // Add hover effects for menu buttons
         setupButtonHoverEffects();
 
+        // Load dashboard statistics
+        loadDashboardStatistics();
 
         // Set up user profile
         setupUserProfile();
@@ -455,8 +467,28 @@ public class FormateurDashboarddController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    private void loadDashboardStatistics() {
+        // Load cours statistics
+        int totalCours = serviceCours.getAll().size();
+        totalCoursLabel.setText(String.valueOf(totalCours));
+        userGrowthLabel.setText("+12% this month");
+
+        // Load seance statistics
+        int totalSeance = serviceSeance.getAll().size();
+        totalSeanceLabel.setText(String.valueOf(totalSeance));
+        userGrowthLabel.setText("+12% this month");
+
+        // Load categorieCours statistics
+        int totalCategorieCours= serviceCategorieCours.getAll().size();
+        totalCatégorieCoursLabel.setText(String.valueOf(totalCategorieCours));
+        categorieStatusLabel.setText("3 new today");
+
 
     }
+
 
 
 }
