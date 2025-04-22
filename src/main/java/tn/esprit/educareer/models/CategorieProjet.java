@@ -11,6 +11,16 @@ public class CategorieProjet {
     private int is_validated;
     private int is_deleted;
 
+    public CategorieProjet(int id, String categorie) {
+        this.id = id;
+        this.categorie = categorie;
+    }
+
+    public CategorieProjet(String nouvelleCat) {
+        this.categorie=nouvelleCat;
+    }
+
+
     @Override
     public String toString() {
         return "CategorieProjet{" +
