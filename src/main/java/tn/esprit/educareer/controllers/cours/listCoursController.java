@@ -10,10 +10,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import tn.esprit.educareer.models.Cours;
 import tn.esprit.educareer.services.ServiceCours;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -47,14 +49,18 @@ public class listCoursController {
             private final Label nomLabel = new Label();
             private final Button editButton = new Button("Modifier");
             private final Button deleteButton = new Button("Supprimer");
+            private final Button pdfButton = new Button("PDF");
 
-            private final HBox hbox = new HBox(10, nomLabel, editButton, deleteButton);
+            private final HBox hbox = new HBox(10, nomLabel, editButton, deleteButton, pdfButton);
 
             {
                 editButton.getStyleClass().add("btn-modifier");
                 deleteButton.getStyleClass().add("btn-supprimer");
+                pdfButton.getStyleClass().add("btn-pdf");
+
                 editButton.setOnAction(this::handleEdit);
                 deleteButton.setOnAction(this::handleDelete);
+                pdfButton.setOnAction(this::handlePdf);
             }
 
             @Override
@@ -95,7 +101,40 @@ public class listCoursController {
                     getListView().getItems().remove(selected);
                 }
             }
+
+            private void handlePdf(ActionEvent event) {
+                Cours selected = getItem();
+                if (selected != null && selected.getDocument() != null) {
+                    File sourceFile = new File(selected.getDocument());
+                    if (sourceFile.exists()) {
+                        FileChooser fileChooser = new FileChooser();
+                        fileChooser.setTitle("Enregistrer le document PDF");
+                        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+                        fileChooser.setInitialFileName(sourceFile.getName());
+
+                        // Afficher la boîte de dialogue d'enregistrement
+                        File destinationFile = fileChooser.showSaveDialog(((Node) event.getSource()).getScene().getWindow());
+
+                        if (destinationFile != null) {
+                            try {
+                                java.nio.file.Files.copy(
+                                        sourceFile.toPath(),
+                                        destinationFile.toPath(),
+                                        java.nio.file.StandardCopyOption.REPLACE_EXISTING
+                                );
+                                System.out.println("Fichier téléchargé avec succès.");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                System.out.println("Erreur lors du téléchargement du fichier.");
+                            }
+                        }
+                    } else {
+                        System.out.println("Le fichier source est introuvable.");
+                    }
+                }
+            }
         });
+
     }
 
 
