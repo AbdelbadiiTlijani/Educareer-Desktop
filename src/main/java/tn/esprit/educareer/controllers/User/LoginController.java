@@ -11,15 +11,15 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tn.esprit.educareer.utils.UserSession;
-import  tn.esprit.educareer.models.User;
+import tn.esprit.educareer.models.User;
 
 import java.sql.Connection;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
@@ -43,14 +43,19 @@ public class LoginController implements Initializable {
     private PasswordField passwordField;
     private Connection cnx;
 
+    // Account lockout related variables
+    private static final int MAX_FAILED_ATTEMPTS = 3;
+    private static final int LOCKOUT_DURATION_MINUTES = 15;
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     public LoginController() {
-        cnx = MyConnection.getInstance().getCnx(); }
-
-
+        cnx = MyConnection.getInstance().getCnx();
+        // Ensure account_security table exists
+        createAccountSecurityTableIfNotExists();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         backButton.setOnAction(event -> goBack());
 
         // Clear error messages when user starts typing
@@ -66,6 +71,27 @@ public class LoginController implements Initializable {
             statusLabel.setText("");
         });
     }
+
+    private void createAccountSecurityTableIfNotExists() {
+        try {
+            Statement stmt = cnx.createStatement();
+            DatabaseMetaData dbm = cnx.getMetaData();
+            ResultSet tables = dbm.getTables(null, null, "account_security", null);
+
+            if (!tables.next()) {
+                String sql = "CREATE TABLE account_security (" +
+                        "email VARCHAR(255) PRIMARY KEY, " +
+                        "failed_attempts INT DEFAULT 0, " +
+                        "lockout_time DATETIME NULL)";
+                stmt.executeUpdate(sql);
+            }
+            stmt.close();
+        } catch (SQLException e) {
+            System.err.println("Error creating account_security table: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     private void goBack() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
@@ -73,7 +99,7 @@ public class LoginController implements Initializable {
 
             Stage stage = (Stage) backButton.getScene().getWindow();
 
-            Scene scene = new Scene(root, 1000, 700);;
+            Scene scene = new Scene(root, 1000, 700);
             stage.setScene(scene);
             stage.centerOnScreen();
             stage.show();
@@ -81,6 +107,7 @@ public class LoginController implements Initializable {
             e.printStackTrace();
         }
     }
+
     @FXML
     void handleLogin(ActionEvent event) {
         clearErrors();
@@ -94,6 +121,20 @@ public class LoginController implements Initializable {
         String email = emailField.getText().trim();
         String password = passwordField.getText();
 
+        // Check if account is locked
+        try {
+            if (isAccountLocked(email)) {
+                LocalDateTime unlockTime = getAccountLockoutTime(email);
+                statusLabel.setText("Compte bloqué temporairement. Réessayez après " +
+                        unlockTime.format(formatter));
+                return;
+            }
+        } catch (SQLException e) {
+            statusLabel.setText("Erreur lors de la vérification du statut du compte");
+            e.printStackTrace();
+            return;
+        }
+
         try {
             // Query user from database
             String query = "SELECT * FROM user WHERE email = ?";
@@ -106,13 +147,16 @@ public class LoginController implements Initializable {
                 String role = rs.getString("role");
                 int status = rs.getInt("status");
 
-// Check if the stored hash starts with $2y$ (Symfony format)
+                // Check if the stored hash starts with $2y$ (Symfony format)
                 if (storedHash.startsWith("$2y$")) {
                     storedHash = "$2a$" + storedHash.substring(4);
                 }
 
-// Verify password
+                // Verify password
                 if (BCrypt.checkpw(password, storedHash)) {
+                    // Reset failed attempts on successful login
+                    resetFailedAttempts(email);
+
                     // Check if formateur is not yet accepted
                     if ("formateur".equalsIgnoreCase(role) && status == 0) {
                         statusLabel.setText("Votre demande est en cours de traitement. Veuillez Patientez !");
@@ -131,11 +175,24 @@ public class LoginController implements Initializable {
 
                     redirectBasedOnRole(role);
                 } else {
-                    // Invalid password
-                    statusLabel.setText("Mot de passe incorrect");
-                    highlightField(passwordField, true);
-                }
+                    // Invalid password - increment failed attempts
+                    incrementFailedAttempts(email);
 
+                    try {
+                        if (isAccountLocked(email)) {
+                            LocalDateTime unlockTime = getAccountLockoutTime(email);
+                            statusLabel.setText("Compte bloqué temporairement. Réessayez après " +
+                                    unlockTime.format(formatter));
+                        } else {
+                            int attemptsLeft = MAX_FAILED_ATTEMPTS - getFailedAttempts(email);
+                            statusLabel.setText("Mot de passe incorrect. Tentatives restantes: " + attemptsLeft);
+                            highlightField(passwordField, true);
+                        }
+                    } catch (SQLException e) {
+                        statusLabel.setText("Erreur lors de la vérification des tentatives");
+                        e.printStackTrace();
+                    }
+                }
             } else {
                 statusLabel.setText("Utilisateur non trouvé");
                 highlightField(emailField, true);
@@ -148,6 +205,122 @@ public class LoginController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    private int getFailedAttempts(String email) throws SQLException {
+        PreparedStatement pst = cnx.prepareStatement(
+                "SELECT failed_attempts FROM account_security WHERE email = ?");
+        pst.setString(1, email);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            return rs.getInt("failed_attempts");
+        }
+
+        return 0;
+    }
+
+    private LocalDateTime getAccountLockoutTime(String email) throws SQLException {
+        PreparedStatement pst = cnx.prepareStatement(
+                "SELECT lockout_time FROM account_security WHERE email = ?");
+        pst.setString(1, email);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next() && rs.getTimestamp("lockout_time") != null) {
+            return rs.getTimestamp("lockout_time").toLocalDateTime();
+        }
+
+        return null;
+    }
+
+    private void incrementFailedAttempts(String email) {
+        try {
+            // First check if the entry exists
+            PreparedStatement checkStmt = cnx.prepareStatement(
+                    "SELECT email FROM account_security WHERE email = ?");
+            checkStmt.setString(1, email);
+            ResultSet rs = checkStmt.executeQuery();
+
+            if (rs.next()) {
+                // Update existing record
+                PreparedStatement updateStmt = cnx.prepareStatement(
+                        "UPDATE account_security SET failed_attempts = failed_attempts + 1 WHERE email = ?");
+                updateStmt.setString(1, email);
+                updateStmt.executeUpdate();
+                updateStmt.close();
+            } else {
+                // Insert new record
+                PreparedStatement insertStmt = cnx.prepareStatement(
+                        "INSERT INTO account_security (email, failed_attempts) VALUES (?, 1)");
+                insertStmt.setString(1, email);
+                insertStmt.executeUpdate();
+                insertStmt.close();
+            }
+            checkStmt.close();
+
+            // Check if we need to lock the account
+            int attempts = getFailedAttempts(email);
+            if (attempts >= MAX_FAILED_ATTEMPTS) {
+                lockAccount(email);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error incrementing failed attempts: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void lockAccount(String email) {
+        try {
+            // Set lockout time to current time + lockout duration
+            LocalDateTime unlockTime = LocalDateTime.now().plusMinutes(LOCKOUT_DURATION_MINUTES);
+            Timestamp unlockTimestamp = Timestamp.valueOf(unlockTime);
+
+            PreparedStatement pst = cnx.prepareStatement(
+                    "UPDATE account_security SET lockout_time = ? WHERE email = ?");
+            pst.setTimestamp(1, unlockTimestamp);
+            pst.setString(2, email);
+            pst.executeUpdate();
+            pst.close();
+
+        } catch (SQLException e) {
+            System.err.println("Error locking account: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private boolean isAccountLocked(String email) throws SQLException {
+        PreparedStatement pst = cnx.prepareStatement(
+                "SELECT lockout_time FROM account_security WHERE email = ?");
+        pst.setString(1, email);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next() && rs.getTimestamp("lockout_time") != null) {
+            LocalDateTime unlockTime = rs.getTimestamp("lockout_time").toLocalDateTime();
+
+            if (LocalDateTime.now().isAfter(unlockTime)) {
+                // Lockout period has expired
+                resetFailedAttempts(email);
+                return false;
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    private void resetFailedAttempts(String email) {
+        try {
+            PreparedStatement pst = cnx.prepareStatement(
+                    "UPDATE account_security SET failed_attempts = 0, lockout_time = NULL WHERE email = ?");
+            pst.setString(1, email);
+            pst.executeUpdate();
+            pst.close();
+        } catch (SQLException e) {
+            System.err.println("Error resetting failed attempts: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     private void redirectBasedOnRole(String role) throws IOException {
         String fxmlPath;
 
@@ -169,7 +342,7 @@ public class LoginController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
         Parent root = loader.load();
 
-        Scene scene = new Scene(root , 1000 , 700);
+        Scene scene = new Scene(root, 1000, 700);
 
         Stage stage = (Stage) emailField.getScene().getWindow();
 
@@ -185,6 +358,7 @@ public class LoginController implements Initializable {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
     private boolean validateInput() {
         boolean isValid = true;
 
@@ -243,5 +417,4 @@ public class LoginController implements Initializable {
         highlightField(emailField, false);
         highlightField(passwordField, false);
     }
-
 }
