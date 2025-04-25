@@ -36,15 +36,18 @@
         <Label fx:id="passwordErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
         <!-- Add this within your existing form layout, typically after the password field -->
         <!-- Remember Me Checkbox -->
-        <CheckBox fx:id="rememberMeCheckbox" text="Se souvenir de moi" textFill="#f8fafc"
-                  GridPane.columnIndex="1" GridPane.rowIndex="4"
-                  style="-fx-font-family: 'Segoe UI'; -fx-font-size: 13px;" />
+        <CheckBox fx:id="rememberMeCheckBox"
+                  text="Se souvenir de moi"
+                  style="-fx-text-fill: #f8fafc; -fx-font-family: 'Segoe UI'; -fx-font-size: 14px;"
+                  GridPane.columnIndex="1"
+                  GridPane.rowIndex="4" />
 
         <columnConstraints>
             <ColumnConstraints />
             <ColumnConstraints />
         </columnConstraints>
         <rowConstraints>
+            <RowConstraints />
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />

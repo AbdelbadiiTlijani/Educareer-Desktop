@@ -15,9 +15,10 @@ import tn.esprit.educareer.models.User;
 
 import java.sql.Connection;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
@@ -41,12 +42,20 @@ public class LoginController implements Initializable {
 
     @FXML
     private PasswordField passwordField;
+
+    @FXML
+    private CheckBox rememberMeCheckBox;
+
     private Connection cnx;
 
     // Account lockout related variables
     private static final int MAX_FAILED_ATTEMPTS = 3;
     private static final int LOCKOUT_DURATION_MINUTES = 15;
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    // Remember Me constants
+    private static final String REMEMBER_ME_FILE = "rememberMe.txt";
+    private static final int REMEMBER_ME_DAYS = 30; // Number of days to remember the user
 
     public LoginController() {
         cnx = MyConnection.getInstance().getCnx();
@@ -70,6 +79,55 @@ public class LoginController implements Initializable {
             highlightField(passwordField, false);
             statusLabel.setText("");
         });
+
+        // Try to load remembered user credentials
+        //loadRememberedUser();
+    }
+
+    private void loadRememberedUser() {
+        String rememberedEmail = getRememberedUser();
+        if (rememberedEmail != null) {
+            emailField.setText(rememberedEmail);
+            rememberMeCheckBox.setSelected(true);
+            // Don't auto-fill password for security reasons
+        }
+    }
+
+    private String getRememberedUser() {
+        File file = new File(REMEMBER_ME_FILE);
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String[] data = reader.readLine().split(",");
+                if (data.length == 2) {
+                    String email = data[0];
+                    LocalDate expirationDate = LocalDate.parse(data[1]);
+                    if (LocalDate.now().isBefore(expirationDate)) {
+                        return email;
+                    } else {
+                        clearSavedLogin();
+                    }
+                }
+            } catch (IOException e) {
+                System.out.println("Failed to read rememberMe file: " + e.getMessage());
+            }
+        }
+        return null;
+    }
+
+    private void saveRememberedUser(String email) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(REMEMBER_ME_FILE))) {
+            LocalDate expirationDate = LocalDate.now().plusDays(REMEMBER_ME_DAYS);
+            writer.write(email + "," + expirationDate);
+        } catch (IOException e) {
+            System.out.println("Failed to save rememberMe file: " + e.getMessage());
+        }
+    }
+
+    private void clearSavedLogin() {
+        File file = new File(REMEMBER_ME_FILE);
+        if (file.exists()) {
+            file.delete();
+        }
     }
 
     private void createAccountSecurityTableIfNotExists() {
@@ -154,6 +212,13 @@ public class LoginController implements Initializable {
 
                 // Verify password
                 if (BCrypt.checkpw(password, storedHash)) {
+                    // Handle "Remember Me" functionality
+                    if (rememberMeCheckBox.isSelected()) {
+                        saveRememberedUser(email);
+                    } else {
+                        clearSavedLogin();
+                    }
+
                     // Reset failed attempts on successful login
                     resetFailedAttempts(email);
 
