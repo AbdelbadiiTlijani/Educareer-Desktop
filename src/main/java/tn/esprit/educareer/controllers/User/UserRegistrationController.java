@@ -1,6 +1,9 @@
 package tn.esprit.educareer.controllers.User;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import tn.esprit.educareer.models.User;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
@@ -15,11 +18,13 @@ import java.io.File;
 import java.net.URL;
 import java.security.SecureRandom;
 import java.time.LocalDate;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import tn.esprit.educareer.services.ServiceUser;
+import tn.esprit.educareer.services.SmsService;
 
 import java.io.IOException;
 
@@ -63,11 +68,21 @@ public class UserRegistrationController implements Initializable {
     @FXML private Label globalErrorLabel;
     @FXML private Label photoErrorLabel;
 
+    // Captcha components
+    @FXML private Canvas captchaCanvas;
+    @FXML private Button refreshCaptchaButton;
+    @FXML private TextField captchaField;
+    @FXML private Label captchaErrorLabel;
+
     // Style CSS pour les champs d'erreur
     private String errorStyle = "-fx-border-color: red; -fx-border-width: 2px;";
     private String originalStyle = "";
     private ServiceUser serviceUser = new ServiceUser();
     private String selectedPhotoPath = "";
+
+    // Variables for captcha
+    private String captchaText;
+    private Random random = new Random();
 
 
     @Override
@@ -78,6 +93,88 @@ public class UserRegistrationController implements Initializable {
         backButton.setOnAction(event -> goBack());
         PhotoButton.setOnAction(event -> selectPhoto());
 
+        // Initialize captcha
+        refreshCaptchaButton.setOnAction(event -> generateCaptcha());
+        generateCaptcha();
+
+    }
+    private void generateCaptcha() {
+        // Generate random captcha text (6 characters long)
+        StringBuilder sb = new StringBuilder();
+        String chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
+
+        for (int i = 0; i < 6; i++) {
+            int index = random.nextInt(chars.length());
+            sb.append(chars.charAt(index));
+        }
+
+        captchaText = sb.toString();
+
+        // Draw captcha on canvas
+        GraphicsContext gc = captchaCanvas.getGraphicsContext2D();
+
+        // Clear the canvas
+        gc.setFill(Color.rgb(30, 41, 59)); // Background color
+        gc.fillRect(0, 0, captchaCanvas.getWidth(), captchaCanvas.getHeight());
+
+        // Draw the captcha text with noise
+        gc.setStroke(Color.WHITE);
+
+        // Add some random lines for noise
+        for (int i = 0; i < 10; i++) {
+            gc.setStroke(getRandomLightColor());
+            gc.setLineWidth(0.5 + random.nextDouble());
+            gc.strokeLine(
+                    random.nextDouble() * captchaCanvas.getWidth(),
+                    random.nextDouble() * captchaCanvas.getHeight(),
+                    random.nextDouble() * captchaCanvas.getWidth(),
+                    random.nextDouble() * captchaCanvas.getHeight()
+            );
+        }
+
+        // Draw text
+        double x = 20;
+        for (char c : captchaText.toCharArray()) {
+            gc.setFill(getRandomLightColor());
+            gc.setFont(javafx.scene.text.Font.font("Verdana",
+                    random.nextBoolean() ? javafx.scene.text.FontWeight.BOLD : javafx.scene.text.FontWeight.NORMAL,
+                    18 + random.nextInt(8)));
+
+            // Random rotation for each character
+            double angle = -15 + random.nextInt(30);
+            gc.save();
+            gc.translate(x, 25 + random.nextInt(10));
+            gc.rotate(angle);
+            gc.fillText(String.valueOf(c), 0, 0);
+            gc.restore();
+
+            x += 15 + random.nextInt(5);
+        }
+
+        // Add some dots for noise
+        for (int i = 0; i < 50; i++) {
+            gc.setFill(getRandomLightColor());
+            gc.fillOval(
+                    random.nextDouble() * captchaCanvas.getWidth(),
+                    random.nextDouble() * captchaCanvas.getHeight(),
+                    2, 2);
+        }
+
+        // Reset captcha field
+        captchaField.setText("");
+        captchaErrorLabel.setText("");
+        captchaField.setStyle(originalStyle);
+    }
+
+    /**
+     * Generates a random light color for captcha text
+     */
+    private Color getRandomLightColor() {
+        return Color.rgb(
+                150 + random.nextInt(105),
+                150 + random.nextInt(105),
+                150 + random.nextInt(105)
+        );
     }
 
     private void selectPhoto() {
@@ -171,6 +268,22 @@ public class UserRegistrationController implements Initializable {
                 }
             }
 
+            // Validate CAPTCHA
+            if (captchaField.getText().isEmpty()) {
+                captchaErrorLabel.setText("Veuillez entrer le code CAPTCHA");
+                captchaErrorLabel.setVisible(true);
+                captchaField.setStyle(errorStyle);
+                isValid = false;
+            } else if (!captchaField.getText().equalsIgnoreCase(captchaText)) {
+                captchaErrorLabel.setText("Le code CAPTCHA ne correspond pas");
+                captchaErrorLabel.setVisible(true);
+                captchaField.setStyle(errorStyle);
+                generateCaptcha(); // Generate a new captcha
+                isValid = false;
+            } else {
+                captchaErrorLabel.setVisible(false);
+            }
+
             if (!isValid) {
                 globalErrorLabel.setText("Veuillez corriger les erreurs dans le formulaire");
                 globalErrorLabel.setVisible(true);
@@ -222,6 +335,10 @@ public class UserRegistrationController implements Initializable {
                 globalErrorLabel.setTextFill(javafx.scene.paint.Color.ORANGE);
                 globalErrorLabel.setText("Votre demande a été prise en compte. Un administrateur validera votre compte.");
                 globalErrorLabel.setVisible(true);
+
+                // After successful registration
+                String formateurFullName = user.getPrenom() + " " + user.getNom();
+                SmsService.notifyAdminFormateurRegistration(formateurFullName);
             }else {
                 globalErrorLabel.setTextFill(javafx.scene.paint.Color.GREEN);
                 globalErrorLabel.setText("Inscription réussie ! Redirection...");
@@ -284,6 +401,7 @@ public class UserRegistrationController implements Initializable {
         roleErrorLabel.setText("");
         photoErrorLabel.setText("");
         birthDateErrorLabel.setText("");
+        captchaErrorLabel.setText("");
         globalErrorLabel.setText("");
         globalErrorLabel.setVisible(false);
         globalErrorLabel.setTextFill(javafx.scene.paint.Color.RED);
@@ -296,6 +414,7 @@ public class UserRegistrationController implements Initializable {
         passwordField.setStyle(originalStyle);
         roleComboBox.setStyle(originalStyle);
         birthDatePicker.setStyle(originalStyle);
+        captchaField.setStyle(originalStyle);
     }
 
     private String generateVerificationToken() {

@@ -39,8 +39,8 @@ public class UserListController {
     private ServiceUser serviceUser = new ServiceUser();
     // Email service configuration - replace with your actual SMTP settings
     private EmailService emailService = new EmailService(
-            "badi3tlijani12@gmail.com",     // Your Gmail address
-            "dgbk saoi bviw igml"  // Your Gmail App Password
+            "badi3tlijani12@gmail.com",     
+            "dgbk saoi bviw igml"
     );
 
     @FXML

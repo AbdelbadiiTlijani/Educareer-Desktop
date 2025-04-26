@@ -15,6 +15,7 @@ import tn.esprit.educareer.models.User;
 import tn.esprit.educareer.services.*;
 import tn.esprit.educareer.utils.UserSession;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -300,6 +301,7 @@ public class FormateurDashboarddController {
     void handleLogout(ActionEvent event) {
         // Clear the user session
         UserSession.getInstance().clearSession();
+        clearSavedLogin();
 
         try {
             // Charger la page de login
@@ -335,6 +337,13 @@ public class FormateurDashboarddController {
             e.printStackTrace();
         }
     }
+    private void clearSavedLogin() {
+        File file = new File("rememberMe.txt");
+        if (file.exists()) {
+            file.delete();
+        }
+    }
+
 
     public void initialize() {
         System.out.println("Admin Dashboard initialized");
