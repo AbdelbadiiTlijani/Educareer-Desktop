@@ -103,6 +103,20 @@ public class ReclamationService {
             System.err.println("Erreur lors de l'ajout : " + e.getMessage());
         }
     }
+    public void modifier(Reclamation reclamation) {
+        String query = "UPDATE reclamation SET type_reclamation_id = ?, sujet = ?, description = ?, created_at = ? WHERE id = ?";
+        try (PreparedStatement pst = cnx.prepareStatement(query)) {
+            pst.setInt(1, reclamation.getTypeReclamation().getId());
+            pst.setString(2, reclamation.getSujet());
+            pst.setString(3, reclamation.getDescription());
+            pst.setTimestamp(4, Timestamp.valueOf(reclamation.getCreatedAt()));  // Convertir LocalDateTime en Timestamp
+            pst.setInt(5, reclamation.getId());  // Mettre à jour l'ID pour une réclamation existante
+            pst.executeUpdate();
+            System.out.println("Réclamation modifiée !");
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la modification : " + e.getMessage());
+        }
+    }
 
 }
 

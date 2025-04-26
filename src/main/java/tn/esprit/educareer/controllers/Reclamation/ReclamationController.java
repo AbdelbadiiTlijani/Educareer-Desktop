@@ -16,6 +16,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import tn.esprit.educareer.models.Reclamation;
 import tn.esprit.educareer.services.ReclamationService;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -38,7 +42,6 @@ public class ReclamationController {
 
     @FXML
     private TextField searchField;
-
     private ReclamationService reclamationService = new ReclamationService();
 
     // Méthode pour initialiser l'affichage des réclamations
@@ -56,18 +59,60 @@ public class ReclamationController {
 
         // Personnaliser l'affichage des éléments dans la ListView
         reclamationListView.setCellFactory(param -> new ListCell<Reclamation>() {
+            private final Label reclamationLabel = new Label();
+            private final Button supprimerBtn = new Button("Supprimer");
+            private final Button updateBtn = new Button("Modifier");
+            private final HBox hBox = new HBox(10, reclamationLabel, updateBtn, supprimerBtn);
+
+            {
+                // Style des boutons
+                supprimerBtn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 5;");
+                updateBtn.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 5;");
+
+                // Action pour le bouton "Supprimer"
+                supprimerBtn.setOnAction(event -> {
+                    Reclamation selected = getItem();
+                    if (selected != null) {
+                        reclamationService.supprimer(selected);  // Supprimer la réclamation via le service
+                        afficherReclamations();  // Rafraîchir la liste après suppression
+                    }
+                });
+
+                // Action pour le bouton "Modifier"
+                updateBtn.setOnAction(event -> {
+                    try {
+                        // Charger la page de modification (assurez-vous que la page de modification existe)
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Reclamation/ModifierReclamation.fxml"));
+                        Parent root = loader.load();
+                        ModifierReclamation controller = loader.getController();
+                        controller.setReclamationToEdit(getItem());  // Passer la réclamation à modifier
+
+                        Stage stage = new Stage();
+                        stage.setTitle("Modifier Réclamation");
+                        stage.setScene(new Scene(root));
+                        stage.show();
+
+                    } catch (IOException e) {
+                        System.out.println("Erreur de navigation : " + e.getMessage());
+                    }
+                });
+            }
+
             @Override
             protected void updateItem(Reclamation reclamation, boolean empty) {
                 super.updateItem(reclamation, empty);
                 if (empty || reclamation == null) {
                     setText(null);
+                    setGraphic(null);
                 } else {
-                    // Afficher le sujet, type, et la date de création dans la cellule
-                    setText(reclamation.getSujet() + " - " + reclamation.getTypeReclamation().getNom() + " (crée le " + reclamation.getCreatedAt() + ")");
+                    // Mettre à jour l'affichage de chaque réclamation
+                    reclamationLabel.setText(reclamation.getSujet() + " - " + reclamation.getTypeReclamation().getNom() + " (créée le " + reclamation.getCreatedAt() + ")");
+                    setGraphic(hBox);  // Afficher le label et les boutons dans la cellule
                 }
             }
         });
     }
+
 
     @FXML
     void handleBackButton(ActionEvent event) throws IOException {
