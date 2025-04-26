@@ -6,11 +6,11 @@ import tn.esprit.educareer.models.TypeEvent;
 import tn.esprit.educareer.utils.MyConnection;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ServiceEvent implements IService<Event> {
-
     private final Connection cnx;
 
     public ServiceEvent() {
@@ -25,7 +25,7 @@ public class ServiceEvent implements IService<Event> {
             pst.setInt(1, event.getTypeEvent().getId());
             pst.setString(2, event.getTitre());
             pst.setString(3, event.getDescription());
-            pst.setDate(4, Date.valueOf(event.getDate()));
+            pst.setTimestamp(4, Timestamp.valueOf(event.getDate()));
             pst.setString(5, event.getLieu());
             pst.setInt(6, event.getNbrPlace());
             pst.executeUpdate();
@@ -43,7 +43,7 @@ public class ServiceEvent implements IService<Event> {
             pst.setInt(1, event.getTypeEvent().getId());
             pst.setString(2, event.getTitre());
             pst.setString(3, event.getDescription());
-            pst.setDate(4, Date.valueOf(event.getDate()));
+            pst.setTimestamp(4, Timestamp.valueOf(event.getDate()));
             pst.setString(5, event.getLieu());
             pst.setInt(6, event.getNbrPlace());
             pst.setInt(7, event.getId());
@@ -86,7 +86,7 @@ public class ServiceEvent implements IService<Event> {
                         typeEvent,
                         rs.getString("titre"),
                         rs.getString("description"),
-                        rs.getDate("date").toLocalDate(),
+                        rs.getTimestamp("date").toLocalDateTime(),
                         rs.getString("lieu"),
                         rs.getInt("nbr_place")
                 );
@@ -102,7 +102,6 @@ public class ServiceEvent implements IService<Event> {
 
     @Override
     public Event getOne(Event event) {
-        // Optionnel : implémenter si besoin
         return null;
     }
 }
