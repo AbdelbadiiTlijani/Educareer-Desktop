@@ -20,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import tn.esprit.educareer.services.ServiceUser;
+import tn.esprit.educareer.services.SmsService;
 
 import java.io.IOException;
 
@@ -222,6 +223,10 @@ public class UserRegistrationController implements Initializable {
                 globalErrorLabel.setTextFill(javafx.scene.paint.Color.ORANGE);
                 globalErrorLabel.setText("Votre demande a été prise en compte. Un administrateur validera votre compte.");
                 globalErrorLabel.setVisible(true);
+
+                // After successful registration
+                String formateurFullName = user.getPrenom() + " " + user.getNom();
+                SmsService.notifyAdminFormateurRegistration(formateurFullName);
             }else {
                 globalErrorLabel.setTextFill(javafx.scene.paint.Color.GREEN);
                 globalErrorLabel.setText("Inscription réussie ! Redirection...");

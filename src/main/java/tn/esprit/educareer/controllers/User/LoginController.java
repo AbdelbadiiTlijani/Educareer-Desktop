@@ -1,7 +1,12 @@
 package tn.esprit.educareer.controllers.User;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.util.Duration;
 import org.mindrot.jbcrypt.BCrypt;
+import tn.esprit.educareer.services.EmailService;
 import tn.esprit.educareer.utils.MyConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +17,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tn.esprit.educareer.utils.UserSession;
 import tn.esprit.educareer.models.User;
+import tn.esprit.educareer.services.OtpStorage;
+
+
+
 
 import java.sql.Connection;
 
@@ -21,6 +30,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
@@ -36,6 +46,9 @@ public class LoginController implements Initializable {
 
     @FXML
     private Label statusLabel;
+
+    private static final String DEFAULT_STYLE = "-fx-font-family: 'Segoe UI'; -fx-font-size: 14px; -fx-text-fill: #ef4444; -fx-font-weight: bold;";
+
 
     @FXML
     private Button backButton;
@@ -65,6 +78,7 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         backButton.setOnAction(event -> goBack());
 
         // Clear error messages when user starts typing
@@ -130,6 +144,9 @@ public class LoginController implements Initializable {
         }
     }
 
+
+
+
     private void createAccountSecurityTableIfNotExists() {
         try {
             Statement stmt = cnx.createStatement();
@@ -165,6 +182,95 @@ public class LoginController implements Initializable {
             e.printStackTrace();
         }
     }
+    @FXML
+    private void handleForgotPassword(MouseEvent event) {
+        clearErrors();
+
+        boolean isValid = validateInputPassword(); // Checks if email is valid
+        if (!isValid) {
+            return;
+        }
+
+        String email = emailField.getText().trim();
+
+        try {
+            // 🔎 Check if user exists in DB
+            String query = "SELECT * FROM user WHERE email = ?";
+            PreparedStatement pst = cnx.prepareStatement(query);
+            pst.setString(1, email);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                String otp = generateOTP(); // Generates random 6-digit code
+                LocalDateTime expiry = LocalDateTime.now().plusMinutes(10);
+
+                // Store OTP in memory
+                OtpStorage.storeOtp(email, otp, expiry);
+
+                // Send email using your EmailService
+                EmailService emailService = new EmailService(
+                        "badi3tlijani12@gmail.com",
+                        "dgbk saoi bviw igml"
+                );
+                String subject = "Code de vérification - Réinitialisation du mot de passe";
+                String content = "<h3>Votre code de vérification</h3><p>Code : <b>" + otp + "</b><br>Valide pendant 10 minutes.</p>";
+                emailService.sendEmail(email, subject, content);
+
+                statusLabel.setText("Un code de vérification a été envoyé à votre adresse email.");
+                statusLabel.setStyle("-fx-font-family: 'Segoe UI'; -fx-font-size: 14px; -fx-text-fill: #008000; -fx-font-weight: bold;");
+
+                // Wait for 2 seconds to show the message, then redirect
+                Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), evt -> {
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/ForgotPassword.fxml"));
+                        Parent root = loader.load();
+
+                        // Pass the email to the controller
+                        ForgotPasswordController controller = loader.getController();
+                        controller.setEmail(email);
+
+                        Scene scene = new Scene(root);
+                        Stage stage = (Stage) emailField.getScene().getWindow();
+                        stage.setScene(scene);
+                        stage.show();
+                    } catch (IOException e) {
+                        statusLabel.setText("Erreur lors du chargement de l'écran de réinitialisation");
+                        statusLabel.setStyle("-fx-font-family: 'Segoe UI'; -fx-font-size: 14px; -fx-text-fill: #ef4444; -fx-font-weight: bold;");
+                        e.printStackTrace();
+                    }
+                }));
+                timeline.setCycleCount(1);
+                timeline.play();
+
+            } else {
+                statusLabel.setText("Utilisateur non trouvé");
+                statusLabel.setStyle("-fx-font-family: 'Segoe UI'; -fx-font-size: 14px; -fx-text-fill: #ef4444; -fx-font-weight: bold;");
+                highlightField(emailField, true);
+            }
+
+            rs.close();
+            pst.close();
+
+        } catch (SQLException e) {
+            statusLabel.setText("Erreur lors de la vérification de l'utilisateur");
+            e.printStackTrace();
+        }
+    }
+    private void resetStatusLabelStyleAfterDelay() {
+        // Wait for a few seconds (e.g., 3 seconds) and then reset the style to default
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
+            statusLabel.setStyle(DEFAULT_STYLE);
+        }));
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+    private String generateOTP() {
+        Random random = new Random();
+        int otp = 100000 + random.nextInt(900000); // 6-digit OTP
+        return String.valueOf(otp);
+    }
+
+
 
     @FXML
     void handleLogin(ActionEvent event) {
@@ -452,6 +558,25 @@ public class LoginController implements Initializable {
 
         return isValid;
     }
+    private boolean validateInputPassword() {
+        boolean isValid = true;
+
+        String email = emailField.getText().trim();
+        String password = passwordField.getText();
+
+        if (email.isEmpty()) {
+            emailErrorLabel.setText("L'email est requis");
+            highlightField(emailField, true);
+            isValid = false;
+        } else if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            emailErrorLabel.setText("Format d'email invalide");
+            highlightField(emailField, true);
+            isValid = false;
+        } else {
+            highlightField(emailField, false);
+        }
+        return isValid;
+    }
 
     private void highlightField(TextField field, boolean isError) {
         if (isError) {
@@ -482,4 +607,6 @@ public class LoginController implements Initializable {
         highlightField(emailField, false);
         highlightField(passwordField, false);
     }
+
+
 }

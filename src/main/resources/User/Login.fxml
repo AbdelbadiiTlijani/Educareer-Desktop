@@ -42,6 +42,7 @@
                   GridPane.columnIndex="1"
                   GridPane.rowIndex="4" />
 
+
         <columnConstraints>
             <ColumnConstraints />
             <ColumnConstraints />
@@ -59,4 +60,6 @@
 
     <!-- Login Button -->
     <Button onAction="#handleLogin" style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 10px 30px; -fx-background-radius: 25px; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(59, 130, 246, 0.4), 15, 0, 0, 4);" text="Se connecter " />
+    <Label text="Forgot Password?" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 14px; -fx-text-fill: #94a3b8; -fx-cursor: hand;" onMouseClicked="#handleForgotPassword"/>
+
 </VBox>
