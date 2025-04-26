@@ -64,7 +64,7 @@ public class LoginController implements Initializable {
     // Account lockout related variables
     private static final int MAX_FAILED_ATTEMPTS = 3;
     private static final int LOCKOUT_DURATION_MINUTES = 15;
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     // Remember Me constants
     private static final String REMEMBER_ME_FILE = "rememberMe.txt";
