@@ -84,14 +84,12 @@ public class ForgotPasswordController {
         String otp = otpField.getText().trim();
         String newPassword = newPasswordField.getText().trim();
 
-        // Verify OTP
         if (!OtpStorage.verifyOtp(email, otp)) {
             otpErrorLabel.setText("Code OTP invalide ou expiré");
             highlightField(otpField, true);
             return;
         }
 
-        // Update password in database
         try {
             String query = "UPDATE user SET mdp = ? WHERE email = ?";
             PreparedStatement pst = cnx.prepareStatement(query);
@@ -105,16 +103,13 @@ public class ForgotPasswordController {
                 statusLabel.setText("Mot de passe réinitialisé avec succès");
                 statusLabel.setStyle(SUCCESS_STYLE);
 
-                // Remove the used OTP
                 OtpStorage.removeOtp(email);
 
-                // Clear fields
                 otpField.clear();
                 newPasswordField.clear();
                 otpErrorLabel.setText("");
                 newPasswordErrorLabel.setText("");
 
-                // Redirect to login after a short delay
                 redirectToLoginAfterDelay();
             } else {
                 statusLabel.setText("Échec de la réinitialisation du mot de passe");
@@ -224,7 +219,6 @@ public class ForgotPasswordController {
     // This should be replaced with a proper password hashing method
     private String hashPassword(String password) {
         String hashed = BCrypt.hashpw(password, BCrypt.gensalt(13));
-        // Replace $2a$ with $2y$ for Symfony compatibility
         if (hashed.startsWith("$2a$")) {
             hashed = "$2y$" + hashed.substring(4);
         }
