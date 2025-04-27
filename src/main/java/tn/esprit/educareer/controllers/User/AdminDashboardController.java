@@ -16,6 +16,7 @@ import tn.esprit.educareer.models.User;
 import tn.esprit.educareer.services.ServiceUser;
 import tn.esprit.educareer.utils.UserSession;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -141,22 +142,17 @@ public class AdminDashboardController {
     public void initialize() {
         System.out.println("Admin Dashboard initialized");
 
-        // Add hover effects for menu buttons
         setupButtonHoverEffects();
 
-        // Load dashboard statistics
         loadDashboardStatistics();
 
-        // Set up user profile
         setupUserProfile();
     }
 
     private void loadDashboardStatistics() {
-        // Load user statistics
         int totalUsers = ServiceUser.getAll().size();
         totalUsersLabel.setText(String.valueOf(totalUsers));
 
-        // Calculate fictional growth rate (in a real app, you would calculate this from historical data)
         userGrowthLabel.setText("+12% this month");
     }
 
@@ -185,16 +181,11 @@ public class AdminDashboardController {
     public void setupUserProfile() {
         User currentUser = UserSession.getInstance().getCurrentUser();
         if (currentUser != null) {
-            // Set user name
             userName.setText(currentUser.getNom() + " " + currentUser.getPrenom());
 
-            // We don't need to set userRole text anymore as it's not in the new UI
-            // userRole.setText(currentUser.getRole());  // This line causes the error
 
-            // Set user photo if available
             if (currentUser.getPhoto_profil() != null && !currentUser.getPhoto_profil().isEmpty()) {
                 try {
-                    // First try loading from file system
                     String projectDir = System.getProperty("user.dir");
                     Path imagePath = Paths.get(projectDir, "src", "main", "resources", "photos", currentUser.getPhoto_profil());
 
@@ -202,7 +193,6 @@ public class AdminDashboardController {
                         Image image = new Image(imagePath.toUri().toString());
                         userPhoto.setImage(image);
                     } else {
-                        // Try loading from resources as fallback
                         String resourcePath = "/photos/" + currentUser.getPhoto_profil();
                         InputStream resourceStream = getClass().getResourceAsStream(resourcePath);
                         if (resourceStream != null) {
@@ -233,28 +223,25 @@ public class AdminDashboardController {
 
     @FXML
     void handleLogout(ActionEvent event) {
-        // Clear the user session
         UserSession.getInstance().clearSession();
+        clearSavedLogin();
+
 
         try {
-            // Charger la page de login
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root, 1000, 700);
 
             Stage stage = null;
 
-            // Récupérer la source de l'événement
             Object source = event.getSource();
 
             if (source instanceof MenuItem) {
-                // Si la source est un MenuItem, récupérer la fenêtre via son ContextMenu
                 ContextMenu contextMenu = ((MenuItem) source).getParentPopup();
                 if (contextMenu != null && contextMenu.getOwnerWindow() != null) {
                     stage = (Stage) contextMenu.getOwnerWindow();
                 }
             } else if (source instanceof Node) {
-                // Sinon, source classique (bouton, etc.)
                 stage = (Stage) ((Node) source).getScene().getWindow();
             }
 
@@ -270,23 +257,27 @@ public class AdminDashboardController {
             e.printStackTrace();
         }
     }
+    private void clearSavedLogin() {
+        File file = new File("rememberMe.txt");
+        if (file.exists()) {
+            file.delete();
+        }
+    }
+
+
 
     @FXML
     public void handleEditProfile(ActionEvent event) {
         try {
             MenuItem menuItem = (MenuItem) event.getSource();
 
-            // Récupérer le ContextMenu parent du MenuItem
             ContextMenu contextMenu = menuItem.getParentPopup();
             if (contextMenu != null && contextMenu.getOwnerWindow() != null) {
-                // Récupérer la fenêtre (stage)
                 Stage stage = (Stage) contextMenu.getOwnerWindow();
 
-                // Charger le fichier FXML
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/edit_profile.fxml"));
                 Scene scene = new Scene(loader.load(), 1000, 700);
 
-                // Appliquer la nouvelle scène au stage
                 stage.setScene(scene);
                 stage.centerOnScreen();
                 stage.show();
@@ -306,11 +297,9 @@ public class AdminDashboardController {
     @FXML
     public void handleAjoutOffreButton(ActionEvent event) {
         try {
-            // Load the User List page
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/offre/AjouterOffre.fxml"));
             Scene scene = new Scene(loader.load(), 1000, 700);
 
-            // Get the stage and set the new scene
             Stage stage = (Stage) viewAjoutOffrebutton.getScene().getWindow();
             stage.setScene(scene);
             stage.centerOnScreen();
@@ -324,11 +313,9 @@ public class AdminDashboardController {
     @FXML
     public void handleAjoutTypeOffreButton(ActionEvent event) {
         try {
-            // Load the User List page
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/offre/AjouterTypeOffre.fxml"));
             Scene scene = new Scene(loader.load(), 1000, 700);
 
-            // Get the stage and set the new scene
             Stage stage = (Stage) viewAjoutTypeOffreButton.getScene().getWindow();
             stage.setScene(scene);
             stage.centerOnScreen();
@@ -342,11 +329,9 @@ public class AdminDashboardController {
     @FXML
     public void handleListOffre(ActionEvent event) {
         try {
-            // Load the User List page
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/offre/OffreList.fxml"));
             Scene scene = new Scene(loader.load(), 1000, 700);
 
-            // Get the stage and set the new scene
 
             Stage stage = (Stage) viewListOffre.getScene().getWindow();
             stage.setScene(scene);
@@ -362,11 +347,9 @@ public class AdminDashboardController {
     @FXML
     public void handleAjoutReclamationButton(ActionEvent event) {
         try {
-            // Load the User List page
             FXMLLoader loader = new FXMLLoader(getClass().getResource(""));
             Scene scene = new Scene(loader.load(), 1000, 700);
 
-            // Get the stage and set the new scene
 
             Stage stage = (Stage) viewAjoutReclamationbutton.getScene().getWindow();
             stage.setScene(scene);
@@ -381,11 +364,9 @@ public class AdminDashboardController {
     @FXML
     public void handleAjoutTypeReclamationButton(ActionEvent event) {
         try {
-            // Load the User List page
             FXMLLoader loader = new FXMLLoader(getClass().getResource(""));
             Scene scene = new Scene(loader.load(), 1000, 700);
 
-            // Get the stage and set the new scene
 
             Stage stage = (Stage) viewAjoutTypeReclamationButton.getScene().getWindow();
             stage.setScene(scene);
@@ -400,11 +381,9 @@ public class AdminDashboardController {
     @FXML
     public void handleListReclamation(ActionEvent event) {
         try {
-            // Load the User List page
             FXMLLoader loader = new FXMLLoader(getClass().getResource(""));
             Scene scene = new Scene(loader.load(), 1000, 700);
 
-            // Get the stage and set the new scene
 
             Stage stage = (Stage) viewListReclamation.getScene().getWindow();
             stage.setScene(scene);
@@ -419,11 +398,9 @@ public class AdminDashboardController {
     @FXML
     public void handleListEvent(ActionEvent event) {
         try {
-            // Load the User List page
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/EventList.fxml"));
             Scene scene = new Scene(loader.load(), 1000, 700);
 
-            // Get the stage and set the new scene
 
             Stage stage = (Stage) viewListReclamation.getScene().getWindow();
             stage.setScene(scene);
@@ -439,17 +416,14 @@ public class AdminDashboardController {
     @FXML
     public void handleAjoutEvenementButton(ActionEvent event) {
         try {
-            // Load the User List page
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/AddEvent.fxml"));
             Scene scene = new Scene(loader.load(), 1000, 700);
 
-            // Get the stage and set the new scene
 
             Stage stage = (Stage) viewAjoutEventbutton.getScene().getWindow();
             stage.setScene(scene);
             stage.centerOnScreen();
             stage.show();
-            // Appliquer la nouvelle scène au stage
             stage.setScene(scene);
             stage.centerOnScreen();
             stage.show();
@@ -474,11 +448,9 @@ public class AdminDashboardController {
     @FXML
     void handleViewUser(ActionEvent event) {
         try {
-            // Load the User List page
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/UserListPage.fxml"));
             Scene scene = new Scene(loader.load(), 1000, 700);
 
-            // Get the stage and set the new scene
 
             Stage stage = (Stage) viewUserButton.getScene().getWindow();
             stage.setScene(scene);
@@ -528,7 +500,6 @@ public class AdminDashboardController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/TypeEvent/AddTypeEvent.fxml"));
             Scene scene = new Scene(loader.load(), 1000, 700);
 
-            // Get the stage and set the new scene
 
             Stage stage = (Stage) viewAjoutTypeEventButton.getScene().getWindow();
             stage.setScene(scene);
@@ -555,7 +526,6 @@ public class AdminDashboardController {
 
     private void clearImageCache(ImageView imageView) {
         imageView.setImage(null);
-        // Force garbage collection to clear cached images
         System.gc();
     }
 
@@ -591,7 +561,7 @@ public class AdminDashboardController {
             stage.show();
 
         } catch (IOException e) {
-            e.printStackTrace(); // Tu peux aussi afficher une alerte ici
+            e.printStackTrace();
         }
     }
 }

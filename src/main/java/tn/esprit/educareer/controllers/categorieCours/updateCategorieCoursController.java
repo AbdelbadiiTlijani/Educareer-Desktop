@@ -13,8 +13,13 @@ import tn.esprit.educareer.models.CategorieCours;
 import tn.esprit.educareer.services.ServiceCategorieCours;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class updateCategorieCoursController {
+
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
     @FXML
     private TextField nomCategorie;
@@ -30,7 +35,7 @@ public class updateCategorieCoursController {
     }
 
     @FXML
-    void handleUpdateButton(ActionEvent event) {
+    void handleUpdateButton(ActionEvent event) throws IOException {
         if (selectedCategorie != null) {
             selectedCategorie.setNom(nomCategorie.getText());
 
@@ -42,15 +47,20 @@ public class updateCategorieCoursController {
             alert.setContentText("Catégorie mise à jour avec succès !");
             alert.showAndWait();
 
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/categorieCours/listCategorieCours.fxml"));
-                Parent root = loader.load();
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            navigateToPage(event, "/categorieCours/listCategorieCours.fxml");
         }
+    }
+
+    private void navigateToPage(ActionEvent event, String path) throws IOException {
+        URL fxmlLocation = getClass().getResource(path);
+        if (fxmlLocation == null) {
+            throw new IOException("FXML file not found at: " + path);
+        }
+        root = FXMLLoader.load(fxmlLocation);
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.centerOnScreen();
+        stage.show();
     }
 }

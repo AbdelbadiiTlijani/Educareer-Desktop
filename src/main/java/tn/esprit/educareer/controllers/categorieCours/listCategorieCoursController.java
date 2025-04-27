@@ -1,127 +1,116 @@
 package tn.esprit.educareer.controllers.categorieCours;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import tn.esprit.educareer.models.CategorieCours;
 import tn.esprit.educareer.services.ServiceCategorieCours;
 
 import java.io.IOException;
 import java.net.URL;
 
-public class listCategorieCoursController {
 
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
+public class listCategorieCoursController {
     private final ServiceCategorieCours serviceCategorie = new ServiceCategorieCours();
 
     @FXML
-    private ListView<CategorieCours> userListView;
+    private ListView<CategorieCours> categorieCoursListView;
+    @FXML
+    private ComboBox<?> roleFilter;
+    @FXML
+    private TextField searchField;
+    @FXML
+    private Button viewBackButton;
+
+    private Stage stage;
+    private Scene scene;
 
     @FXML
     public void initialize() {
-        // Charger toutes les catégories
-        userListView.getItems().addAll(serviceCategorie.getAll());
+        ObservableList<CategorieCours> observableList = FXCollections.observableArrayList(serviceCategorie.getAll());
+        categorieCoursListView.setItems(observableList);
 
-        // Définir la cellule personnalisée pour chaque catégorie
-        userListView.setCellFactory(new Callback<>() {
+        categorieCoursListView.setCellFactory(listView -> new ListCell<>() {
+            private final Label nomLabel = new Label();
+            private final Button editButton = new Button("Modifier");
+            private final Button deleteButton = new Button("Supprimer");
+
+            private final HBox hbox = new HBox(10, nomLabel, editButton, deleteButton);
+
+            {
+                editButton.getStyleClass().add("btn-modifier");
+                deleteButton.getStyleClass().add("btn-supprimer");
+                editButton.setOnAction(this::handleEdit);
+                deleteButton.setOnAction(this::handleDelete);
+            }
+
             @Override
-            public ListCell<CategorieCours> call(ListView<CategorieCours> param) {
-                return new ListCell<>() {
-                    @Override
-                    protected void updateItem(CategorieCours cat, boolean empty) {
-                        super.updateItem(cat, empty);
-                        if (empty || cat == null) {
-                            setGraphic(null);
-                        } else {
-                            HBox container = new HBox(10);
-                            container.setStyle("-fx-padding: 10px; -fx-background-color: white; -fx-background-radius: 5px;");
+            protected void updateItem(CategorieCours categorie, boolean empty) {
+                super.updateItem(categorie, empty);
+                if (empty || categorie == null) {
+                    setGraphic(null);
+                } else {
+                    nomLabel.setText(categorie.getNom());
+                    nomLabel.setStyle("-fx-font-family: bold; -fx-font-size: 20px;-fx-text-fill: #2c3e50;");
+                    setGraphic(hbox);
+                }
+            }
 
-                            VBox info = new VBox(5);
-                            Label nomLabel = new Label(cat.getNom());
-                            nomLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
-                            info.getChildren().add(nomLabel);
+            private void handleEdit(ActionEvent event) {
+                CategorieCours selected = getItem();
+                if (selected != null) {
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/categorieCours/updateCategorieCours.fxml"));
+                        Parent root = loader.load();
 
-                            // Bouton de suppression
-                            Button deleteButton = new Button("Supprimer");
-                            deleteButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;");
-                            deleteButton.setOnAction(event -> {
-                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                                alert.setTitle("Confirmation de suppression");
-                                alert.setHeaderText("Supprimer la catégorie");
-                                alert.setContentText("Êtes-vous sûr de vouloir supprimer cette catégorie ?");
+                        updateCategorieCoursController controller = loader.getController();
+                        controller.initData(selected);
 
-                                if (alert.showAndWait().get() == ButtonType.OK) {
-                                    serviceCategorie.supprimer(cat);
-                                    userListView.getItems().remove(cat);
-                                }
-                            });
-
-                            // Bouton de modification
-                            Button updateButton = new Button("Modifier");
-                            updateButton.setStyle("-fx-background-color: #f1c40f; -fx-text-fill: white; -fx-font-weight: bold;");
-                            updateButton.setOnAction(event -> {
-                                try {
-                                    // Chargement du FXML pour la mise à jour
-                                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/categorieCours/updateCategorieCours.fxml"));
-                                    Parent root = loader.load();
-
-                                    // Récupération du contrôleur de mise à jour
-                                    updateCategorieCoursController controller = loader.getController();
-                                    controller.initData(cat);  // Envoie des données au contrôleur de mise à jour
-
-                                    // Changement de scène
-                                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                                    stage.setScene(new Scene(root));
-                                    stage.show();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            });
-
-                            // Ajout des boutons dans le conteneur
-                            container.getChildren().addAll(info, updateButton, deleteButton);
-                            setGraphic(container);
-                        }
+                        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        stage.setScene(new Scene(root));
+                        stage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                };
+                }
+            }
+
+            private void handleDelete(ActionEvent event) {
+                CategorieCours selected = getItem();
+                if (selected != null) {
+                    serviceCategorie.supprimer(selected);
+                    getListView().getItems().remove(selected);
+                }
             }
         });
     }
 
+
     @FXML
     void handleBackButton(ActionEvent event) throws IOException {
-        navigateToPage(event, "/User/AdminDashboard.fxml");
+        navigateToPage(event, "/User/FormateurDashboard.fxml");
     }
-
 
     private void navigateToPage(ActionEvent event, String path) throws IOException {
         URL fxmlLocation = getClass().getResource(path);
         if (fxmlLocation == null) {
             throw new IOException("FXML file not found at: " + path);
         }
-        root = FXMLLoader.load(fxmlLocation);
+        FXMLLoader loader = new FXMLLoader(fxmlLocation);
+        Parent root = loader.load();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
+        scene = new Scene(root, 1000, 700);
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
-    }
-
-    @FXML
-    private Button ViewCategorieCours;
-
-    @FXML
-    void handleAjouterCategorie(ActionEvent event) throws IOException {
-        navigateToPage(event, "/categorieCours/ajouterCategorieCours.fxml");
     }
 }

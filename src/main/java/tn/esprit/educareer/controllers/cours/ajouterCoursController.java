@@ -6,17 +6,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import tn.esprit.educareer.models.Cours;
 import tn.esprit.educareer.models.CategorieCours;
+import tn.esprit.educareer.models.Cours;
 import tn.esprit.educareer.models.User;
-import tn.esprit.educareer.services.ServiceCours;
 import tn.esprit.educareer.services.ServiceCategorieCours;
+import tn.esprit.educareer.services.ServiceCours;
+import tn.esprit.educareer.services.ServiceUser;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -28,53 +28,98 @@ public class ajouterCoursController {
 
     @FXML
     private TextField nomCours;
-
     @FXML
-    private TextField documentCours;
+    private Label nomCoursErrorLabel;
 
-    @FXML
-    private TextField imageCours;
 
     @FXML
     private TextField requirementCours;
+    @FXML
+    private Label requirementCoursErrorLabel;
+
+
+    @FXML
+    private File selectedDocumentFile;
+    @FXML
+    private Label documentFileNameLabel;
+    @FXML
+    private Label documentCoursErrorLabel;
+
+
+    @FXML
+    private File selectedImageFile;
+    @FXML
+    private Label imageFileNameLabel;
+    @FXML
+    private Label imageCoursErrorLabel;
+
 
     @FXML
     private ComboBox<CategorieCours> categorieComboBox;
     @FXML
-    private ComboBox<User> formateurComboBox;
-
-    @FXML
-    private Button ajoutCoursButton;
-
-    @FXML
-    private Button backButton;
-
-    @FXML
-    private Label globalErrorLabel;
-    @FXML
     private Label categorieErrorLabel;
+
+
+    @FXML
+    private ComboBox<User> formateurComboBox;
     @FXML
     private Label formateurErrorLabel;
 
+
     @FXML
-    private Label nomCoursErrorLabel;
+    private Button ajoutCoursButton;
     @FXML
-    private Label documentCoursErrorLabel;
+    private Button backButton;
+
+
     @FXML
-    private Label imageCoursErrorLabel;
-    @FXML
-    private Label requirementCoursErrorLabel;
+    private Label globalErrorLabel;
+
 
     private String errorStyle = "-fx-border-color: red; -fx-border-width: 2px;";
     private String originalStyle = "";
 
     private ServiceCours serviceCours = new ServiceCours();
     private ServiceCategorieCours serviceCategorieCours = new ServiceCategorieCours();
+    private ServiceUser serviceUser = new ServiceUser();
 
     @FXML
     void initialize() {
-        // Charger les catégories de cours dans le ComboBox
         categorieComboBox.getItems().addAll(serviceCategorieCours.getAll());
+        categorieComboBox.setCellFactory(cb -> new ListCell<>() {
+            @Override
+            protected void updateItem(CategorieCours item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(String.valueOf(empty || item == null ? null : item.getNom()));
+            }
+        });
+
+        categorieComboBox.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(CategorieCours item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item.getNom());
+            }
+        });
+
+
+        formateurComboBox.getItems().addAll(serviceUser.getAll());
+        formateurComboBox.setCellFactory(cb -> new ListCell<>() {
+            @Override
+            protected void updateItem(User item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item.getNom());
+            }
+        });
+
+        formateurComboBox.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(User item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item.getNom());
+            }
+        });
+
         backButton.setOnAction(e -> goBack());
     }
 
@@ -92,16 +137,59 @@ public class ajouterCoursController {
     }
 
     @FXML
+    private void handleChooseDocument() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choisir un fichier document");
+
+        // Filtrage pour ne permettre que les fichiers PDF
+        FileChooser.ExtensionFilter pdfFilter = new FileChooser.ExtensionFilter("Documents", "*.pdf", "*.docx", "*.txt");
+        fileChooser.getExtensionFilters().add(pdfFilter);
+
+        selectedDocumentFile = fileChooser.showOpenDialog(null);
+        if (selectedDocumentFile != null) {
+            // Vérifier l'extension
+            if (!selectedDocumentFile.getName().endsWith(".pdf")) {
+                documentCoursErrorLabel.setText("Seuls les fichiers PDF sont autorisés.");
+                selectedDocumentFile = null;  // Réinitialiser la sélection
+            } else {
+                documentFileNameLabel.setText(selectedDocumentFile.getName());
+            }
+        }
+    }
+
+    @FXML
+    private void handleChooseImage() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choisir une image");
+
+        // Filtrage pour ne permettre que les fichiers PNG
+        FileChooser.ExtensionFilter pngFilter = new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif");
+        fileChooser.getExtensionFilters().add(pngFilter);
+
+        selectedImageFile = fileChooser.showOpenDialog(null);
+        if (selectedImageFile != null) {
+            // Vérifier l'extension
+            if (!selectedImageFile.getName().endsWith(".png")) {
+                imageCoursErrorLabel.setText("Seuls les fichiers PNG sont autorisés.");
+                selectedImageFile = null;  // Réinitialiser la sélection
+            } else {
+                imageFileNameLabel.setText(selectedImageFile.getName());
+            }
+        }
+    }
+
+
+    @FXML
     void handleAddCourseButton(ActionEvent event) throws IOException {
 
         resetErrorMessages();
-
         boolean isValid = true;
         String nom = nomCours.getText().trim();
-        String document = documentCours.getText().trim();
-        String image = imageCours.getText().trim();
         String requirement = requirementCours.getText().trim();
+        String document = (selectedDocumentFile != null) ? selectedDocumentFile.getAbsolutePath().trim() : null;
+        String image = (selectedImageFile != null) ? selectedImageFile.getAbsolutePath().trim() : null;
         CategorieCours categorie = categorieComboBox.getValue();
+        User formatteur = formateurComboBox.getValue();
 
         if (nom.isEmpty()) {
             nomCoursErrorLabel.setText("Le nom est obligatoire");
@@ -109,26 +197,30 @@ public class ajouterCoursController {
             isValid = false;
         }
 
-        if (document.isEmpty()) {
-            documentCoursErrorLabel.setText("Le document est obligatoire");
-            documentCours.setStyle(errorStyle);
-            isValid = false;
-        }
-
-        if (image.isEmpty()) {
-            imageCoursErrorLabel.setText("L'image est obligatoire");
-            imageCours.setStyle(errorStyle);
-            isValid = false;
-        }
 
         if (requirement.isEmpty()) {
             requirementCoursErrorLabel.setText("Les exigences sont obligatoires");
             requirementCours.setStyle(errorStyle);
             isValid = false;
         }
+        if (document == null || document.isEmpty()) {
+            documentCoursErrorLabel.setText("Veuillez sélectionner un document");
+            isValid = false;
+        }
+
+        if (image == null || image.isEmpty()) {
+            imageCoursErrorLabel.setText("Veuillez sélectionner une image");
+            isValid = false;
+        }
 
         if (categorie == null) {
-            globalErrorLabel.setText("Veuillez sélectionner une catégorie");
+            categorieErrorLabel.setText("Veuillez sélectionner une catégorie");
+            globalErrorLabel.setVisible(true);
+            isValid = false;
+        }
+
+        if (formatteur == null) {
+            formateurErrorLabel.setText("Veuillez sélectionner un formatteur");
             globalErrorLabel.setVisible(true);
             isValid = false;
         }
@@ -140,7 +232,7 @@ public class ajouterCoursController {
         }
 
         // Créer un nouveau cours
-        Cours cours = new Cours(nom, document, image, requirement, categorie, null); // Ajoute l'utilisateur si nécessaire
+        Cours cours = new Cours(nom, document, image, requirement, categorie, formatteur);
 
         // Sauvegarder via le service
         serviceCours.ajouter(cours);
@@ -152,31 +244,42 @@ public class ajouterCoursController {
 
         // Réinitialiser les champs
         nomCours.clear();
-        documentCours.clear();
-        imageCours.clear();
         requirementCours.clear();
+        selectedDocumentFile = null;
+        selectedImageFile = null;
         categorieComboBox.getSelectionModel().clearSelection();
+        formateurComboBox.getSelectionModel().clearSelection();
+
 
         // Naviguer vers la liste des cours
         navigateToPage(event, "/cours/listCours.fxml");
     }
 
     private void resetErrorMessages() {
+        // Labels d'erreur
         nomCoursErrorLabel.setText("");
         documentCoursErrorLabel.setText("");
         imageCoursErrorLabel.setText("");
         requirementCoursErrorLabel.setText("");
+        categorieErrorLabel.setText("");
+        formateurErrorLabel.setText("");
+
+        // Réinitialisation des styles
         nomCours.setStyle(originalStyle);
-        documentCours.setStyle(originalStyle);
-        imageCours.setStyle(originalStyle);
+        documentFileNameLabel.setStyle(originalStyle);
+        imageFileNameLabel.setStyle(originalStyle);
         requirementCours.setStyle(originalStyle);
+        categorieComboBox.setStyle(originalStyle);
+        formateurComboBox.setStyle(originalStyle);
+
+        // Message d'erreur global
         globalErrorLabel.setText("");
         globalErrorLabel.setVisible(false);
     }
 
     private void goBack() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/FormateurDashboard.fxml"));
             Stage stage = (Stage) backButton.getScene().getWindow();
             Scene scene = new Scene(loader.load(), 1000, 700);
             stage.setScene(scene);

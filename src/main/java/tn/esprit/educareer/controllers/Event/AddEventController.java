@@ -138,6 +138,7 @@ public class AddEventController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/EventList.fxml"));
             Parent root = loader.load();
 
+
             // Récupérer la scène actuelle
             Scene currentScene = ((Node) event.getSource()).getScene();
 
@@ -146,6 +147,7 @@ public class AddEventController {
             stage.setScene(new Scene(root  , 1000 , 700));
 
             // Optionnel : Afficher à nouveau la scène
+
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

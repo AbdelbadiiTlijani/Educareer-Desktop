@@ -12,9 +12,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import tn.esprit.educareer.models.User;
-import tn.esprit.educareer.services.ServiceUser;
+import tn.esprit.educareer.services.*;
 import tn.esprit.educareer.utils.UserSession;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -38,6 +39,17 @@ public class FormateurDashboarddController {
     private Button viewAjoutTypeCoursButton;
     @FXML
     private Button ViewCours;
+    @FXML
+    private Label totalCoursLabel;
+    @FXML
+    private Label totalCatégorieCoursLabel;
+    @FXML
+    private Label reclamationStatusLabel;
+
+    @FXML
+    private Label userGrowthLabel;
+
+
 
     //Seance
     @FXML
@@ -46,14 +58,15 @@ public class FormateurDashboarddController {
     private Button viewAjoutTypeSeanceButton;
     @FXML
     private Button ViewSeances;
+    @FXML
+    private Label totalSeanceLabel;
+    @FXML
+    private Label companyGrowthLabel;
+
 
 
     @FXML
     private Button editProfileButton;
-
-
-    @FXML
-    private Label companyGrowthLabel;
 
     @FXML
     private MenuButton userProfileMenu;
@@ -71,19 +84,13 @@ public class FormateurDashboarddController {
     private Button logoutButton;
 
     @FXML
-    private Label reclamationStatusLabel;
+    private Label categorieStatusLabel;
 
     @FXML
     private Label totalCompaniesLabel;
 
     @FXML
     private Label totalReclamationsLabel;
-
-    @FXML
-    private Label totalUsersLabel;
-
-    @FXML
-    private Label userGrowthLabel;
 
     @FXML
     private Label userName;
@@ -94,11 +101,14 @@ public class FormateurDashboarddController {
     @FXML
     private Label userRole;
 
-    @FXML
-    private Button viewUserButton;
+
     @FXML
     private Button Categorie;
-    private tn.esprit.educareer.services.ServiceUser ServiceUser = new ServiceUser();
+
+    ServiceUser ServiceUser = new ServiceUser();
+    ServiceCours serviceCours = new ServiceCours();
+    ServiceSeance serviceSeance = new ServiceSeance();
+    ServiceCategorieCours serviceCategorieCours = new ServiceCategorieCours();
 
     private void showErrorAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -133,7 +143,7 @@ public class FormateurDashboarddController {
         try {
             // Load the User List page
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/AddCategorieProjet.fxml"));
-            Scene scene = new Scene(loader.load(), 1000, 700);
+            Scene scene = new Scene(loader.load());
 
             // Get the stage and set the new scene
 
@@ -291,6 +301,7 @@ public class FormateurDashboarddController {
     void handleLogout(ActionEvent event) {
         // Clear the user session
         UserSession.getInstance().clearSession();
+        clearSavedLogin();
 
         try {
             // Charger la page de login
@@ -326,6 +337,13 @@ public class FormateurDashboarddController {
             e.printStackTrace();
         }
     }
+    private void clearSavedLogin() {
+        File file = new File("rememberMe.txt");
+        if (file.exists()) {
+            file.delete();
+        }
+    }
+
 
     public void initialize() {
         System.out.println("Admin Dashboard initialized");
@@ -333,6 +351,8 @@ public class FormateurDashboarddController {
         // Add hover effects for menu buttons
         setupButtonHoverEffects();
 
+        // Load dashboard statistics
+        loadDashboardStatistics();
 
         // Set up user profile
         setupUserProfile();
@@ -391,7 +411,6 @@ public class FormateurDashboarddController {
         String defaultStyle = "-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;";
         String hoverStyle = "-fx-background-color: #34495e; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;";
 
-        setupButtonHover(viewUserButton, defaultStyle, hoverStyle);
     }
 
     private void setupButtonHover(Button button, String defaultStyle, String hoverStyle) {
@@ -455,8 +474,28 @@ public class FormateurDashboarddController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    private void loadDashboardStatistics() {
+        // Load cours statistics
+        int totalCours = serviceCours.getAll().size();
+        totalCoursLabel.setText(String.valueOf(totalCours));
+        userGrowthLabel.setText("+12% this month");
+
+        // Load seance statistics
+        int totalSeance = serviceSeance.getAll().size();
+        totalSeanceLabel.setText(String.valueOf(totalSeance));
+        userGrowthLabel.setText("+12% this month");
+
+        // Load categorieCours statistics
+        int totalCategorieCours= serviceCategorieCours.getAll().size();
+        totalCatégorieCoursLabel.setText(String.valueOf(totalCategorieCours));
+        categorieStatusLabel.setText("3 new today");
+
 
     }
+
 
 
 }

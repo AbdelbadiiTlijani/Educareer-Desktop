@@ -138,7 +138,7 @@ public class OffreController {
     }
 
     @FXML
-    void handleBackButton(ActionEvent event) throws IOException {
+    void handlback(ActionEvent event) throws IOException {
         navigateToPage(event, "/User/AdminDashboard.fxml");
     }
 
@@ -149,7 +149,7 @@ public class OffreController {
         }
         root = FXMLLoader.load(fxmlLocation);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
+        scene = new Scene(root , 1000, 700);
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
@@ -171,8 +171,5 @@ public class OffreController {
         navigateToPage(event, "/offre/AjouterOffre.fxml");
     }
 
-    @FXML
-    void handlback(ActionEvent event) {
-        // À implémenter si besoin
-    }
+
 }

@@ -158,6 +158,7 @@ public class EditEventController {
             stage.setScene(new Scene(root));
 
             // Optionnel : Afficher à nouveau la scène
+
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
