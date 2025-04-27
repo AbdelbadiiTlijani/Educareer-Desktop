@@ -43,14 +43,15 @@
                 </graphic>
             </Button>
 
-            <Button fx:id="viewCompanyEmployeeButton" onAction="#handleViewCompanyEmployee" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Projets">
+            <Button fx:id="viewCompanyEmployeeButton" onAction="#handleViewProjects" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Projets">
                 <graphic>
                     <HBox alignment="CENTER_LEFT" spacing="10">
                         <Label style="-fx-font-size: 16;" text="🏢" />
                     </HBox>
                 </graphic>
             </Button>
-         <Button fx:id="viewCompanyEmployeeButton1" onAction="#handleViewCompanyEmployee" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Evennements">
+
+            <Button fx:id="viewCompanyEmployeeButton1" onAction="#handleViewCompanyEmployee" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Evennements">
             <graphic>
                <HBox alignment="CENTER_LEFT" spacing="10">
                   <children>

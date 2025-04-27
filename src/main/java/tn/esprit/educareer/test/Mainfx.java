@@ -18,11 +18,13 @@ import tn.esprit.educareer.utils.MyConnection;
 
 public class Mainfx extends Application {
 
+
     private static final String REMEMBER_ME_FILE = "rememberMe.txt";
 
     public static void main(String[] args) {
         launch(args);
     }
+
 
     @Override
     public void start(Stage primaryStage) throws IOException {

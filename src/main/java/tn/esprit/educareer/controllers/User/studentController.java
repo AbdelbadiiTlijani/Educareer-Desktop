@@ -17,6 +17,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import tn.esprit.educareer.models.User;
+
 import tn.esprit.educareer.services.ServiceUser;
 import tn.esprit.educareer.utils.UserSession;
 import java.net.HttpURLConnection;
@@ -251,6 +252,32 @@ public class studentController {
     @FXML
     void handleViewUser(ActionEvent event) {
 
+    }
+    @FXML
+    void handleViewProjects(ActionEvent event) {
+        try {
+            // Charger la nouvelle vue listprojetclient.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/listprojetclient.fxml"));
+            Parent root = loader.load();
+
+            // Obtenez la scène actuelle et le stage
+            Scene scene = new Scene(root, 1000, 700);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Mettre à jour la scène et l'afficher
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Chargement échoué");
+            alert.setContentText("Impossible de charger la page des projets.");
+            alert.showAndWait();
+        }
     }
 
 

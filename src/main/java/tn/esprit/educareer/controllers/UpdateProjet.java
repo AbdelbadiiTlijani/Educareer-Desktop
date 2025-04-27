@@ -1,8 +1,7 @@
-package tn.esprit.educareer.controllers.projets;
+package tn.esprit.educareer.controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,8 +9,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import tn.esprit.educareer.models.CategorieProjet;
@@ -26,21 +23,19 @@ public class UpdateProjet {
 
     @FXML private TextField titreField;
     @FXML private TextArea descriptionField;
-    @FXML private WebView contenuEditor;
+    @FXML private TextArea contenuField;
     @FXML private ComboBox<CategorieProjet> categorieComboBox;
     @FXML private TextField nouvelleCategorieField;
 
     private final ServiceProjet serviceProjet = new ServiceProjet();
     private final ServiceCategorieProjet serviceCategorie = new ServiceCategorieProjet();
     private Projet projet;
-    private WebEngine webEngine;
-    private boolean editorReady = false; // pour éviter l'injection prématurée
 
     @FXML
     public void initialize() {
-        webEngine = contenuEditor.getEngine();
-
         ObservableList<CategorieProjet> categories = FXCollections.observableArrayList(serviceCategorie.getAll());
+
+        // Ajouter l'option "Autre"
         CategorieProjet autre = new CategorieProjet(-1, "Autre");
         categories.add(autre);
 
@@ -57,43 +52,6 @@ public class UpdateProjet {
                 return null;
             }
         });
-
-        webEngine = contenuEditor.getEngine();
-        webEngine.loadContent("""
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <script src="https://cdn.tiny.cloud/1/wj1srxz8nfpm68y705nwnchk9k25rjh7tvxk845pdn9lgaxe/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-          <script>
-            function initTinyMCE(content) {
-              tinymce.init({
-                selector: '#editor',
-                height: 250,
-                setup: function (editor) {
-                  editor.on('init', function () {
-                    editor.setContent(content); // injecte ton ancien texte ici
-                    window.editor = editor;
-                  });
-                }
-              });
-            }
-          </script>
-        </head>
-        <body>
-          <textarea id="editor"></textarea>
-        </body>
-        </html>
-    """);
-
-        // Attendre que le WebView soit chargé
-        webEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
-            if (newState == Worker.State.SUCCEEDED) {
-                // une fois chargé, injecter ton ancien texte !
-                String ancienContenu = projet.getContenu(); // remplace par ta variable
-                ancienContenu = ancienContenu.replace("\"", "\\\"").replace("\n", "\\n"); // échapper les guillemets
-                webEngine.executeScript("initTinyMCE(\"" + ancienContenu + "\");");
-            }
-        });
     }
 
     public void setProjet(Projet projet) {
@@ -102,6 +60,7 @@ public class UpdateProjet {
         if (projet != null) {
             titreField.setText(projet.getTitre());
             descriptionField.setText(projet.getDescription());
+            contenuField.setText(projet.getContenu());
 
             for (CategorieProjet cat : categorieComboBox.getItems()) {
                 if (cat.getId() == projet.getCategorie_id()) {
@@ -110,40 +69,8 @@ public class UpdateProjet {
                 }
             }
 
-            handleCategorieSelection();
-            if (editorReady) {
-                setTinyMCEContent(projet.getContenu());
-            }
+            handleCategorieSelection(); // pour afficher le champ si "Autre" est déjà sélectionné
         }
-    }
-
-    private void setTinyMCEContent(String content) {
-        if (editorReady) {
-            try {
-                String escapedContent = escapeJS(content);
-                webEngine.executeScript("window.editor.setContent('" + escapedContent + "');");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private String getTinyMCEContent() {
-        try {
-            Object result = webEngine.executeScript("window.editor.getContent();");
-            return result != null ? result.toString().trim() : "";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
-
-    private String escapeJS(String input) {
-        return input.replace("\\", "\\\\")
-                .replace("'", "\\'")
-                .replace("\"", "\\\"")
-                .replace("\n", "\\n")
-                .replace("\r", "");
     }
 
     @FXML
@@ -158,7 +85,7 @@ public class UpdateProjet {
     private void updateProjet() {
         String titre = titreField.getText().trim();
         String description = descriptionField.getText().trim();
-        String contenu = getTinyMCEContent();
+        String contenu = contenuField.getText().trim();
 
         if (titre.isEmpty() || description.isEmpty() || contenu.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Tous les champs doivent être remplis.");
@@ -212,7 +139,7 @@ public class UpdateProjet {
 
     @FXML
     private void handleBack(ActionEvent event) throws IOException {
-        navigateToPage(event, "/Projet/ReadProjets.fxml");
+        navigateToPage(event, "/ReadProjets.fxml");
     }
 
     private void navigateToPage(ActionEvent event, String path) throws IOException {

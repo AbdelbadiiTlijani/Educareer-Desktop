@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-
-<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="tn.esprit.educareer.controllers.projets.ReadProjets"
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tn.esprit.educareer.controllers.projets.ListProjetClient"
             style="-fx-background-color: #f5f7fa; -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
 
     <top>
@@ -23,23 +20,24 @@
                         style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20px;"
                         AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0"/>
 
-                <Button text="Ajouter Projet" onAction="#goToAjoutProjet"
-                        style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20px;"
-                        AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0"/>
-
                 <Button text="Ouvrir Discussions" onAction="#goToChatBox"
                         style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20px;"
                         AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="150.0"/>
-
             </children>
         </AnchorPane>
     </top>
 
     <center>
-        <VBox spacing="10" style="-fx-padding: 20px;">
+        <VBox spacing="20" style="-fx-padding: 20px;">
             <Label text="Liste des projets enregistrés"
                    style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" />
-            <ListView fx:id="projectListView" prefHeight="500.0" style="-fx-background-color: transparent;" />
+
+            <ScrollPane fx:id="scrollPane" fitToWidth="true" fitToHeight="true"
+                        style="-fx-background-color: transparent;" prefHeight="500">
+                <GridPane fx:id="gridContainer" hgap="20" vgap="20"
+                          alignment="TOP_CENTER"
+                          style="-fx-padding: 10;" />
+            </ScrollPane>
 
         </VBox>
     </center>
@@ -51,4 +49,5 @@
                    AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0"/>
         </AnchorPane>
     </bottom>
+
 </BorderPane>
