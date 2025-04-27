@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<<<<<<< HEAD:src/main/resources/Projet/ReadProjets.fxml
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-=======
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
->>>>>>> ffdbd6b4aaa5b21e921c8ae00b5de593aaf7eaa9:src/main/resources/ReadProjets.fxml
+
 <BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
             fx:controller="tn.esprit.educareer.controllers.projets.ReadProjets"
             style="-fx-background-color: #f5f7fa; -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
@@ -34,44 +26,21 @@
                 <Button text="Ajouter Projet" onAction="#goToAjoutProjet"
                         style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20px;"
                         AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0"/>
-<<<<<<< HEAD:src/main/resources/Projet/ReadProjets.fxml
 
                 <Button text="Ouvrir Discussions" onAction="#goToChatBox"
                         style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20px;"
                         AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="150.0"/>
-=======
->>>>>>> ffdbd6b4aaa5b21e921c8ae00b5de593aaf7eaa9:src/main/resources/ReadProjets.fxml
+
             </children>
         </AnchorPane>
     </top>
 
     <center>
-<<<<<<< HEAD:src/main/resources/Projet/ReadProjets.fxml
         <VBox spacing="10" style="-fx-padding: 20px;">
             <Label text="Liste des projets enregistrés"
                    style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" />
             <ListView fx:id="projectListView" prefHeight="500.0" style="-fx-background-color: transparent;" />
-=======
-        <VBox spacing="20" style="-fx-padding: 20px;">
-            <Label text="Liste des projets enregistrés"
-                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" />
 
-            <HBox alignment="CENTER" spacing="10">
-                <Button fx:id="leftArrow" text="←" onAction="#scrollLeft"
-                        style="-fx-font-size: 18px; -fx-background-radius: 20; -fx-cursor: hand;" />
-
-                <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="false"
-                            hbarPolicy="NEVER" vbarPolicy="NEVER"
-                            style="-fx-background-color: transparent;" prefHeight="300" prefWidth="700">
-                    <HBox fx:id="cardContainer" spacing="15" style="-fx-padding: 10;">
-                        <!-- Les cartes seront ajoutées dynamiquement -->
-                    </HBox>
-                </ScrollPane>
-
-                <Button fx:id="rightArrow" text="→" onAction="#scrollRight"
-                        style="-fx-font-size: 18px; -fx-background-radius: 20; -fx-cursor: hand;" />
-            </HBox>
->>>>>>> ffdbd6b4aaa5b21e921c8ae00b5de593aaf7eaa9:src/main/resources/ReadProjets.fxml
         </VBox>
     </center>
 

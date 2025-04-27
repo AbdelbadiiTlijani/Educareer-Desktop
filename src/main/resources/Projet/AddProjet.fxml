@@ -10,10 +10,7 @@
             fx:controller="tn.esprit.educareer.controllers.projets.AddProjet"
             prefHeight="600.0" prefWidth="800.0"
             style="-fx-background-color: #f8f9fa;">
-<<<<<<< HEAD:src/main/resources/Projet/AddProjet.fxml
-=======
 
->>>>>>> ffdbd6b4aaa5b21e921c8ae00b5de593aaf7eaa9:src/main/resources/AddProjet.fxml
     <VBox spacing="20" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="30.0"
           AnchorPane.rightAnchor="30.0" AnchorPane.bottomAnchor="20.0"
           style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10;">
@@ -45,18 +42,11 @@
         <TextField fx:id="nouvelleCategorieField" promptText="Nom de la nouvelle catégorie"
                    visible="false" managed="false"
                    style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;"/>
-<<<<<<< HEAD:src/main/resources/Projet/AddProjet.fxml
 
         <TextField fx:id="formateurField" promptText="ID Formateur"
                    visible="false" managed="false"/>
 
-=======
 
-        <TextField fx:id="formateurField" promptText="ID Formateur"
-                   style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;"
-                   visible="false" managed="false"/>
-
->>>>>>> ffdbd6b4aaa5b21e921c8ae00b5de593aaf7eaa9:src/main/resources/AddProjet.fxml
         <HBox alignment="CENTER_RIGHT">
             <Button text="Ajouter Projet" onAction="#ajouterProjet"
                     style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;">
