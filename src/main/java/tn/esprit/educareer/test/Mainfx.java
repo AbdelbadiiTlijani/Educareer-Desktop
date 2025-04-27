@@ -18,13 +18,11 @@ import tn.esprit.educareer.utils.MyConnection;
 
 public class Mainfx extends Application {
 
-
     private static final String REMEMBER_ME_FILE = "rememberMe.txt";
 
     public static void main(String[] args) {
         launch(args);
     }
-
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -68,7 +66,6 @@ public class Mainfx extends Application {
 
         // Set up the scene with a larger aspect ratio
         Scene scene = new Scene(root, 1000, 700);
-        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
         primaryStage.setTitle("EduCareer");
         primaryStage.setScene(scene);
         primaryStage.show();
