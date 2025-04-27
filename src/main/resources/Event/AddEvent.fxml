@@ -1,98 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="tn.esprit.educareer.controllers.Event.AddEventController">
+<ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" style="-fx-background: transparent;" stylesheets="@../event.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.Event.AddEventController">
     <content>
-        <BorderPane style="-fx-background-color: #f8f9fa;">
+        <BorderPane styleClass="main-pane">
+
+            <!-- Header -->
             <top>
-                <VBox>
-                    <StackPane style="-fx-background-color: #0f172a; -fx-padding: 30 0 10 0;">
-                        <children>
-                            <Label style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: white;" text="Ajouter un événement" />
-                        </children>
-                    </StackPane>
-                </VBox>
+                <StackPane styleClass="header">
+                    <Label styleClass="header-title" text="Ajouter un événement" />
+                </StackPane>
             </top>
 
+            <!-- Form Content -->
             <center>
-                <VBox alignment="TOP_CENTER" spacing="25" style="-fx-padding: 30;">
-                    <VBox spacing="20" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10;">
-                        <effect>
-                            <DropShadow color="#00000033" radius="10" />
-                        </effect>
+                <VBox alignment="TOP_CENTER" spacing="30" styleClass="form-container">
+                    <VBox fx:id="vboxCard" spacing="25" styleClass="form-card">
 
-                        <Label style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Informations de l'événement" />
+                        <Label styleClass="section-title" text="Informations de l'événement" />
 
-                        <GridPane hgap="20" vgap="15">
+                        <GridPane hgap="20" vgap="18">
                             <columnConstraints>
                                 <ColumnConstraints percentWidth="30" />
                                 <ColumnConstraints percentWidth="70" />
                             </columnConstraints>
 
                             <!-- Titre -->
-                            <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #555;" text="Titre:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                            <TextField fx:id="titreField" promptText="Entrez le titre" style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                            <Label text="Titre :" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                            <TextField fx:id="titreField" promptText="Entrez le titre" styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
                             <!-- Description -->
-                            <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #555;" text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                            <TextField fx:id="descriptionField" promptText="Entrez la description" style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                            <Label text="Description :" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                            <TextField fx:id="descriptionField" promptText="Entrez la description" styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
                             <!-- Lieu -->
-                            <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #555;" text="Lieu:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                            <TextField fx:id="lieuField" promptText="Entrez le lieu" style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                            <Label text="Lieu :" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                            <TextField fx:id="lieuField" promptText="Entrez le lieu" styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
                             <!-- Nombre de places -->
-                            <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #555;" text="Nombre de places:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                            <TextField fx:id="nbrPlacesField" promptText="Entrez le nombre" style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                            <Label text="Nombre de places :" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                            <TextField fx:id="nbrPlacesField" promptText="Entrez le nombre" styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
                             <!-- Date -->
-                            <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #555;" text="Date:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                            <DatePicker fx:id="dateField" style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                            <Label text="Date :" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                            <DatePicker fx:id="dateField" styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-                            <!-- Type -->
-                            <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #555;" text="Type d'événement:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                            <ComboBox fx:id="typeComboBox" promptText="Sélectionner un type" style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                     <rowConstraints>
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                     </rowConstraints>
+                            <!-- Heure -->
+                            <Label text="Heure (HH:mm) :" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                            <TextField fx:id="heureField" promptText="Entrez l'heure" styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                            <!-- Type d'événement -->
+                            <Label text="Type d'événement :" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                            <ComboBox fx:id="typeComboBox" promptText="Sélectionner un type" styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                         </GridPane>
 
-                        <!-- Message de validation -->
-                        <Label fx:id="messageLabel" style="-fx-font-size: 14; -fx-text-fill: red;" />
+                        <!-- Message d'erreur -->
+                        <Label fx:id="messageLabel" styleClass="error-label" />
 
                         <!-- Boutons -->
-                        <HBox alignment="CENTER" spacing="30" style="-fx-padding: 20 0 0 0;">
-                            <Button onAction="#ajouter" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-size: 16; -fx-padding: 12 30; -fx-background-radius: 5;" text="Ajouter" />
-                            <Button onAction="#retour" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-size: 16; -fx-padding: 12 30; -fx-background-radius: 5;" text="Retour" />
+                        <HBox alignment="CENTER" spacing="30">
+                            <Button text="Ajouter" onAction="#ajouter" styleClass="button-green" />
+                            <Button text="Retour" onAction="#retour" styleClass="button-red" />
                         </HBox>
+
+                        <effect>
+                            <DropShadow color="#00000022" radius="15"/>
+                        </effect>
                     </VBox>
                 </VBox>
             </center>
 
+            <!-- Footer -->
             <bottom>
-                <HBox alignment="CENTER" style="-fx-padding: 20; -fx-background-color: #0f172a;">
-                    <Label style="-fx-text-fill: white; -fx-font-size: 14;" text="© 2025 Educareer" />
+                <HBox alignment="CENTER" styleClass="footer">
+                    <Label styleClass="footer-text" text="© 2025 Educareer" />
                 </HBox>
             </bottom>
+
+            <effect>
+                <DropShadow color="#00000022" radius="15"/>
+            </effect>
         </BorderPane>
     </content>
 </ScrollPane>

@@ -23,6 +23,7 @@ public class ajouterCategorieCoursController {
     private Stage stage;
     private Scene scene;
     private Parent root;
+
     @FXML
     private TextField NomCatégorie;
 
@@ -45,7 +46,6 @@ public class ajouterCategorieCoursController {
 
     @FXML
     void initialize() {
-//        ajoutCategorieCours.setOnAction(this::handleAjoutCategorieCours);
         backButton.setOnAction(e -> goBack());
     }
 
@@ -66,7 +66,6 @@ public class ajouterCategorieCoursController {
 
     @FXML
     void handleAjoutCategorieCours(ActionEvent event) throws IOException {
-        // Nettoyer les messages d'erreur
         resetErrorMessages();
 
         boolean isValid = true;

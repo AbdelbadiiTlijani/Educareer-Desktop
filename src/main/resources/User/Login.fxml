@@ -10,7 +10,8 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="428.0" prefWidth="534.0" spacing="20" style="-fx-background-color: linear-gradient(to bottom, #0f172a, #1e293b); -fx-padding: 40px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.User.LoginController">
+<?import javafx.scene.control.CheckBox?>
+<VBox alignment="CENTER" prefHeight="428.0" prefWidth="568.0" spacing="20" style="-fx-background-color: linear-gradient(to bottom, #0f172a, #1e293b); -fx-padding: 40px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.User.LoginController">
     <HBox alignment="TOP_LEFT" prefWidth="320.0">
         <Button fx:id="backButton" style="-fx-background-color: #64748b; -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 5px 15px; -fx-background-radius: 20px; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(100, 116, 139, 0.4), 10, 0, 0, 2);" text="Retour" />
     </HBox>
@@ -33,6 +34,14 @@
         <PasswordField fx:id="passwordField" style="-fx-background-color: rgba(30, 41, 59, 0.7); -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: rgba(59, 130, 246, 0.2); -fx-border-width: 1px; -fx-text-fill: #f8fafc; -fx-padding: 8px; -fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <!-- Password Error Label -->
         <Label fx:id="passwordErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <!-- Add this within your existing form layout, typically after the password field -->
+        <!-- Remember Me Checkbox -->
+        <CheckBox fx:id="rememberMeCheckBox"
+                  text="Se souvenir de moi"
+                  style="-fx-text-fill: #f8fafc; -fx-font-family: 'Segoe UI'; -fx-font-size: 14px;"
+                  GridPane.columnIndex="1"
+                  GridPane.rowIndex="4" />
+
 
         <columnConstraints>
             <ColumnConstraints />
@@ -43,9 +52,14 @@
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+
         </rowConstraints>
     </GridPane>
 
     <!-- Login Button -->
     <Button onAction="#handleLogin" style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 10px 30px; -fx-background-radius: 25px; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(59, 130, 246, 0.4), 15, 0, 0, 4);" text="Se connecter " />
+    <Label text="Forgot Password?" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 14px; -fx-text-fill: #94a3b8; -fx-cursor: hand;" onMouseClicked="#handleForgotPassword"/>
+
 </VBox>

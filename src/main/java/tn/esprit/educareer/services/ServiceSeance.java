@@ -22,7 +22,7 @@ public class ServiceSeance implements IService<Seance> {
             PreparedStatement cst = cnx.prepareStatement(req);
             cst.setString(1, seance.getTitre());
             cst.setString(2, seance.getDescription());
-            cst.setTimestamp(3, Timestamp.valueOf(seance.getDate_heure()));
+            cst.setTimestamp(3, new Timestamp(seance.getDate_heure().getTime()));
             cst.setInt(4, seance.getDuree());
             cst.setInt(5, seance.getCours().getId());
 
@@ -40,7 +40,7 @@ public class ServiceSeance implements IService<Seance> {
             PreparedStatement cst = cnx.prepareStatement(req);
             cst.setString(1, seance.getTitre());
             cst.setString(2, seance.getDescription());
-            cst.setTimestamp(3, Timestamp.valueOf(seance.getDate_heure()));
+            cst.setTimestamp(3, new Timestamp(seance.getDate_heure().getTime()));
             cst.setInt(4, seance.getDuree());
             cst.setInt(5, seance.getCours().getId());
             cst.setInt(6, seance.getId());
@@ -67,13 +67,19 @@ public class ServiceSeance implements IService<Seance> {
 
     @Override
     public List<Seance> getAll() {
+        ServiceCours serviceCours = new ServiceCours();
         List<Seance> list = new ArrayList<>();
         String req = "SELECT * FROM seance";
         try {
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
             while (rs.next()) {
-                Seance s = new Seance(rs.getInt("id"), rs.getString("titre"), rs.getString("description"), rs.getTimestamp("date_heure").toLocalDateTime(), rs.getInt("duree"), null // à remplacer par récupération du Cours via son id si nécessaire
+                Seance s = new Seance(rs.getInt("id"),
+                        rs.getString("titre"),
+                        rs.getString("description"),
+                        new Date(rs.getTimestamp("date_heure").getTime()),
+                        rs.getInt("duree"),
+                        serviceCours.getOneById(rs.getInt("cours_id"))
                 );
                 list.add(s);
             }
@@ -85,19 +91,6 @@ public class ServiceSeance implements IService<Seance> {
 
     @Override
     public Seance getOne(Seance seance) {
-//        String req = "SELECT * FROM seance WHERE id=?";
-//        try {
-//            PreparedStatement cst = cnx.prepareStatement(req);
-//            cst.setInt(1, seance.getId());
-//            ResultSet rs = cst.executeQuery();
-//            if (rs.next()) {
-////                return new Seance(rs.getInt("id"), rs.getString("titre"), rs.getString("description"), rs.getTimestamp("date_heure").toLocalDateTime(), rs.getInt("duree"), null // à remplacer par récupération du Cours si besoin
-////                );
-//            }
-//        } catch (SQLException e) {
-//            System.out.println(e.getMessage());
-//        }
         return null;
-//    }
     }
 }

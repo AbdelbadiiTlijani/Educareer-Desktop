@@ -16,6 +16,7 @@ import tn.esprit.educareer.models.User;
 import tn.esprit.educareer.services.ServiceUser;
 import tn.esprit.educareer.utils.UserSession;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -236,6 +237,8 @@ public class AdminDashboardController {
     @FXML
     void handleLogout(ActionEvent event) {
         UserSession.getInstance().clearSession();
+        clearSavedLogin();
+
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
@@ -267,6 +270,14 @@ public class AdminDashboardController {
             e.printStackTrace();
         }
     }
+    private void clearSavedLogin() {
+        File file = new File("rememberMe.txt");
+        if (file.exists()) {
+            file.delete();
+        }
+    }
+
+
 
     @FXML
     public void handleEditProfile(ActionEvent event) {
