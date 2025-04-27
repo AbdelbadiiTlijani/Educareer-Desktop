@@ -4,36 +4,50 @@ import tn.esprit.educareer.interfaces.IService;
 import tn.esprit.educareer.models.Event;
 import tn.esprit.educareer.models.TypeEvent;
 import tn.esprit.educareer.utils.MyConnection;
-
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ServiceEvent implements IService<Event> {
-
     private final Connection cnx;
 
     public ServiceEvent() {
         cnx = MyConnection.getInstance().getCnx();
     }
 
-    @Override
     public void ajouter(Event event) {
+        // Créer une instance de WhatsAppService
+        WhatsappService whatsappService = new WhatsappService();
+
+        // Requête d'insertion de l'événement
         String req = "INSERT INTO event (type_event_id, titre, description, date, lieu, nbr_place) VALUES (?, ?, ?, ?, ?, ?)";
         try {
+            // Préparer la requête SQL
             PreparedStatement pst = cnx.prepareStatement(req);
-            pst.setInt(1, event.getTypeEvent().getId());
-            pst.setString(2, event.getTitre());
-            pst.setString(3, event.getDescription());
-            pst.setDate(4, Date.valueOf(event.getDate()));
-            pst.setString(5, event.getLieu());
-            pst.setInt(6, event.getNbrPlace());
+            pst.setInt(1, event.getTypeEvent().getId());  // ID du type d'événement
+            pst.setString(2, event.getTitre());           // Titre de l'événement
+            pst.setString(3, event.getDescription());     // Description de l'événement
+            pst.setTimestamp(4, Timestamp.valueOf(event.getDate()));  // Date de l'événement
+            pst.setString(5, event.getLieu());            // Lieu de l'événement
+            pst.setInt(6, event.getNbrPlace());           // Nombre de places de l'événement
+
+            // Exécuter la requête
             pst.executeUpdate();
-            System.out.println(" Événement ajouté !");
+            System.out.println("Événement ajouté !");
+
+            // Envoyer le message WhatsApp avec le titre de l'événement
+            whatsappService.sendWhatsappMessage("21698479767", event.getTitre());  // Numéro et titre de l'événement
+
         } catch (SQLException e) {
-            System.out.println(" Erreur d'ajout : " + e.getMessage());
+            System.out.println("Erreur d'ajout : " + e.getMessage());
         }
     }
+
+
+
 
     @Override
     public void modifier(Event event) {
@@ -43,7 +57,7 @@ public class ServiceEvent implements IService<Event> {
             pst.setInt(1, event.getTypeEvent().getId());
             pst.setString(2, event.getTitre());
             pst.setString(3, event.getDescription());
-            pst.setDate(4, Date.valueOf(event.getDate()));
+            pst.setTimestamp(4, Timestamp.valueOf(event.getDate()));
             pst.setString(5, event.getLieu());
             pst.setInt(6, event.getNbrPlace());
             pst.setInt(7, event.getId());
@@ -86,7 +100,7 @@ public class ServiceEvent implements IService<Event> {
                         typeEvent,
                         rs.getString("titre"),
                         rs.getString("description"),
-                        rs.getDate("date").toLocalDate(),
+                        rs.getTimestamp("date").toLocalDateTime(),
                         rs.getString("lieu"),
                         rs.getInt("nbr_place")
                 );
@@ -102,7 +116,6 @@ public class ServiceEvent implements IService<Event> {
 
     @Override
     public Event getOne(Event event) {
-        // Optionnel : implémenter si besoin
         return null;
     }
 }

@@ -1,0 +1,137 @@
+/* event.css */
+
+/* Style général de l'application */
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-background-color: linear-gradient(to bottom right, #0f172a, #1e293b, #0f172a); /* Fond dégradé comme l'application générale */
+    -fx-padding: 20px;
+}
+
+/* Style des boutons */
+.button {
+    -fx-background-color: #5c6bc0;
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #3f51b5;
+}
+
+/* Style des boutons verts et rouges */
+.button-green {
+    -fx-background-color: #4caf50;
+}
+
+.button-red {
+    -fx-background-color: #f44336;
+}
+
+.button-green:hover {
+    -fx-background-color: #388e3c;
+}
+
+.button-red:hover {
+    -fx-background-color: #d32f2f;
+}
+
+/* Style des champs de texte */
+.text-field, .date-picker, .combo-box {
+    -fx-background-color: #f9f9f9; /* Fond plus clair pour les champs */
+    -fx-border-color: #b0bec5; /* Bordure gris clair */
+    -fx-border-radius: 5px;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-focus-color: #5c6bc0;
+}
+
+/* Style des labels */
+.label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #333;
+    -fx-padding: 5px 0;
+}
+
+/* Style spécifique pour les labels de formulaire */
+.form-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #666;
+}
+
+/* Conteneur du formulaire */
+.form-container {
+    -fx-background-color: #ffffff; /* Blanc cassé pour le formulaire */
+    -fx-padding: 20px;
+    -fx-border-radius: 10px;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-spacing: 10px;
+}
+
+/* Conteneur de la carte de formulaire */
+.form-card {
+    -fx-spacing: 25px;
+}
+
+/* Titres des sections */
+.section-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+/* Style des messages d'erreur */
+.error-label {
+    -fx-text-fill: #f44336;
+    -fx-font-size: 14px;
+}
+
+/* Style de l'en-tête */
+.header {
+    -fx-background-color: #5c6bc0;
+    -fx-padding: 10px;
+    -fx-alignment: center;
+}
+
+.header-title {
+    -fx-font-size: 24px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Style du pied de page */
+.footer {
+    -fx-background-color: #f0f0f0; /* Fond gris clair pour le pied de page */
+    -fx-padding: 10px;
+    -fx-alignment: center;
+}
+
+.footer-text {
+    -fx-font-size: 12px;
+    -fx-text-fill: #777;
+}
+
+/* Effet d'ombre sur les éléments */
+.effect {
+    -fx-effect: dropshadow(gaussian, #00000022, 15, 0, 2, 2);
+}
+
+/* Style du conteneur principal */
+.main-pane {
+    -fx-background-color: transparent;
+}
+
+/* Style de la scrollPane */
+.scroll-pane {
+    -fx-background: transparent;
+    -fx-padding: 10px;
+}
+
+/* Alignement des boutons */
+.hbox {
+    -fx-alignment: center;
+    -fx-spacing: 30px;
+}

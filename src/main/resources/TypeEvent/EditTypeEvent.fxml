@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="tn.esprit.educareer.controllers.TypeEvent.EditTypeEventController"
+      spacing="25" style="-fx-padding: 30px; -fx-background-color: #f7f9fc; -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+
+    <!-- Titre -->
+    <Label text="Modifier le Type d'Événement"
+           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #333; -fx-alignment: center;"/>
+
+    <!-- Champ Nom -->
+    <VBox spacing="10">
+        <Label text="Nom du Type d'Événement" style="-fx-font-size: 16px; -fx-text-fill: #444;"/>
+        <TextField fx:id="nomField" promptText="Entrez le nom du type d'événement"
+                   style="-fx-font-size: 14px; -fx-padding: 12px; -fx-background-color: #fff; -fx-background-radius: 8px;
+                          -fx-border-color: #ddd; -fx-border-width: 1px; -fx-focus-color: #4CAF50;"/>
+    </VBox>
+
+    <!-- Message d'erreur -->
+    <Label fx:id="messageLabel" style="-fx-text-fill: red; -fx-font-size: 12px;"/>
+
+    <!-- Boutons Modifier et Annuler -->
+    <HBox spacing="20" alignment="CENTER" style="-fx-padding-top: 20px;">
+        <Button text="Modifier" onAction="#handleModifier"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;
+                       -fx-padding: 10px 20px; -fx-background-radius: 20px; -fx-cursor: hand;"/>
+        <Button text="Annuler" onAction="#handleAnnuler"
+                style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-font-weight: bold;
+                       -fx-padding: 10px 20px; -fx-background-radius: 20px; -fx-cursor: hand;"/>
+    </HBox>
+
+</VBox>
