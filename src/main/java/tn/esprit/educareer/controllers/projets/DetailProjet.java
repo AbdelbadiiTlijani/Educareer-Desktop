@@ -66,4 +66,5 @@ public class DetailProjet {
     private void handleBack(ActionEvent event) throws IOException {
         navigateToPage(event, "/Projet/ListProjetClient.fxml");
     }
+
 }

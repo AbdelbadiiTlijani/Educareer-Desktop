@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
-<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
             fx:controller="tn.esprit.educareer.controllers.projets.ListProjetClient"
             style="-fx-background-color: #f5f7fa; -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
 
@@ -34,21 +32,13 @@
             <Label text="Liste des projets enregistrés"
                    style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" />
 
-            <HBox alignment="CENTER" spacing="10">
-                <Button fx:id="leftArrow" text="←" onAction="#scrollLeft"
-                        style="-fx-font-size: 18px; -fx-background-radius: 20; -fx-cursor: hand;" />
+            <ScrollPane fx:id="scrollPane" fitToWidth="true" fitToHeight="true"
+                        style="-fx-background-color: transparent;" prefHeight="500">
+                <GridPane fx:id="gridContainer" hgap="20" vgap="20"
+                          alignment="TOP_CENTER"
+                          style="-fx-padding: 10;" />
+            </ScrollPane>
 
-                <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="false"
-                            hbarPolicy="NEVER" vbarPolicy="NEVER"
-                            style="-fx-background-color: transparent;" prefHeight="300" prefWidth="700">
-                    <HBox fx:id="cardContainer" spacing="15" style="-fx-padding: 10;">
-                        <!-- Les cartes seront ajoutées dynamiquement -->
-                    </HBox>
-                </ScrollPane>
-
-                <Button fx:id="rightArrow" text="→" onAction="#scrollRight"
-                        style="-fx-font-size: 18px; -fx-background-radius: 20; -fx-cursor: hand;" />
-            </HBox>
         </VBox>
     </center>
 

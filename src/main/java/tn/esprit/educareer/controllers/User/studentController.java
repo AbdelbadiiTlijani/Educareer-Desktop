@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import tn.esprit.educareer.models.User;
+
 import tn.esprit.educareer.services.ServiceUser;
 import tn.esprit.educareer.utils.UserSession;
 
@@ -231,6 +232,7 @@ public class studentController {
             stage.setScene(scene);
             stage.centerOnScreen();
             stage.show();
+
 
         } catch (IOException e) {
             e.printStackTrace();
