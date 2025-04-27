@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.ChatBoxController">
+    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+
+    <!-- Email Search Field -->
+    <HBox spacing="10">
+        <Label text="Recipient Email:"/>
+        <TextField fx:id="emailRecipientField" promptText="Enter recipient's email..."/>
+        <Button text="Search" onAction="#handleSearchRecipient"/>
+    </HBox>
+
+    <!-- Messages display area -->
+    <ScrollPane fitToWidth="true" prefHeight="400">
+        <VBox fx:id="messagesContainer" spacing="5"/>
+    </ScrollPane>
+
+    <!-- Input area -->
+    <VBox spacing="5">
+        <TextField fx:id="titleField" promptText="Title"/>
+        <TextArea fx:id="messageField" promptText="Type your message..." wrapText="true"/>
+        <Button text="Send Message" onAction="#handleSendMessage" maxWidth="Infinity"/>
+    </VBox>
+</VBox>

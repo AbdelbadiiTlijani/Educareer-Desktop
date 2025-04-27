@@ -2,6 +2,7 @@ package tn.esprit.educareer.services;
 
 import tn.esprit.educareer.models.Messages;
 import tn.esprit.educareer.models.User;
+
 import tn.esprit.educareer.utils.MyConnection;
 
 import java.sql.*;
@@ -31,6 +32,7 @@ public class ServiceMessages {
             ps.setString(3, msg.getTitre());
             ps.setString(4, msg.getMessage());
             ps.setTimestamp(5, new Timestamp(msg.getCreated_at().getTime()));
+
             ps.setBoolean(6, msg.isIs_read());
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -124,5 +126,6 @@ public class ServiceMessages {
             e.printStackTrace();
         }
     }
+
 
 }

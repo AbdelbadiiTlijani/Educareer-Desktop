@@ -3,30 +3,30 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.web.WebView?>
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="tn.esprit.educareer.controllers.projets.AddProjet"
-            prefHeight="600.0" prefWidth="800.0"
+            fx:controller="tn.esprit.educareer.controllers.UpdateProjet"
+            prefHeight="500.0" prefWidth="700.0"
             style="-fx-background-color: #f8f9fa;">
-<<<<<<< HEAD:src/main/resources/Projet/AddProjet.fxml
-=======
 
->>>>>>> ffdbd6b4aaa5b21e921c8ae00b5de593aaf7eaa9:src/main/resources/AddProjet.fxml
     <VBox spacing="20" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="30.0"
           AnchorPane.rightAnchor="30.0" AnchorPane.bottomAnchor="20.0"
           style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10;">
-
         <Button text="Retour"
                 onAction="#handleBack"
+                layoutX="20.0" layoutY="10.0"
                 style="-fx-background-color: #e0e0e0; -fx-text-fill: #333; -fx-font-weight: bold; -fx-background-radius: 15; -fx-padding: 5 15; -fx-cursor: hand;">
             <effect>
                 <DropShadow color="#00000033" radius="3"/>
             </effect>
         </Button>
 
-        <Label text="Ajouter un Projet"
+        <effect>
+            <DropShadow color="#00000033" radius="10" spread="0.05"/>
+        </effect>
+
+        <Label text="Modifier un Projet"
                style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #333333;"/>
 
         <TextField fx:id="titreField" promptText="Titre du projet"
@@ -35,8 +35,8 @@
         <TextArea fx:id="descriptionField" promptText="Description du projet"
                   style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;"/>
 
-        <!-- WebView pour TinyMCE -->
-        <WebView fx:id="contenuEditor" prefHeight="250" />
+        <TextArea fx:id="contenuField" promptText="Contenu du projet"
+                  style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;"/>
 
         <ComboBox fx:id="categorieComboBox" promptText="Sélectionner la catégorie"
                   onAction="#handleCategorieSelection"
@@ -45,21 +45,10 @@
         <TextField fx:id="nouvelleCategorieField" promptText="Nom de la nouvelle catégorie"
                    visible="false" managed="false"
                    style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;"/>
-<<<<<<< HEAD:src/main/resources/Projet/AddProjet.fxml
 
-        <TextField fx:id="formateurField" promptText="ID Formateur"
-                   visible="false" managed="false"/>
-
-=======
-
-        <TextField fx:id="formateurField" promptText="ID Formateur"
-                   style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;"
-                   visible="false" managed="false"/>
-
->>>>>>> ffdbd6b4aaa5b21e921c8ae00b5de593aaf7eaa9:src/main/resources/AddProjet.fxml
         <HBox alignment="CENTER_RIGHT">
-            <Button text="Ajouter Projet" onAction="#ajouterProjet"
-                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;">
+            <Button text="Mettre à jour le Projet" onAction="#updateProjet"
+                    style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 14; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;">
                 <effect>
                     <DropShadow color="#00000040" radius="5"/>
                 </effect>
