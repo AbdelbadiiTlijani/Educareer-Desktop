@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class MyConnection {
     private static MyConnection instance;
-    private final String URL ="jdbc:mysql://127.0.0.1:3306/integration";
+    private final String URL ="jdbc:mysql://127.0.0.1:3306/pi-integration";
     private final String USERNAME ="root";
     private final String PASSWORD = "";
     private Connection  cnx ;
