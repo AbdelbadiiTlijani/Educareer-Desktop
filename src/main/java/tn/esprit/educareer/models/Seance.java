@@ -1,16 +1,18 @@
 package tn.esprit.educareer.models;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class Seance {
     private int id;
     private String titre;
     private String description;
-    private LocalDateTime date_heure;
+    private Date date_heure;
     private int duree;
     private Cours cours;
 
-    public Seance(int id, String titre, String description, LocalDateTime date_heure, int duree, Cours cours) {
+    public Seance(int id, String titre, String description, Date date_heure, int duree, Cours cours) {
         this.id = id;
         this.titre = titre;
         this.description = description;
@@ -19,7 +21,7 @@ public class Seance {
         this.cours = cours;
     }
 
-    public Seance(String titre, String description, LocalDateTime date_heure, int duree, Cours cours) {
+    public Seance(String titre, String description, Date date_heure, int duree, Cours cours) {
         this.titre = titre;
         this.description = description;
         this.date_heure = date_heure;
@@ -51,11 +53,11 @@ public class Seance {
         this.description = description;
     }
 
-    public LocalDateTime  getDate_heure() {
+    public Date  getDate_heure() {
         return date_heure;
     }
 
-    public void setDate_heure(LocalDateTime  date_heure) {
+    public void setDate_heure(Date  date_heure) {
         this.date_heure = date_heure;
     }
 

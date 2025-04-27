@@ -6,87 +6,107 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.canvas.Canvas?>
 
-<VBox alignment="CENTER" prefHeight="745.0" prefWidth="538.0" spacing="20" style="-fx-background-color: linear-gradient(to bottom, #0f172a, #1e293b); -fx-padding: 40px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.User.UserRegistrationController">
+<VBox styleClass="root" stylesheets="@styles.css" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.User.UserRegistrationController">
+    <ScrollPane fitToWidth="true" styleClass="content-scroll-pane">
+        <VBox alignment="CENTER" prefHeight="700.0" prefWidth="600.0" spacing="20" style="-fx-background-color: linear-gradient(to bottom, #0f172a, #1e293b); -fx-padding: 20px;">
 
-    <!-- Back Button (Added at the top) -->
-    <HBox alignment="TOP_LEFT" prefWidth="320.0">
-        <Button fx:id="backButton" style="-fx-background-color: #64748b; -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 5px 15px; -fx-background-radius: 20px; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(100, 116, 139, 0.4), 10, 0, 0, 2);" text="Retour" />
-    </HBox>
+            <!-- Back Button (Added at the top) -->
+            <HBox alignment="TOP_LEFT" prefWidth="320.0">
+                <Button fx:id="backButton" style="-fx-background-color: #64748b; -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 5px 15px; -fx-background-radius: 20px; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(100, 116, 139, 0.4), 10, 0, 0, 2);" text="Retour" />
+            </HBox>
 
-    <!-- Title -->
-    <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 32px; -fx-text-fill: #f8fafc; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 15, 0, 0, 2);" text="S'inscrire" />
+            <!-- Title -->
+            <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 32px; -fx-text-fill: #f8fafc; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 15, 0, 0, 2);" text="S'inscrire" />
 
-    <!-- Global Error Message -->
-    <Label fx:id="globalErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 14px; -fx-text-fill: #ef4444; -fx-font-weight: bold;" text="" visible="false" wrapText="true" />
+            <!-- Global Error Message -->
+            <Label fx:id="globalErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 14px; -fx-text-fill: #ef4444; -fx-font-weight: bold;" text="" visible="false" wrapText="true" />
 
-    <!-- Registration Form -->
-    <GridPane alignment="CENTER" hgap="15" vgap="8">
-        <columnConstraints>
-            <ColumnConstraints minWidth="100" />
-            <ColumnConstraints minWidth="200" />
-        </columnConstraints>
+            <!-- Registration Form -->
+            <GridPane alignment="CENTER" hgap="15" vgap="8">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="100" />
+                    <ColumnConstraints minWidth="200" />
+                </columnConstraints>
 
-        <!-- Last Name Field -->
-        <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;" text="Nom :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-        <TextField fx:id="nameField" promptText="Entrez votre nom" style="-fx-background-color: rgba(30, 41, 59, 0.7); -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: rgba(59, 130, 246, 0.2); -fx-border-width: 1px; -fx-text-fill: #f8fafc; -fx-padding: 8px; -fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-        <Label fx:id="nameErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;" text="" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <!-- Last Name Field -->
+                <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;" text="Nom :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <TextField fx:id="nameField" promptText="Entrez votre nom" style="-fx-background-color: rgba(30, 41, 59, 0.7); -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: rgba(59, 130, 246, 0.2); -fx-border-width: 1px; -fx-text-fill: #f8fafc; -fx-padding: 8px; -fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                <Label fx:id="nameErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;" text="" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-        <!-- First Name Field -->
-        <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;" text="Prénom :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <TextField fx:id="firstNameField" promptText="Entrez votre prénom" style="-fx-background-color: rgba(30, 41, 59, 0.7); -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: rgba(59, 130, 246, 0.2); -fx-border-width: 1px; -fx-text-fill: #f8fafc; -fx-padding: 8px; -fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-        <Label fx:id="firstNameErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;" text="" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <!-- First Name Field -->
+                <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;" text="Prénom :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <TextField fx:id="firstNameField" promptText="Entrez votre prénom" style="-fx-background-color: rgba(30, 41, 59, 0.7); -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: rgba(59, 130, 246, 0.2); -fx-border-width: 1px; -fx-text-fill: #f8fafc; -fx-padding: 8px; -fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Label fx:id="firstNameErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;" text="" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-        <!-- Role Selection -->
-        <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;" text="Rôle :" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-        <ComboBox fx:id="roleComboBox" prefWidth="200" promptText="Sélectionnez votre rôle" style="-fx-background-color: rgba(30, 41, 59, 0.7); -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: rgba(59, 130, 246, 0.2); -fx-border-width: 1px; -fx-text-fill: #f8fafc; -fx-padding: 6px; -fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-        <Label fx:id="roleErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;" text="" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <!-- Role Selection -->
+                <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;" text="Rôle :" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                <ComboBox fx:id="roleComboBox" prefWidth="200" promptText="Sélectionnez votre rôle" style="-fx-background-color: rgba(30, 41, 59, 0.7); -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: rgba(59, 130, 246, 0.2); -fx-border-width: 1px; -fx-text-fill: #f8fafc; -fx-padding: 6px; -fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <Label fx:id="roleErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;" text="" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
-        <!-- Date of Birth -->
-        <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;" text="Date de naissance :" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-        <DatePicker fx:id="birthDatePicker" prefWidth="200" promptText="JJ/MM/AAAA" style="-fx-background-color: rgba(30, 41, 59, 0.7); -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: rgba(59, 130, 246, 0.2); -fx-border-width: 1px; -fx-text-fill: #f8fafc; -fx-padding: 6px; -fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-        <Label fx:id="birthDateErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;" text="" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                <!-- Date of Birth -->
+                <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;" text="Date de naissance :" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                <DatePicker fx:id="birthDatePicker" prefWidth="200" promptText="JJ/MM/AAAA" style="-fx-background-color: rgba(30, 41, 59, 0.7); -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: rgba(59, 130, 246, 0.2); -fx-border-width: 1px; -fx-text-fill: #f8fafc; -fx-padding: 6px; -fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                <Label fx:id="birthDateErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;" text="" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
-        <!-- Email Field -->
-        <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;" text="Email :" GridPane.columnIndex="0" GridPane.rowIndex="8" />
-        <TextField fx:id="emailField" promptText="Entrez votre email" style="-fx-background-color: rgba(30, 41, 59, 0.7); -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: rgba(59, 130, 246, 0.2); -fx-border-width: 1px; -fx-text-fill: #f8fafc; -fx-padding: 8px; -fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-        <Label fx:id="emailErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;" text="" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                <!-- Email Field -->
+                <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;" text="Email :" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                <TextField fx:id="emailField" promptText="Entrez votre email" style="-fx-background-color: rgba(30, 41, 59, 0.7); -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: rgba(59, 130, 246, 0.2); -fx-border-width: 1px; -fx-text-fill: #f8fafc; -fx-padding: 8px; -fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                <Label fx:id="emailErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;" text="" GridPane.columnIndex="1" GridPane.rowIndex="9" />
 
-        <!-- Password Field -->
-        <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;" text="Mot de passe :" GridPane.columnIndex="0" GridPane.rowIndex="10" />
-        <PasswordField fx:id="passwordField" promptText="Entrez votre mot de passe" style="-fx-background-color: rgba(30, 41, 59, 0.7); -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: rgba(59, 130, 246, 0.2); -fx-border-width: 1px; -fx-text-fill: #f8fafc; -fx-padding: 8px; -fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-        <Label fx:id="passwordErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;" text="" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+                <!-- Password Field -->
+                <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;" text="Mot de passe :" GridPane.columnIndex="0" GridPane.rowIndex="10" />
+                <PasswordField fx:id="passwordField" promptText="Entrez votre mot de passe" style="-fx-background-color: rgba(30, 41, 59, 0.7); -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: rgba(59, 130, 246, 0.2); -fx-border-width: 1px; -fx-text-fill: #f8fafc; -fx-padding: 8px; -fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                <Label fx:id="passwordErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;" text="" GridPane.columnIndex="1" GridPane.rowIndex="11" />
 
-        <!-- Photo Field -->
-        <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;" text="Photo :" GridPane.columnIndex="0" GridPane.rowIndex="12" />
-        <HBox alignment="CENTER_LEFT" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="12">
-            <TextField fx:id="PhotoField" editable="false" promptText="Aucune photo sélectionnée" style="-fx-background-color: rgba(30, 41, 59, 0.7); -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: rgba(59, 130, 246, 0.2); -fx-border-width: 1px; -fx-text-fill: #a1a1aa; -fx-padding: 8px; -fx-font-size: 14px;" HBox.hgrow="ALWAYS" />
-            <Button fx:id="PhotoButton" style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 5px 10px; -fx-background-radius: 8px; -fx-cursor: hand;" text="Parcourir" />
-        </HBox>
-        <Label fx:id="photoErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;" text="" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+                <!-- Photo Field -->
+                <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;" text="Photo :" GridPane.columnIndex="0" GridPane.rowIndex="12" />
+                <HBox alignment="CENTER_LEFT" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="12">
+                    <TextField fx:id="PhotoField" editable="false" promptText="Aucune photo sélectionnée" style="-fx-background-color: rgba(30, 41, 59, 0.7); -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: rgba(59, 130, 246, 0.2); -fx-border-width: 1px; -fx-text-fill: #a1a1aa; -fx-padding: 8px; -fx-font-size: 14px;" HBox.hgrow="ALWAYS" />
+                    <Button fx:id="PhotoButton" style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 5px 10px; -fx-background-radius: 8px; -fx-cursor: hand;" text="Parcourir" />
+                </HBox>
+                <Label fx:id="photoErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;" text="" GridPane.columnIndex="1" GridPane.rowIndex="13" />
 
-        <rowConstraints>
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-      </rowConstraints>
-    </GridPane>
+                <!-- CAPTCHA Section -->
+                <Label style="-fx-font-family: 'Segoe UI'; -fx-font-size: 16px; -fx-text-fill: #94a3b8;" text="CAPTCHA :" GridPane.columnIndex="0" GridPane.rowIndex="14" />
+                <VBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="14">
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Canvas fx:id="captchaCanvas" width="150" height="50" style="-fx-background-color: #1e293b;" />
+                        <Button fx:id="refreshCaptchaButton" style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 5px 10px; -fx-background-radius: 8px; -fx-cursor: hand;" text="Actualiser" />
+                    </HBox>
+                    <TextField fx:id="captchaField" promptText="Entrez le texte ci-dessus" style="-fx-background-color: rgba(30, 41, 59, 0.7); -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: rgba(59, 130, 246, 0.2); -fx-border-width: 1px; -fx-text-fill: #f8fafc; -fx-padding: 8px; -fx-font-size: 14px;" />
+                </VBox>
+                <Label fx:id="captchaErrorLabel" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 12px; -fx-text-fill: #ef4444;" text="" GridPane.columnIndex="1" GridPane.rowIndex="15" />
 
-    <!-- Register Button -->
-    <Button fx:id="registerButton" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 10px 30px; -fx-background-radius: 25px; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(16, 185, 129, 0.4), 15, 0, 0, 4);" text="S'inscrire" />
+                <rowConstraints>
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                </rowConstraints>
+            </GridPane>
+
+            <!-- Register Button -->
+            <Button fx:id="registerButton" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 10px 30px; -fx-background-radius: 25px; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(16, 185, 129, 0.4), 15, 0, 0, 4);" text="S'inscrire" />
+        </VBox>
+    </ScrollPane>
 </VBox>

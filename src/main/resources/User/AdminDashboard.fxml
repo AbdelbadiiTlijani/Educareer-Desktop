@@ -172,16 +172,16 @@
                                 </VBox>
                             </HBox>
                         </graphic>
-                        <style>
-                            <![CDATA[
-                                .menu-item {
-                                    -fx-background-color: transparent;
-                                }
-                                .menu-item:hover {
-                                    -fx-background-color: #f5f5f7;
-                                }
-                            ]]>
-                        </style>
+<!--                        <style>-->
+<!--                            <![CDATA[-->
+<!--                                .menu-item {-->
+<!--                                    -fx-background-color: transparent;-->
+<!--                                }-->
+<!--                                .menu-item:hover {-->
+<!--                                    -fx-background-color: #f5f5f7;-->
+<!--                                }-->
+<!--                            ]]>-->
+<!--                        </style>-->
                     </MenuItem>
 
                     <MenuItem fx:id="logoutMenuItem" onAction="#handleLogout" style="-fx-padding: 10 15 10 15;">
@@ -200,16 +200,16 @@
                                 </VBox>
                             </HBox>
                         </graphic>
-                        <style>
-                            <![CDATA[
-                                .menu-item {
-                                    -fx-background-color: transparent;
-                                }
-                                .menu-item:hover {
-                                    -fx-background-color: #f5f5f7;
-                                }
-                            ]]>
-                        </style>
+<!--                        <style>-->
+<!--                            <![CDATA[-->
+<!--                                .menu-item {-->
+<!--                                    -fx-background-color: transparent;-->
+<!--                                }-->
+<!--                                .menu-item:hover {-->
+<!--                                    -fx-background-color: #f5f5f7;-->
+<!--                                }-->
+<!--                            ]]>-->
+<!--                        </style>-->
                     </MenuItem>
 
                 </items>

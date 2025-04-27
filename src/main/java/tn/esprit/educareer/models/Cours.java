@@ -10,27 +10,28 @@ public class Cours {
     private String image;
     private String requirement;
     private CategorieCours categorie;
-    private User user;
+    private User formatteur;
     private List<Seance> seanceList = new ArrayList<>();
 
 
-    public Cours(String nom, String document, String image, String requirement, CategorieCours categorie , User user) {
+    public Cours(){}
+    public Cours(String nom, String requirement,String document, String image, CategorieCours categorie, User formatteur) {
         this.nom = nom;
         this.document = document;
         this.image = image;
         this.requirement = requirement;
         this.categorie = categorie;
-        this.user = user;
+        this.formatteur = formatteur;
     }
 
-    public Cours(int id, String nom, String document, String image, String requirement, CategorieCours categorie , User user) {
+    public Cours(int id, String nom, String requirement,String document, String image, CategorieCours categorie, User formatteur) {
         this.id = id;
         this.nom = nom;
+        this.requirement = requirement;
         this.document = document;
         this.image = image;
-        this.requirement = requirement;
         this.categorie = categorie;
-        this.user = user;
+        this.formatteur = formatteur;
     }
 
     public int getId() {
@@ -90,15 +91,22 @@ public class Cours {
     }
 
     public User getUser() {
-        return user;
+        return formatteur;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+    public void setUser(User user) {this.formatteur = formatteur;}
 
     @Override
     public String toString() {
-        return "Cours{" + "id=" + id + ", nom='" + nom + '\'' + ", document='" + document + '\'' + ", image='" + image + '\'' + ", requirement='" + requirement + '\'' + ", categorie=" + categorie + ", seanceList=" + seanceList + '}';
+        return "Cours{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", document='" + document + '\'' +
+                ", image='" + image + '\'' +
+                ", requirement='" + requirement + '\'' +
+                ", categorie=" + categorie +
+                ", formatteur=" + formatteur +
+                ", seanceList=" + seanceList +
+                '}';
     }
 }
