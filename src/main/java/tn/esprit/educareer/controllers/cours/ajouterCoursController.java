@@ -232,7 +232,7 @@ public class ajouterCoursController {
         }
 
         // Créer un nouveau cours
-        Cours cours = new Cours(nom, document, image, requirement, categorie, formatteur);
+        Cours cours = new Cours(nom, document, image, requirement, formatteur , categorie);
 
         // Sauvegarder via le service
         serviceCours.ajouter(cours);

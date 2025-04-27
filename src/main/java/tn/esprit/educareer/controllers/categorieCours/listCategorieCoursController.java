@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,7 +19,7 @@ import java.net.URL;
 
 
 public class listCategorieCoursController {
-    private final ServiceCategorieCours serviceCategorie = new ServiceCategorieCours();
+    private final ServiceCategorieCours serviceCategorieCours = new ServiceCategorieCours();
 
     @FXML
     private ListView<CategorieCours> categorieCoursListView;
@@ -36,7 +35,9 @@ public class listCategorieCoursController {
 
     @FXML
     public void initialize() {
-        ObservableList<CategorieCours> observableList = FXCollections.observableArrayList(serviceCategorie.getAll());
+        serviceCategorieCours.supprimerCategoriesInutiliseesDepuisUnJour();
+
+        ObservableList<CategorieCours> observableList = FXCollections.observableArrayList(serviceCategorieCours.getAll());
         categorieCoursListView.setItems(observableList);
 
         categorieCoursListView.setCellFactory(listView -> new ListCell<>() {
@@ -87,7 +88,7 @@ public class listCategorieCoursController {
             private void handleDelete(ActionEvent event) {
                 CategorieCours selected = getItem();
                 if (selected != null) {
-                    serviceCategorie.supprimer(selected);
+                    serviceCategorieCours.supprimer(selected);
                     getListView().getItems().remove(selected);
                 }
             }

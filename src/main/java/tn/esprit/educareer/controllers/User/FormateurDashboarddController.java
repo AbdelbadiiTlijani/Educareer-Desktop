@@ -20,6 +20,9 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class FormateurDashboarddController {
 
@@ -108,6 +111,7 @@ public class FormateurDashboarddController {
     ServiceCours serviceCours = new ServiceCours();
     ServiceSeance serviceSeance = new ServiceSeance();
     ServiceCategorieCours serviceCategorieCours = new ServiceCategorieCours();
+
 
     private void showErrorAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -483,10 +487,5 @@ public class FormateurDashboarddController {
         int totalCategorieCours= serviceCategorieCours.getAll().size();
         totalCatégorieCoursLabel.setText(String.valueOf(totalCategorieCours));
         categorieStatusLabel.setText("3 new today");
-
-
     }
-
-
-
 }
