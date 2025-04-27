@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ServiceCours implements IService<Cours> {
+public class    ServiceCours implements IService<Cours> {
     Connection cnx;
 
     public ServiceCours() {

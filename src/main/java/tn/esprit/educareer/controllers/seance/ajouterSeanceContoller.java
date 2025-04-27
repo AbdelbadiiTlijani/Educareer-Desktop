@@ -8,18 +8,25 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import tn.esprit.educareer.models.Cours;
+import tn.esprit.educareer.models.Holiday;
 import tn.esprit.educareer.models.Seance;
 import tn.esprit.educareer.services.ServiceCours;
 import tn.esprit.educareer.services.ServiceSeance;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 import java.util.function.UnaryOperator;
 
 public class ajouterSeanceContoller {
+    public static final String CALENDARIFIC_API_KEY = "U5OoElWmHW7xJeCeepAssfkP9AY9G1GN";
 
     private final String errorStyle = "-fx-border-color: red; -fx-border-width: 2px;";
     private final String originalStyle = "";
@@ -73,6 +80,45 @@ public class ajouterSeanceContoller {
 
         // Action du bouton "Retour"
         backButton.setOnAction(e -> goBack());
+        Locale.setDefault(new Locale("fr", "TN"));
+        List<Holiday> listHolidays = null;
+/*
+        List<Holiday> listHolidays = CalendarificAPI.getHolidays(CALENDARIFIC_API_KEY, Locale.getDefault().getCountry(), String.valueOf(LocalDate.now().getYear()));
+*/
+
+
+        if (listHolidays != null && !listHolidays.isEmpty()) {
+            dateSeance.setDayCellFactory(new Callback<>() {
+                @Override
+                public DateCell call(DatePicker datePicker) {
+                    return new DateCell() {
+                        @Override
+                        public void updateItem(LocalDate date, boolean empty) {
+                            super.updateItem(date, empty);
+                            LocalDate today = LocalDate.now();
+                            Optional<Holiday> holiday = listHolidays.stream().filter(ho -> ho.getDate().getIso().equals(date.toString())).findAny();
+                            // If the date is a holiday, set a tooltip
+                            if (date != null && !empty && holiday.isPresent()) {
+                                if (date.compareTo(today) < 0) {
+                                    setDisable(true);
+                                }
+                                setStyle("-fx-background-color: #ffd639;");
+                                setTooltip(new Tooltip(holiday.get().getName()));
+                            } else {
+                                setStyle("");
+                                setDisable(empty || date.compareTo(today) < 0);
+
+                                if (date.compareTo(today) < 0) {
+                                    setStyle("-fx-background-color: #ffc0cb;"); // Light red for past dates
+                                    setDisable(true);
+
+                                }
+                            }
+                        }
+                    };
+                }
+            });
+        }
     }
 
 

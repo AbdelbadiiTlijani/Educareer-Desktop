@@ -13,11 +13,14 @@ import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import tn.esprit.educareer.models.Cours;
+import tn.esprit.educareer.models.User;
 import tn.esprit.educareer.services.ServiceCours;
+import tn.esprit.educareer.services.ServiceUser;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 
 public class listCoursController {
@@ -27,10 +30,11 @@ public class listCoursController {
     private ListView<Cours> coursListView;
 
     @FXML
-    private ComboBox<?> roleFilter;
+    private ComboBox<String> roleFilter;
 
     @FXML
     private TextField searchField;
+
     @FXML
     private Button viewStatCours;
     @FXML
@@ -40,8 +44,23 @@ public class listCoursController {
     private Stage stage;
     private Scene scene;
 
+    ServiceUser serviceUser = new ServiceUser();
     @FXML
     public void initialize() {
+
+        roleFilter.getItems().add("Tous");
+        roleFilter.getItems().addAll(serviceUser.getAll().stream().map(User::getNom).toList());
+        roleFilter.setValue("Tous");
+
+        searchField.textProperty().addListener((obs, oldValue, newValue) -> {
+            filterCoursList();
+        });
+
+        roleFilter.valueProperty().addListener((obs, oldVal, newVal) -> {
+            filterCoursList();
+        });
+
+
         ObservableList<Cours> observableList = FXCollections.observableArrayList(serviceCours.getAll());
         coursListView.setItems(observableList);
 
@@ -135,6 +154,18 @@ public class listCoursController {
             }
         });
 
+    }
+
+    private void filterCoursList() {
+        String searchText = searchField.getText().toLowerCase().trim();
+        String selectedFormatteur = roleFilter.getValue();
+
+        List<Cours> filtered = serviceCours.getAll().stream()
+                .filter(cours -> cours.getNom().toLowerCase().contains(searchText))
+                .filter(cours -> selectedFormatteur.equals("Tous") || cours.getUser().getNom().equals(selectedFormatteur))
+                .toList();
+
+        coursListView.getItems().setAll(filtered);
     }
 
 

@@ -34,9 +34,9 @@
 
             <!-- Search and Filter -->
             <HBox spacing="10">
-                <TextField fx:id="searchField" prefHeight="39.0" promptText="Rechercher par nom..." styleClass="search-field" />
-                <ComboBox fx:id="roleFilter" prefHeight="14.0" promptText="Filtrer par nom" styleClass="category-combobox" />
-            <Button fx:id="viewStatCours" mnemonicParsing="false" onAction="#handleStatCours" prefHeight="42.0" prefWidth="52.0" text="stat" />
+                <TextField fx:id="searchField" promptText="Rechercher par nom..." style="-fx-padding: 5px; -fx-background-radius: 5px;" />
+                <ComboBox fx:id="roleFilter" promptText="Filtrer par prérequis" style="-fx-background-radius: 5px;" />
+               <Button fx:id="viewStatCours" mnemonicParsing="false" onAction="#handleStatCours" prefHeight="8.0" prefWidth="52.0" text="stat" />
             </HBox>
             <!-- Entête de la liste -->
             <HBox prefHeight="45.0" prefWidth="520.0" spacing="15" styleClass="list-header">

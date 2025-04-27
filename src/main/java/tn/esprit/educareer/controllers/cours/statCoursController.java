@@ -1,6 +1,5 @@
 package tn.esprit.educareer.controllers.cours;
 
-import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -54,17 +53,16 @@ public class statCoursController implements Initializable {
 
         pieChart.setData(data);
         pieChart.setTitle("Répartition des catégories de cours");
+        for (PieChart.Data dataPie : pieChart.getData()) {
+            double percentage = dataPie.getPieValue() / total * 100;
 
-//        // Afficher les pourcentages dynamiques
-//        for (PieChart.Data d : pieChart.getData()) {
-////            d.nameProperty().bind(Bindings.createStringBinding(() -> {
-////                int value = (int) d.getPieValue();
-////                double percent = (value * 100.0) / total;
-////                return String.format("%s (%.1f%%)", d.getName().split(" \\(")[0], percent);
-////            }, d.pieValueProperty()));
-////        }
+            // Placer le label au centre du secteur
+            dataPie.getNode().setOnMouseEntered(e -> dataPie.getNode().setStyle("-fx-pie-color: #ff6347;"));
+            dataPie.getNode().setOnMouseExited(e -> dataPie.getNode().setStyle(""));
+            dataPie.setName(dataPie.getName() + String.format("  %.1f%%", percentage));
+        }
+
     }
-
 
 
     private void loadChartData() {

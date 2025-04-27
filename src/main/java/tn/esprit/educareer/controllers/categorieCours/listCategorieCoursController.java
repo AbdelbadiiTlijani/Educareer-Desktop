@@ -12,10 +12,14 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import tn.esprit.educareer.models.CategorieCours;
+import tn.esprit.educareer.models.User;
 import tn.esprit.educareer.services.ServiceCategorieCours;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 
 public class listCategorieCoursController {
@@ -23,10 +27,10 @@ public class listCategorieCoursController {
 
     @FXML
     private ListView<CategorieCours> categorieCoursListView;
-    @FXML
-    private ComboBox<?> roleFilter;
+
     @FXML
     private TextField searchField;
+
     @FXML
     private Button viewBackButton;
 
@@ -36,6 +40,10 @@ public class listCategorieCoursController {
     @FXML
     public void initialize() {
         serviceCategorieCours.supprimerCategoriesInutiliseesDepuisUnJour();
+
+        searchField.textProperty().addListener((obs, oldValue, newValue) -> {
+            filterCategorieCoursList();
+        });
 
         ObservableList<CategorieCours> observableList = FXCollections.observableArrayList(serviceCategorieCours.getAll());
         categorieCoursListView.setItems(observableList);
@@ -93,6 +101,15 @@ public class listCategorieCoursController {
                 }
             }
         });
+    }
+
+
+
+    private void filterCategorieCoursList() {
+        String searchText = searchField.getText().toLowerCase().trim();
+
+        List<CategorieCours> filtered = serviceCategorieCours.getAll().stream().filter(categorieCours -> categorieCours.getNom().toLowerCase().contains(searchText)).toList();
+        categorieCoursListView.getItems().setAll(filtered);
     }
 
 

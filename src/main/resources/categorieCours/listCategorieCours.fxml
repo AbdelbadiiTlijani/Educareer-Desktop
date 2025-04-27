@@ -34,8 +34,7 @@
 
             <!-- Search and Filter -->
             <HBox spacing="10">
-                <TextField fx:id="searchField" prefHeight="39.0" promptText="Rechercher par nom..." styleClass="search-field" />
-                <ComboBox fx:id="roleFilter" prefHeight="14.0" promptText="Filtrer par nom" styleClass="category-combobox" />
+                <TextField fx:id="searchField" promptText="Rechercher par nom..." style="-fx-padding: 5px; -fx-background-radius: 5px;"/>
             </HBox>
             <!-- Entête de la liste -->
             <HBox prefHeight="45.0" prefWidth="520.0" spacing="15" styleClass="list-header">
