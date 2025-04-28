@@ -18,7 +18,9 @@ import tn.esprit.educareer.models.Reclamation;
 import tn.esprit.educareer.services.ReclamationService;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
+import tn.esprit.educareer.models.TypeReclamation;
 
 
 import java.io.IOException;
@@ -35,8 +37,7 @@ public class ReclamationController {
     private Button handlback;
 
     @FXML
-    private ComboBox<?> idtype;
-
+    private ComboBox<TypeReclamation> idtype;
     @FXML
     private ListView<Reclamation> reclamationListView;
 
@@ -47,45 +48,86 @@ public class ReclamationController {
     // Méthode pour initialiser l'affichage des réclamations
     @FXML
     public void initialize() {
+        // Charger tous les types dans le ComboBox
+        List<TypeReclamation> types = reclamationService.getAllTypes();
+        ObservableList<TypeReclamation> typesList = FXCollections.observableArrayList(types);
+        idtype.setItems(typesList);
+
+        // Afficher initialement toutes les réclamations
         afficherReclamations();
+
+        // Ajouter listener pour la barre de recherche
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterAndDisplayReclamations();
+        });
+
+        // Ajouter listener pour la ComboBox de types
+        idtype.setOnAction(event -> {
+            filterAndDisplayReclamations();
+        });
     }
 
-    // Méthode pour afficher toutes les réclamations
+    // Méthode pour tout afficher
     private void afficherReclamations() {
-        List<Reclamation> reclamations = reclamationService.getAll();  // Récupérer toutes les réclamations via le service
-        ObservableList<Reclamation> reclamationsList = FXCollections.observableArrayList(reclamations);  // Convertir la liste en ObservableList
+        List<Reclamation> reclamations = reclamationService.getAll();
+        updateListView(reclamations);
+    }
 
-        reclamationListView.setItems(reclamationsList);  // Ajouter les réclamations à la ListView
+    // Méthode de filtrage dynamique
+    private void filterAndDisplayReclamations() {
+        String searchKeyword = searchField.getText().toLowerCase();
+        TypeReclamation selectedType = (TypeReclamation) idtype.getSelectionModel().getSelectedItem();
 
-        // Personnaliser l'affichage des éléments dans la ListView
-        reclamationListView.setCellFactory(param -> new ListCell<Reclamation>() {
-            private final Label reclamationLabel = new Label();
-            private final Button supprimerBtn = new Button("Supprimer");
-            private final Button updateBtn = new Button("Modifier");
-            private final HBox hBox = new HBox(10, reclamationLabel, updateBtn, supprimerBtn);
+        List<Reclamation> filteredList = reclamationService.getAll().stream()
+                .filter(r -> (searchKeyword.isEmpty() || r.getSujet().toLowerCase().contains(searchKeyword) || r.getDescription().toLowerCase().contains(searchKeyword)))
+                .filter(r -> (selectedType == null || r.getTypeReclamation().getId() == selectedType.getId()))
+                .toList();
+
+        updateListView(filteredList);
+    }
+
+    // Mise à jour du ListView avec personnalisation
+    private void updateListView(List<Reclamation> reclamations) {
+        ObservableList<Reclamation> reclamationsList = FXCollections.observableArrayList(reclamations);
+        reclamationListView.setItems(reclamationsList);
+
+        reclamationListView.setCellFactory(param -> new ListCell<>() {
+            private final Label sujetLabel = new Label();
+            private final Label descriptionLabel = new Label();
+            private final Label dateLabel = new Label();
+            private final Button modifierBtn = new Button("✎ Modifier");
+            private final Button supprimerBtn = new Button("✖ Supprimer");
+            private final HBox buttonBox = new HBox(10, modifierBtn, supprimerBtn);
+            private final VBox contentBox = new VBox(5, sujetLabel, descriptionLabel, dateLabel, buttonBox);
+            private final HBox rootBox = new HBox(contentBox);
 
             {
-                // Style des boutons
-                supprimerBtn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 5;");
-                updateBtn.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 5;");
+                rootBox.setSpacing(10);
+                rootBox.setStyle("-fx-padding: 10; -fx-background-color: #f5f5f5; -fx-background-radius: 10;");
+                buttonBox.setStyle("-fx-alignment: center-left;");
 
-                // Action pour le bouton "Supprimer"
+                modifierBtn.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 5;");
+                supprimerBtn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 5;");
+
+                // Animation hover
+                rootBox.setOnMouseEntered(e -> rootBox.setStyle("-fx-padding: 10; -fx-background-color: #e0e0e0; -fx-background-radius: 10;"));
+                rootBox.setOnMouseExited(e -> rootBox.setStyle("-fx-padding: 10; -fx-background-color: #f5f5f5; -fx-background-radius: 10;"));
+
+                // Action boutons
                 supprimerBtn.setOnAction(event -> {
                     Reclamation selected = getItem();
                     if (selected != null) {
-                        reclamationService.supprimer(selected);  // Supprimer la réclamation via le service
-                        afficherReclamations();  // Rafraîchir la liste après suppression
+                        reclamationService.supprimer(selected);
+                        filterAndDisplayReclamations();
                     }
                 });
 
-                // Action pour le bouton "Modifier"
-                updateBtn.setOnAction(event -> {
+                modifierBtn.setOnAction(event -> {
                     try {
-                        // Charger la page de modification (assurez-vous que la page de modification existe)
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Reclamation/ModifierReclamation.fxml"));
                         Parent root = loader.load();
                         ModifierReclamation controller = loader.getController();
-                        controller.setReclamationToEdit(getItem());  // Passer la réclamation à modifier
+                        controller.setReclamationToEdit(getItem());
 
                         Stage stage = new Stage();
                         stage.setTitle("Modifier Réclamation");
@@ -101,17 +143,28 @@ public class ReclamationController {
             @Override
             protected void updateItem(Reclamation reclamation, boolean empty) {
                 super.updateItem(reclamation, empty);
+
                 if (empty || reclamation == null) {
                     setText(null);
                     setGraphic(null);
                 } else {
-                    // Mettre à jour l'affichage de chaque réclamation
-                    reclamationLabel.setText(reclamation.getSujet() + " - " + reclamation.getTypeReclamation().getNom() + " (créée le " + reclamation.getCreatedAt() + ")");
-                    setGraphic(hBox);  // Afficher le label et les boutons dans la cellule
+                    sujetLabel.setText("🔹 " + reclamation.getSujet() + " (" + reclamation.getTypeReclamation().getNom() + ")");
+                    descriptionLabel.setText(resumeTexte(reclamation.getDescription(), 50));
+                    dateLabel.setText("🕒 Créé le : " + (reclamation.getCreatedAt() != null ? reclamation.getCreatedAt().toLocalDate() : "N/A"));
+                    setGraphic(rootBox);
                 }
             }
         });
     }
+
+    // Fonction pour limiter la taille du texte description
+    private String resumeTexte(String texte, int maxLength) {
+        if (texte.length() <= maxLength) {
+            return texte;
+        }
+        return texte.substring(0, maxLength) + "...";
+    }
+
 
 
     @FXML

@@ -117,7 +117,7 @@ public class ModifierReclamation implements Initializable {
     @FXML
     private void handleBackButton(ActionEvent event) {
         try {
-            navigateToPage(event, "/reclamation/ReclamationList.fxml");
+            navigateToPage(event, "/User/AdminDashboard.fxml");
         } catch (IOException e) {
             e.printStackTrace();
         }

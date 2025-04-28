@@ -347,7 +347,7 @@ public class AdminDashboardController {
     @FXML
     public void handleAjoutReclamationButton(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Reclamation/ReclamationList.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Reclamation/ReclamationList1.fxml"));
             Scene scene = new Scene(loader.load(), 1000, 700);
 
 
@@ -381,7 +381,7 @@ public class AdminDashboardController {
     @FXML
     public void handleListReclamation(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Reclamation/ReclamationList.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Reclamation/ReclamationList.fxml"));
             Scene scene = new Scene(loader.load(), 1000, 700);
 
 

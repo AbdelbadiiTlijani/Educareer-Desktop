@@ -84,7 +84,7 @@ public class TypeReclamationController {
     @FXML
     void handleBackButton(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/Reclamation/ReclamationList.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/User/AdminDashboard.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.centerOnScreen();

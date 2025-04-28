@@ -1,0 +1,86 @@
+/* Style pour les boutons */
+.button {
+    -fx-background-color: #3498db; /* Couleur de fond bleu */
+    -fx-text-fill: white; /* Texte en blanc */
+    -fx-background-radius: 5; /* Coins arrondis */
+    -fx-padding: 10 15; /* Espacement interne */
+    -fx-font-size: 14px; /* Taille de police */
+    -fx-font-weight: bold; /* Gras */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0.5, 1, 1); /* Ombre portée */
+}
+
+/* Style pour les boutons au survol */
+.button:hover {
+    -fx-background-color: #2980b9; /* Couleur plus sombre au survol */
+    -fx-cursor: hand; /* Curseur en forme de main */
+}
+
+/* Style pour les boutons Supprimer et Modifier */
+.button.delete {
+    -fx-background-color: #e74c3c; /* Couleur rouge pour supprimer */
+}
+
+.button.delete:hover {
+    -fx-background-color: #c0392b; /* Rouge plus sombre au survol */
+}
+
+/* Style pour les éléments de la ListView */
+.list-cell {
+    -fx-background-color: #f5f5f5; /* Couleur de fond gris clair */
+    -fx-padding: 10px; /* Espacement interne */
+    -fx-border-radius: 10px; /* Coins arrondis */
+    -fx-margin: 5px 0; /* Espacement entre les éléments */
+}
+
+/* Effet de survol pour les éléments de la ListView */
+.list-cell:hover {
+    -fx-background-color: #e0e0e0; /* Gris plus clair au survol */
+}
+
+/* Style pour les labels dans la ListView */
+.label {
+    -fx-font-size: 14px; /* Taille de police */
+    -fx-font-weight: normal; /* Police normale */
+    -fx-text-fill: #2c3e50; /* Couleur du texte */
+}
+
+/* Style spécifique pour les labels de type réclamation */
+.label.type {
+    -fx-font-weight: bold; /* Type de réclamation en gras */
+    -fx-text-fill: #16a085; /* Couleur spécifique pour le type */
+}
+
+/* Style pour le HBox contenant les boutons */
+.hbox {
+    -fx-spacing: 10px; /* Espacement entre les boutons */
+    -fx-alignment: center-left; /* Alignement des boutons à gauche */
+}
+
+/* Style pour la barre de recherche */
+.text-field {
+    -fx-background-color: #ecf0f1; /* Fond gris clair */
+    -fx-border-radius: 5px; /* Coins arrondis */
+    -fx-padding: 10px; /* Espacement interne */
+    -fx-font-size: 14px; /* Taille de police */
+    -fx-pref-width: 200px; /* Largeur préférée */
+}
+
+/* Style pour le ComboBox */
+.combo-box {
+    -fx-background-color: #ecf0f1; /* Fond gris clair */
+    -fx-border-radius: 5px; /* Coins arrondis */
+    -fx-padding: 10px; /* Espacement interne */
+    -fx-font-size: 14px; /* Taille de police */
+}
+
+/* Style pour la fenêtre principale (rootBox) */
+.root-box {
+    -fx-background-color: #f5f5f5; /* Couleur de fond gris clair */
+    -fx-padding: 20px; /* Espacement interne */
+    -fx-alignment: center; /* Centrage de la fenêtre */
+}
+
+/* Style de la scène de base */
+.scene {
+    -fx-background-color: #ecf0f1; /* Fond de la scène */
+}

@@ -44,6 +44,14 @@ import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
 public class studentController {
+    @FXML
+    private Button viewAjoutReclamationbutton;
+    @FXML
+    private Button viewAjoutTypeReclamationButton;
+    @FXML
+    private Button viewListReclamation;
+
+
 
     @FXML
     private Label companyGrowthLabel;
@@ -238,6 +246,9 @@ public class studentController {
 
     }
 
+
+
+
     @FXML
     void handleViewEvent(ActionEvent event) {
 
@@ -384,9 +395,29 @@ public class studentController {
         });
         delay.play();
     }
-    
 
 
+    public void handleAjoutReclamationButton(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Reclamation/AjouterReclamation.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
 
 
+            Stage stage = (Stage) viewAjoutReclamationbutton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+
+    }
+    private void showErrorAlert(String navigationError, String s) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(navigationError);
+        alert.setHeaderText("Page Load Failed");
+        alert.setContentText(s);
+        alert.show();
+    }
 }

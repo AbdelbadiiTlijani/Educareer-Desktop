@@ -88,7 +88,7 @@ public class AjouterTypeReclamationController {
         alert.showAndWait();
 
         // Redirection vers la liste des types de réclamation
-        Parent root = FXMLLoader.load(getClass().getResource("/reclamation/TypeReclamationList.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/Reclamation/TypeReclamation.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.centerOnScreen();

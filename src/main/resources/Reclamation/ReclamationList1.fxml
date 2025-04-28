@@ -14,7 +14,8 @@
 
 <BorderPane style="-fx-background-color: #f5f7fa; -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.Reclamation.ReclamationController" stylesheets="@/Reclamation/styles.css">
 
-    <!-- Header Section -->
+
+<!-- Header Section -->
     <top>
         <AnchorPane prefHeight="115.0" prefWidth="511.0" style="-fx-background-color: linear-gradient(to right, #4e54c8, #8f94fb); -fx-min-height: 100px; -fx-padding: 10px;">
             <children>
@@ -32,8 +33,6 @@
             <!-- Search and Filter -->
             <HBox spacing="10">
                 <TextField fx:id="searchField" promptText="Rechercher par nom..." style="-fx-padding: 5px; -fx-background-radius: 5px;" />
-                <Button mnemonicParsing="false" onAction="#handleAjouterReclamation" text="Ajouter reclamation" />
-                <Button mnemonicParsing="false" onAction="#handleAjouterType" text="Ajouter Type" />
                 <Button mnemonicParsing="false" onAction="#handleListType" text="Liste desTypes" />
             </HBox>
             <ComboBox fx:id="idtype" managed="false" promptText="Sélectionnez un type" visible="false" />
