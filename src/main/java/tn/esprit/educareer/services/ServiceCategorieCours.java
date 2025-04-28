@@ -103,7 +103,7 @@ public class ServiceCategorieCours implements IService<CategorieCours> {
     }
 
     public void supprimerCategoriesInutiliseesDepuisUnJour() {
-        String req = "DELETE FROM categorie_cours WHERE id NOT IN (SELECT DISTINCT categorie_cours_id FROM cours) AND TIMESTAMPDIFF(MINUTE, date_creation, NOW()) >= 2";
+        String req = "DELETE FROM categorie_cours WHERE id NOT IN (SELECT DISTINCT categorie_cours_id FROM cours) AND TIMESTAMPDIFF(MINUTE, date_creation, NOW()) >= 1";
         try {
             Statement st = cnx.createStatement();
             int rs = st.executeUpdate(req);

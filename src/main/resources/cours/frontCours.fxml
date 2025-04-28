@@ -3,43 +3,53 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+
 <?import javafx.scene.layout.Pane?>
+<AnchorPane prefHeight="1002.0" prefWidth="1058.0" stylesheets="@FrontCoursStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.cours.FrontCoursController">
 
-<AnchorPane prefHeight="1002.0" prefWidth="1058.0" stylesheets="@style.css"
-            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="tn.esprit.educareer.controllers.cours.FrontCoursController">
+    <!-- HEADER et CONTENU -->
+    <VBox spacing="10" AnchorPane.bottomAnchor="50" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
-    <!-- HEADER -->
-    <VBox spacing="10" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" style="-fx-background-color: black">
-        <!-- Ligne du titre principal et bouton "Nouveau" aligné -->
-        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-padding: 10 20 0 20;">
-            <!-- Titre principal -->
-            <Label text="EduCareer" style="-fx-text-fill:#2196F3 ; -fx-font-size: 28px; -fx-font-weight: bold;" />
-            <Pane HBox.hgrow="ALWAYS" />
-            <!-- Bouton "Nouveau" aligné à droite du titre -->
-            <Button fx:id="backButton" text="Retour"
-                    style="-fx-background-color: #64748b; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-padding: 5 15;" />
+        <!-- Barre du haut -->
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10;">
+            <Button fx:id="backButton" style="-fx-background-color: transparent;">
+                <graphic>
+                    <FontIcon iconLiteral="fas-arrow-left" iconSize="24" iconColor="#3498db"/>
+                </graphic>
+            </Button>
+            <Label styleClass="header-title" text="EduCareer" />
         </HBox>
 
-        <!-- Ligne du sous-titre et barre de recherche -->
-        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 0 20 10 20;">
-            <Label text="Nos Cours" style="-fx-text-fill: orange; -fx-font-size: 18px;" />
-            <Pane HBox.hgrow="ALWAYS" />
-            <TextField fx:id="searchField" prefWidth="250" promptText="Rechercher un cours..."
-                       style="-fx-background-radius: 5px; -fx-padding: 5px;" />
-            <Button fx:id="searchButton" text="Rechercher"
-                    style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-padding: 5 15;" />
-        </HBox>
+        <VBox alignment="CENTER" spacing="5">
+            <Label styleClass="header-petit-title" text="Découvrez nos cours" />
+   
+           <!-- Barre de recherche -->
+            <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 0 20 10 20;">
+                <Pane fx:id="spacer" HBox.hgrow="ALWAYS"/>
+                <TextField fx:id="searchField" prefWidth="250" promptText="Rechercher un cours..." />
+                <Button fx:id="searchButton" text="Rechercher" />
+            </HBox>
+            <Separator prefWidth="800" />
+        </VBox>
 
-        <!-- CONTENU : liste des cours -->
-        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-padding: 0 20 20 20;">
+        <!-- Liste des cours -->
+        <ScrollPane fitToWidth="true" style="-fx-padding: 0 20 20 20;" VBox.vgrow="ALWAYS">
             <TilePane fx:id="coursContainer" alignment="CENTER" hgap="20" vgap="20" />
         </ScrollPane>
+
     </VBox>
+
+    <!-- FOOTER -->
+    <AnchorPane prefHeight="50.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <Label styleClass="footer-label" text="Panneau Etudiant - Liste des cours disponibles" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+    </AnchorPane>
 
 </AnchorPane>

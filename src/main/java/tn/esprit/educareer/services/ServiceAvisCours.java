@@ -12,6 +12,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ServiceAvisCours {
@@ -19,6 +20,8 @@ public class ServiceAvisCours {
     public ServiceAvisCours() {
         cnx = MyConnection.getInstance().getCnx();
     }
+    ServiceUser serviceUser = new ServiceUser();
+    ServiceCours serviceCours = new ServiceCours();
 
 
     public void ajouterAvis(Cours cours, String avisText, String resultatAnalyse, User student) {
@@ -66,5 +69,20 @@ public class ServiceAvisCours {
             e.printStackTrace();
             return "";
         }
+    }
+
+    public AvisCours searchAvisByStudentAndCourse(int studentId, int courseId) {
+        String query = "SELECT * FROM avis_cours WHERE student_id = ? AND cours_id = ?";
+        try (PreparedStatement statement = cnx.prepareStatement(query)) {
+            statement.setInt(1, studentId);
+            statement.setInt(2, courseId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return new AvisCours(rs.getInt("id"), serviceCours.getOneById(rs.getInt("cours_id")), serviceUser.getOneById(rs.getInt("student_id")), rs.getString("avis"), rs.getString("class_avis"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // No reaction found
     }
 }

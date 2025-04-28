@@ -82,9 +82,8 @@ public class ajouterSeanceContoller {
         backButton.setOnAction(e -> goBack());
         Locale.setDefault(new Locale("fr", "TN"));
         List<Holiday> listHolidays = null;
-/*
-        List<Holiday> listHolidays = CalendarificAPI.getHolidays(CALENDARIFIC_API_KEY, Locale.getDefault().getCountry(), String.valueOf(LocalDate.now().getYear()));
-*/
+
+//        List<Holiday> listHolidays = CalendarificAPI.getHolidays(CALENDARIFIC_API_KEY, Locale.getDefault().getCountry(), String.valueOf(LocalDate.now().getYear()));
 
 
         if (listHolidays != null && !listHolidays.isEmpty()) {
@@ -109,9 +108,8 @@ public class ajouterSeanceContoller {
                                 setDisable(empty || date.compareTo(today) < 0);
 
                                 if (date.compareTo(today) < 0) {
-                                    setStyle("-fx-background-color: #ffc0cb;"); // Light red for past dates
+                                    setStyle("-fx-background-color: #ffc0cb;");
                                     setDisable(true);
-
                                 }
                             }
                         }

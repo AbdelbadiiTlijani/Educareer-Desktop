@@ -44,6 +44,7 @@ public class listCoursController {
     private Stage stage;
     private Scene scene;
 
+
     ServiceUser serviceUser = new ServiceUser();
     @FXML
     public void initialize() {
@@ -184,6 +185,7 @@ public class listCoursController {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root, 1000, 700);
         stage.setScene(scene);
+        scene.getStylesheets().add(getClass().getResource("/cours/BackCoursStyle.css").toExternalForm());
         stage.centerOnScreen();
         stage.show();
     }
