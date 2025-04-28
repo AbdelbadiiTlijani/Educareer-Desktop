@@ -38,5 +38,16 @@ public class UserSession {
 
     public void clearSession() {
         this.currentUser = null;
+        motivationalQuoteShown = false;
+
+    }
+    private boolean motivationalQuoteShown = false;
+
+    public boolean isMotivationalQuoteShown() {
+        return motivationalQuoteShown;
+    }
+
+    public void setMotivationalQuoteShown(boolean shown) {
+        this.motivationalQuoteShown = shown;
     }
 } 
