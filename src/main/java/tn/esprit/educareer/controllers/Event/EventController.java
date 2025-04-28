@@ -1,5 +1,7 @@
 package tn.esprit.educareer.controllers.Event;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +21,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class EventController implements Initializable {
     private Stage stage;
@@ -55,16 +58,22 @@ public class EventController implements Initializable {
         stage.show();
     }
 
-    private void loadEvents() {
-        List<Event> events = serviceEvent.getAll();
+    private void loadEvents(List<Event> events) {
         eventListView.getItems().clear();
         eventListView.getItems().addAll(events);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        loadEvents();
+        // Charger tous les événements par défaut
+        loadEvents(serviceEvent.getAll());
 
+        // Ajouter un listener pour détecter les changements dans le champ de recherche
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterEvents(newValue);
+        });
+
+        // Personnaliser l'affichage des événements dans la ListView
         eventListView.setCellFactory(param -> new ListCell<Event>() {
             @Override
             protected void updateItem(Event event, boolean empty) {
@@ -145,7 +154,7 @@ public class EventController implements Initializable {
 
         if (response == ButtonType.OK) {
             serviceEvent.supprimer(event);
-            loadEvents();
+            loadEvents(serviceEvent.getAll());  // Recharger les événements après suppression
             Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
             successAlert.setTitle("Suppression réussie");
             successAlert.setHeaderText("Événement supprimé");
@@ -153,7 +162,6 @@ public class EventController implements Initializable {
             successAlert.showAndWait();
         }
     }
-
 
     private void showQRCodePopup(Event event) {
         try {
@@ -163,7 +171,7 @@ public class EventController implements Initializable {
             QRCodePopupController controller = loader.getController();
 
             // Tu peux choisir ce que tu veux encoder ici, exemple : l’ID ou le titre
-            String qrData = "Event ID: " + event.getId() + "\nTitre: " + event.getLieu() + "\nLieu: " + event.getLieu();
+            String qrData = "Event ID: " + event.getId() + "\nTitre: " + event.getTitre() + "\nLieu: " + event.getLieu() + "\nNombres de places disponibles: " + event.getNbrPlace();
             controller.setQRCodeData(qrData);
 
             Stage stage = new Stage();
@@ -174,5 +182,13 @@ public class EventController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void filterEvents(String query) {
+        List<Event> allEvents = serviceEvent.getAll();
+        List<Event> filteredEvents = allEvents.stream()
+                .filter(event -> event.getTitre().toLowerCase().contains(query.toLowerCase()))
+                .collect(Collectors.toList());
+        loadEvents(filteredEvents);
     }
 }

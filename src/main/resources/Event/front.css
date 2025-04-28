@@ -1,0 +1,157 @@
+/* Global styles */
+.root {
+    -fx-background-color: #f5f7fa;
+    -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Top Section (Header) */
+.top {
+    -fx-background-color: linear-gradient(to right, #4e54c8, #8f94fb);
+}
+
+.top .label {
+    -fx-font-size: 24px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 20px;
+}
+
+/* Center Section (Event List) */
+.center {
+    -fx-padding: 20px;
+}
+
+.center .label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+    -fx-padding: 10px 0;
+}
+
+/* ListView */
+.list-view {
+    -fx-background-color: transparent;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 10px;
+}
+
+/* ScrollPane */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+/* Bottom Section (Footer) */
+.bottom {
+    -fx-background-color: #333;
+    -fx-min-height: 50px;
+}
+
+.bottom .label {
+    -fx-text-fill: rgba(255,255,255,0.7);
+    -fx-font-size: 12px;
+    -fx-padding: 10px;
+}
+
+/* Button styles */
+.button {
+    -fx-background-color: rgba(255,255,255,0.2);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20px;
+    -fx-padding: 10px 15px;
+}
+
+.button:hover {
+    -fx-background-color: rgba(255,255,255,0.4);
+}
+
+.button:pressed {
+    -fx-background-color: rgba(255,255,255,0.6);
+}
+
+/* Custom Style for ListView items */
+.list-view .list-cell {
+    -fx-background-color: #ffffff;
+    -fx-padding: 15px;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 5);
+}
+
+.list-view .list-cell:hover {
+    -fx-background-color: #f0f0f0;
+}
+
+.list-view .list-cell .label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+}
+
+.list-view .list-cell .button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px 15px;
+    -fx-font-weight: bold;
+}
+
+.list-view .list-cell .button:hover {
+    -fx-background-color: #2980b9;
+}
+/* Style de base pour les labels */
+.label {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Style pour les titres des événements */
+.event-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #4e54c8;
+    margin-bottom: 5px;
+}
+
+/* Style pour les informations comme la date, le lieu, etc. */
+.event-info {
+    font-size: 14px;
+    color: #7f8c8d;
+    line-height: 1.5;
+    margin-bottom: 5px;
+}
+
+/* Style spécifique pour la date et lieu des événements */
+.event-date, .event-location {
+    font-size: 14px;
+    font-weight: normal;
+    color: #2ecc71;
+}
+
+/* Bouton "Participer" */
+.participate-button {
+    background-color: #3498db;
+    color: white;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.participate-button:hover {
+    background-color: #2980b9;
+}
+
+/* Ombre pour les cartes d'événements */
+.event-card {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+

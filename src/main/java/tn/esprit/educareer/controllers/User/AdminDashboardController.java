@@ -99,6 +99,9 @@ public class AdminDashboardController {
 
     @FXML
     private Button viewUserButton;
+    @FXML
+    private Button viewUserButton1;
+
 
     @FXML
     private Label userRole;
@@ -563,5 +566,31 @@ public class AdminDashboardController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+   /* @FXML
+    private void goToCalendar(ActionEvent event) {
+        try {
+            Parent calendarView = FXMLLoader.load(getClass().getResource("/Event/CalendarView.fxml"));
+            viewUserButton1.getScene().setRoot(calendarView);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }*/
+    @FXML
+    void handleViewPlanning(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/CalendarView.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+
+
+            Stage stage = (Stage) viewUserButton1.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load User List page: " + e.getMessage());
+        }
+
     }
 }

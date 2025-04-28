@@ -50,16 +50,17 @@
                     </HBox>
                 </graphic>
             </Button>
-         <Button fx:id="viewCompanyEmployeeButton1" onAction="#handleViewCompanyEmployee" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Evennements">
-            <graphic>
-               <HBox alignment="CENTER_LEFT" spacing="10">
-                  <children>
-                     <Label style="-fx-font-size: 16;" text="🏢" />
-                  </children>
-               </HBox>
-            </graphic>
-         </Button>
-         <Button fx:id="viewCompanyEmployeeButton11" onAction="#handleViewCompanyEmployee" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Réclamations">
+            <Button fx:id="viewCompanyEmployeeButton1" onAction="#handleViewEvents" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Evennements">
+                <graphic>
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <children>
+                            <Label style="-fx-font-size: 16;" text="🎉" />
+                        </children>
+                    </HBox>
+                </graphic>
+            </Button>
+
+            <Button fx:id="viewCompanyEmployeeButton11" onAction="#handleViewCompanyEmployee" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Réclamations">
             <graphic>
                <HBox alignment="CENTER_LEFT" spacing="10">
                   <children>
