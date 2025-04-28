@@ -11,31 +11,15 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane
-        prefWidth="900.0" prefHeight="600.0"
-        style="-fx-background-color: #f5f7fa; -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
-        xmlns="http://javafx.com/javafx/21"
-        xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="tn.esprit.educareer.controllers.Reclamation.TypeReclamationController" stylesheets="@/Reclamation/styles.css">
+<BorderPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f5f7fa; -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" stylesheets="@/Reclamation/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.Reclamation.TypeReclamationController">
 
     <!-- Header Section -->
     <top>
         <AnchorPane prefHeight="115.0" style="-fx-background-color: linear-gradient(to right, #4e54c8, #8f94fb);">
             <children>
-                <Label layoutX="10.0" layoutY="20.0"
-                       style="-fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold;"
-                       text="Gestion des Types de réclamations"
-                       AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
+                <Label layoutX="10.0" layoutY="20.0" style="-fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold;" text="Gestion des Types de réclamations" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
 
-                <Button onAction="#handleBackButton"
-                        style="-fx-background-color: rgba(255, 255, 255, 0.3);
-                           -fx-text-fill: white;
-                           -fx-font-weight: bold;
-                           -fx-border-radius: 20px;
-                           -fx-background-radius: 20px;
-                           -fx-padding: 5px 15px;"
-                        text="Retour"
-                        AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" />
+                <Button onAction="#handleBackButton" style="-fx-background-color: rgba(255, 255, 255, 0.3);                            -fx-text-fill: white;                            -fx-font-weight: bold;                            -fx-border-radius: 20px;                            -fx-background-radius: 20px;                            -fx-padding: 5px 15px;" text="Retour" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" />
             </children>
         </AnchorPane>
     </top>
@@ -43,29 +27,14 @@
     <!-- Content Section -->
     <center>
         <VBox spacing="15" style="-fx-padding: 20px;">
-            <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333;"
-                   text="Liste des Types des réclamations" />
+            <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Liste des Types des réclamations" />
 
             <HBox spacing="10">
-                <TextField fx:id="searchTypeField"
-                           promptText="Rechercher par catégorie..."
-                           style="-fx-padding: 10px;
-                                  -fx-background-radius: 8px;
-                                  -fx-border-color: #ccc;
-                                  -fx-border-radius: 8px;" />
+                <TextField fx:id="searchTypeField" onAction="#handleSearch" promptText="Rechercher par nom..." style="-fx-padding: 10px;                                   -fx-background-radius: 8px;                                   -fx-border-color: #ccc;                                   -fx-border-radius: 8px;" />
             </HBox>
 
-            <AnchorPane style="-fx-background-color: white;
-                                -fx-background-radius: 10px;
-                                -fx-padding: 10px;">
-                <ListView fx:id="TypeReclamationView"
-                          style="-fx-background-color: transparent;
-                                 -fx-border-color: transparent;
-                                 -fx-padding: 5px;"
-                          AnchorPane.bottomAnchor="0.0"
-                          AnchorPane.leftAnchor="0.0"
-                          AnchorPane.rightAnchor="0.0"
-                          AnchorPane.topAnchor="0.0" />
+            <AnchorPane style="-fx-background-color: white;                                 -fx-background-radius: 10px;                                 -fx-padding: 10px;">
+                <ListView fx:id="TypeReclamationView" style="-fx-background-color: transparent;                                  -fx-border-color: transparent;                                  -fx-padding: 5px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                 <effect>
                     <DropShadow color="#00000044" radius="10.0" />
                 </effect>
@@ -81,11 +50,7 @@
     <bottom>
         <AnchorPane prefHeight="40.0" style="-fx-background-color: #333;">
             <children>
-                <Label style="-fx-text-fill: rgba(255,255,255,0.7);
-                              -fx-font-size: 12px;"
-                       text="Panneau Admin - Gestion des Types"
-                       AnchorPane.bottomAnchor="10.0"
-                       AnchorPane.rightAnchor="20.0" />
+                <Label style="-fx-text-fill: rgba(255,255,255,0.7);                               -fx-font-size: 12px;" text="Panneau Admin - Gestion des Types" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0" />
             </children>
         </AnchorPane>
     </bottom>

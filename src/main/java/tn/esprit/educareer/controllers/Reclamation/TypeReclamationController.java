@@ -11,6 +11,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import tn.esprit.educareer.models.TypeReclamation;
+import tn.esprit.educareer.services.ReclamationService;
 import tn.esprit.educareer.services.TypeReclamationService;
 
 import java.io.IOException;
@@ -96,10 +97,28 @@ public class TypeReclamationController {
 
 
     // Méthode pour rechercher un type de réclamation par son nom
+
     @FXML
     void handleSearch(ActionEvent event) {
-        String searchQuery = searchTypeField.getText().toLowerCase();
-        List<TypeReclamation> filteredTypes = service.searchByName(searchQuery);
-        TypeReclamationView.getItems().setAll(filteredTypes);  // Mettre à jour la liste avec les résultats filtrés
+        String searchQuery = searchTypeField.getText().toLowerCase();  // Récupérer la recherche en minuscule
+
+        // Si le champ est vide, on affiche tous les types de réclamation
+        if (searchQuery.isEmpty()) {
+            List<TypeReclamation> allTypes = service.getAll();  // Récupérer tous les types de réclamation
+            updateTypeReclamationView(allTypes);  // Mettre à jour la vue avec tous les types
+            return;
+        }
+
+        // Si le champ n'est pas vide, on effectue la recherche par nom
+        List<TypeReclamation> filteredTypes = service.searchByName(searchQuery);  // Appeler la méthode searchByName
+
+        // Mettre à jour la vue avec les types de réclamation filtrés
+        updateTypeReclamationView(filteredTypes);  // Mettre à jour la vue avec les types filtrés
     }
+
+    // Mise à jour de la vue avec la liste des types de réclamation
+    private void updateTypeReclamationView(List<TypeReclamation> types) {
+        TypeReclamationView.getItems().setAll(types);  // Mettre à jour les éléments de la ListView
+    }
+
 }
