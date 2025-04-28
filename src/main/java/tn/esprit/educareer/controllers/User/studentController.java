@@ -129,14 +129,12 @@ public class studentController {
         setupButtonHoverEffects();
         setupUserProfile();
 
-        // Check if motivational quote has already been shown in this session
         if (!UserSession.getInstance().isMotivationalQuoteShown()) {
             new Thread(() -> {
                 String quote = getMotivationalQuote();
                 javafx.application.Platform.runLater(() -> {
                     System.out.println("Displaying the quote notification...");
                     showMotivationalPopUp(quote);
-                    // Mark the quote as shown for this session
                     UserSession.getInstance().setMotivationalQuoteShown(true);
                 });
             }).start();
