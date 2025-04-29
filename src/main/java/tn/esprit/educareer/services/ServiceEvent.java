@@ -7,7 +7,9 @@ import tn.esprit.educareer.utils.MyConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ServiceEvent implements IService<Event> {
 
@@ -16,9 +18,17 @@ public class ServiceEvent implements IService<Event> {
     public ServiceEvent() {
         cnx = MyConnection.getInstance().getCnx();
     }
+    // Méthode pour trier les événements par date (ascendant)
+    public List<Event> sortEventsByDateAsc() {
+        List<Event> allEvents = getAll();
+        return allEvents.stream()
+                .sorted(Comparator.comparing(Event::getDate)) // Tri ascendant sur la date
+                .collect(Collectors.toList());
+    }
 
     @Override
     public void ajouter(Event event) {
+        WhatsappService whatsappService = new WhatsappService();
         String req = "INSERT INTO event (type_event_id, titre, description, date, lieu, nbr_place) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pst = cnx.prepareStatement(req)) {
 
@@ -36,6 +46,7 @@ public class ServiceEvent implements IService<Event> {
 
             pst.executeUpdate();
             System.out.println("Événement ajouté dans la base de données !");
+            whatsappService.sendWhatsappMessage("21695975905", event.getTitre());
 
             try {
                 GoogleCalendarService.addEventToCalendar(

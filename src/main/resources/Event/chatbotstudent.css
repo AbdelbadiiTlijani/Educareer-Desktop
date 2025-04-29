@@ -1,0 +1,84 @@
+/* Global Styles for Chatbot Window */
+.chat-container {
+    -fx-background-color: #f5f7fa;
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+    -fx-border-width: 2px;
+    -fx-border-color: #dddddd;
+    -fx-padding: 10px;
+}
+
+.chat-area {
+    -fx-background-color: #ffffff;
+    -fx-border-radius: 10px;
+    -fx-border-color: #e0e0e0;
+    -fx-padding: 15px;
+    -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+    -fx-opacity: 0.9;
+    -fx-scroll-bar-width: 8px;
+}
+
+.chat-area .user-message {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-background-radius: 20px;
+    -fx-padding: 10px 15px;
+    -fx-max-width: 70%;
+    -fx-alignment: center-left;
+    -fx-margin: 5px;
+}
+
+.chat-area .bot-message {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #333;
+    -fx-background-radius: 20px;
+    -fx-padding: 10px 15px;
+    -fx-max-width: 70%;
+    -fx-alignment: center-left;
+    -fx-border: 1px solid #e0e0e0;
+    -fx-margin: 5px;
+}
+
+.input-field {
+    -fx-background-color: #f4f4f9;
+    -fx-border-radius: 10px;
+    -fx-border-color: #e0e0e0;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.send-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px 20px;
+    -fx-cursor: hand;
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+.send-button:hover {
+    -fx-background-color: #45a049;
+}
+
+.send-button:pressed {
+    -fx-background-color: #387f39;
+}
+
+/* Add some animations for a smooth effect when messages appear */
+.chat-area .user-message, .chat-area .bot-message {
+    -fx-opacity: 0;
+    -fx-transition: opacity 0.5s ease-in-out;
+}
+
+.chat-area .user-message.visible, .chat-area .bot-message.visible {
+    -fx-opacity: 1;
+}
+
+/* Style for the Title Area */
+.hbox {
+    -fx-alignment: center;
+}

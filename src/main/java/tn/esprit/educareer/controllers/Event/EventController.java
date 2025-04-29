@@ -10,7 +10,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -52,7 +51,7 @@ public class EventController implements Initializable {
         }
         root = FXMLLoader.load(fxmlLocation);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root , 1000 , 700);
+        scene = new Scene(root, 1000, 700);
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
@@ -190,5 +189,12 @@ public class EventController implements Initializable {
                 .filter(event -> event.getTitre().toLowerCase().contains(query.toLowerCase()))
                 .collect(Collectors.toList());
         loadEvents(filteredEvents);
+    }
+
+    @FXML
+    private void sortEventsByDate(ActionEvent event) {
+        // Trier les événements par date croissante (ASC)
+        List<Event> sortedEvents = serviceEvent.sortEventsByDateAsc();
+        loadEvents(sortedEvents); // Met à jour la liste avec les événements triés
     }
 }

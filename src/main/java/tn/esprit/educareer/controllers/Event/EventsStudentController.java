@@ -3,16 +3,24 @@ package tn.esprit.educareer.controllers.Event;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import tn.esprit.educareer.models.Event;
 import tn.esprit.educareer.models.User;
 import tn.esprit.educareer.services.ServiceEvent;
 import tn.esprit.educareer.services.ServiceParticipation;
+
+import javafx.event.ActionEvent;  // Assurez-vous que c'est bien 'javafx.event.ActionEvent'
+
+import java.io.IOException;
 
 public class EventsStudentController {
 
@@ -119,6 +127,23 @@ public class EventsStudentController {
                 alert.setContentText("Désolé, cet événement est complet.");
                 alert.showAndWait();
             }
+        }
+    }
+
+    @FXML
+    public void handleBackButton(ActionEvent event) {
+        try {
+            // Charger la scène pour student.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/student.fxml"));
+            AnchorPane root = loader.load();
+
+            // Créer une nouvelle scène pour student.fxml
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -94,6 +94,9 @@ public class studentController {
     private Button viewCompanyEmployeeButton;
     @FXML
     private Button viewCompanyEmployeeButton1;
+    @FXML
+    private Button liveChatButton;
+
 
 
     @FXML
@@ -239,6 +242,26 @@ public class studentController {
     @FXML
     void handleViewCompanyEmployee(ActionEvent event) {
        }
+
+// handle chat bot
+@FXML
+private void openLiveChat(ActionEvent event) {
+    try {
+        // Charger la fenêtre du chatbot depuis son fichier FXML
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/ChatbotWindow.fxml"));
+        Scene chatbotScene = new Scene(loader.load(), 600, 400);
+        // Créer un nouveau stage pour le chatbot
+        Stage chatbotStage = new Stage();
+        chatbotStage.setTitle("Live Chat");
+        chatbotStage.setScene(chatbotScene);
+        chatbotStage.show();
+
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+
 
 
     @FXML
@@ -412,7 +435,22 @@ public class studentController {
         });
         delay.play();
     }
-    
+    @FXML
+    private void handleBackButton(java.awt.event.ActionEvent event) {
+        try {
+            // Charger la scène pour student.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/student.fxml"));
+            AnchorPane root = loader.load();
+
+            // Créer une nouvelle scène pour student.fxml
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 
