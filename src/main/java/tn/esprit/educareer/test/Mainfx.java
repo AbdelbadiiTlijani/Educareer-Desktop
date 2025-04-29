@@ -67,6 +67,8 @@ public class Mainfx extends Application {
         // Set up the scene with a larger aspect ratio
         Scene scene = new Scene(root, 1000, 700);
         primaryStage.setTitle("EduCareer");
+        primaryStage.getIcons().add(new javafx.scene.image.Image(getClass().getResourceAsStream("/logo.png")));
+
         primaryStage.setScene(scene);
         primaryStage.show();
     }

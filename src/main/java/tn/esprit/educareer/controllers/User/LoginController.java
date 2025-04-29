@@ -68,11 +68,10 @@ public class LoginController implements Initializable {
 
     // Remember Me constants
     private static final String REMEMBER_ME_FILE = "rememberMe.txt";
-    private static final int REMEMBER_ME_DAYS = 30; // Number of days to remember the user
+    private static final int REMEMBER_ME_DAYS = 30;
 
     public LoginController() {
         cnx = MyConnection.getInstance().getCnx();
-        // Ensure account_security table exists
         createAccountSecurityTableIfNotExists();
     }
 
@@ -81,7 +80,6 @@ public class LoginController implements Initializable {
 
         backButton.setOnAction(event -> goBack());
 
-        // Clear error messages when user starts typing
         emailField.textProperty().addListener((observable, oldValue, newValue) -> {
             emailErrorLabel.setText("");
             highlightField(emailField, false);
@@ -94,7 +92,6 @@ public class LoginController implements Initializable {
             statusLabel.setText("");
         });
 
-        // Try to load remembered user credentials
         //loadRememberedUser();
     }
 
@@ -186,7 +183,7 @@ public class LoginController implements Initializable {
     private void handleForgotPassword(MouseEvent event) {
         clearErrors();
 
-        boolean isValid = validateInputPassword(); // Checks if email is valid
+        boolean isValid = validateInputPassword();
         if (!isValid) {
             return;
         }
@@ -469,7 +466,6 @@ public class LoginController implements Initializable {
             LocalDateTime unlockTime = rs.getTimestamp("lockout_time").toLocalDateTime();
 
             if (LocalDateTime.now().isAfter(unlockTime)) {
-                // Lockout period has expired
                 resetFailedAttempts(email);
                 return false;
             }
