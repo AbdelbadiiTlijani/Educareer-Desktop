@@ -66,7 +66,7 @@ public class GoogleCalendarService {
                     .setDateTime(new com.google.api.client.util.DateTime(startDate))
                     .setTimeZone("Africa/Tunis");
             event.setEnd(end);
-            String calendarId = "tlili6085@gmail.com"; // Important
+            String calendarId = "tlili6085@gmail.com";
             service.events().insert(calendarId, event).execute();
 
 

@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import tn.esprit.educareer.models.Event;
@@ -26,6 +25,7 @@ public class CalendarController {
     @FXML private Label monthYearLabel;
     @FXML private Button prevMonthButton;
     @FXML private Button nextMonthButton;
+    @FXML private Button returnButton; // Nouveau bouton retour
 
     private YearMonth currentYearMonth;
     private final ServiceEvent serviceEvent = new ServiceEvent();
@@ -43,6 +43,20 @@ public class CalendarController {
         nextMonthButton.setOnAction(e -> {
             currentYearMonth = currentYearMonth.plusMonths(1);
             buildCalendar();
+        });
+
+        returnButton.setOnAction(e -> { // Action bouton retour
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/AdminDashboard.fxml")); //
+                Parent dashboardRoot = loader.load();
+
+                Stage currentStage = (Stage) returnButton.getScene().getWindow();
+                currentStage.setScene(new Scene(dashboardRoot));
+                //currentStage.setTitle("Dashboard");
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
     }
 
@@ -114,6 +128,4 @@ public class CalendarController {
             e.printStackTrace();
         }
     }
-
-
 }

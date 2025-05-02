@@ -8,7 +8,6 @@ import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
 import java.io.IOException;
 
 public class ChatbotController {
@@ -25,11 +24,22 @@ public class ChatbotController {
     private static final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyCa8Z-PHVGzxRlSEYRRwJzVuRL2EaVD7P0";
     private static final OkHttpClient client = new OkHttpClient();
 
+    private static final String SYSTEM_INSTRUCTION = """
+        Tu es un assistant spécialisé dans l'éducation en ligne.
+        Réponds uniquement aux sujets liés à :
+        - La formation à distance
+        - Les plateformes d'apprentissage (Coursera, Udemy, etc.)
+        - Les événements éducatifs (conférences, hackathons, séminaires)
+        - Les conseils pour améliorer l'apprentissage en ligne
+        Ignore poliment toute autre demande qui ne concerne pas ce domaine.
+        """;
+
     @FXML
     public void initialize() {
         sendButton.setOnAction(event -> handleSendMessage());
     }
-@FXML
+
+    @FXML
     private void handleSendMessage() {
         String message = userInput.getText();
         if (message.isEmpty()) return;
@@ -42,18 +52,19 @@ public class ChatbotController {
 
     private void appendToChat(String text) {
         chatArea.appendText(text + "\n");
-        chatArea.setStyle("-fx-text-fill: #4CAF50;");
-
     }
 
     private void sendToGemini(String userMessage) {
+        // On préfixe le message de l'utilisateur par l'instruction du système
+        String finalMessage = SYSTEM_INSTRUCTION + "\n\nQuestion utilisateur : " + userMessage;
+
         String jsonRequest = """
         {
           "contents": [{
             "parts": [{"text": "%s"}]
           }]
         }
-        """.formatted(userMessage);
+        """.formatted(finalMessage);
 
         RequestBody body = RequestBody.create(
                 jsonRequest,

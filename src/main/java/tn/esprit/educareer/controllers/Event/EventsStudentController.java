@@ -1,143 +1,121 @@
+// EventsStudentController.java
 package tn.esprit.educareer.controllers.Event;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import tn.esprit.educareer.models.Event;
 import tn.esprit.educareer.models.User;
 import tn.esprit.educareer.services.ServiceEvent;
 import tn.esprit.educareer.services.ServiceParticipation;
 
-import javafx.event.ActionEvent;  // Assurez-vous que c'est bien 'javafx.event.ActionEvent'
-
+import javafx.event.ActionEvent;
 import java.io.IOException;
 
 public class EventsStudentController {
 
     @FXML
-    private ListView<Event> eventsListView; // ListView for displaying the events
+    private GridPane eventsGrid;
 
     private ServiceEvent eventService;
     private ServiceParticipation participationService;
-
-    private User currentStudent; // Utilisateur connecté
+    private User currentStudent;
 
     @FXML
     public void initialize() {
         eventService = new ServiceEvent();
         participationService = new ServiceParticipation();
 
-        // Simulation d'un étudiant connecté (remplacer par la vraie récupération de l'utilisateur connecté)
         currentStudent = new User();
-        currentStudent.setId(1); // Exemple : ID de l'étudiant connecté est 1
+        currentStudent.setId(1);
 
-        // Fetch the list of events from the database
         ObservableList<Event> events = FXCollections.observableArrayList(eventService.getAll());
 
-        // Set the ListView's items to the fetched events
-        eventsListView.setItems(events);
+        int column = 0;
+        int row = 0;
 
-        // Customize how each event is displayed in the ListView
-        eventsListView.setCellFactory(param -> new ListCell<Event>() {
-            @Override
-            protected void updateItem(Event event, boolean empty) {
-                super.updateItem(event, empty);
-                if (empty || event == null) {
-                    setText(null);
-                    setGraphic(null);
-                } else {
-                    setGraphic(createEventCard(event));
-                }
+        for (Event event : events) {
+            AnchorPane card = createEventCard(event);
+            eventsGrid.add(card, column, row);
+
+            column++;
+            if (column == 3) {
+                column = 0;
+                row++;
             }
-        });
+        }
     }
 
-    private HBox createEventCard(Event event) {
-        HBox eventCard = new HBox(10);
-        eventCard.getStyleClass().add("event-card");
+    private AnchorPane createEventCard(Event event) {
+        AnchorPane card = new AnchorPane();
+        card.setPrefSize(250, 180);
+        card.setStyle("-fx-background-color: white; -fx-background-radius: 15px; -fx-border-radius: 15px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 4);");
+
+        VBox content = new VBox(5);
+        content.setPadding(new Insets(10));
 
         Label title = new Label(event.getTitre());
-        title.getStyleClass().add("event-title");
+        title.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #4e54c8;");
 
         Label description = new Label(event.getDescription());
-        description.getStyleClass().add("event-info");
+        description.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+        description.setWrapText(true);
 
-        Label location = new Label("Lieu: " + event.getLieu());
-        location.getStyleClass().add("event-location");
+        Label location = new Label("\uD83D\uDCCD " + event.getLieu());
+        location.setStyle("-fx-text-fill: #666;");
 
-        Label date = new Label("Date: " + event.getDate().toString());
-        date.getStyleClass().add("event-date");
+        Label date = new Label("\uD83D\uDCC5 " + event.getDate().toString());
+        date.setStyle("-fx-text-fill: #666;");
 
-        Label availableSeats = new Label("Places disponibles: " + event.getNbrPlace());
-        availableSeats.getStyleClass().add("event-info");
+        Label seats = new Label("\uD83E\uDE91 " + event.getNbrPlace() + " places");
+        seats.setStyle("-fx-text-fill: #666;");
 
         Button participateButton = new Button("Participer");
-        participateButton.getStyleClass().add("participate-button");
+        participateButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 10px; -fx-cursor: hand;");
+        participateButton.setOnAction(e -> handleParticipateButton(event, seats));
 
-        participateButton.setOnAction(e -> handleParticipateButton(event, availableSeats));
+        content.getChildren().addAll(title, description, location, date, seats, participateButton);
+        card.getChildren().add(content);
 
-        eventCard.getChildren().addAll(title, description, location, date, availableSeats, participateButton);
-
-        return eventCard;
+        return card;
     }
 
     private void handleParticipateButton(Event event, Label availableSeatsLabel) {
-        int studentId = currentStudent.getId(); // ID de l'étudiant connecté
-        int eventId = event.getId(); // ID de l'événement
+        int studentId = currentStudent.getId();
+        int eventId = event.getId();
 
         if (participationService.isParticipated(eventId, studentId)) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Déjà inscrit");
-            alert.setHeaderText("Vous êtes déjà inscrit !");
-            alert.setContentText("Vous avez déjà participé à cet événement.");
-            alert.showAndWait();
+            showAlert(Alert.AlertType.WARNING, "Déjà inscrit", "Vous êtes déjà inscrit à cet événement.");
+        } else if (event.getNbrPlace() > 0) {
+            participationService.participate(eventId, studentId);
+            event.setNbrPlace(event.getNbrPlace() - 1);
+            eventService.modifier(event);
+            availableSeatsLabel.setText("\uD83E\uDE91 " + event.getNbrPlace() + " places");
+            showAlert(Alert.AlertType.INFORMATION, "Inscription réussie", "Vous êtes inscrit à l'événement: " + event.getTitre());
         } else {
-            if (event.getNbrPlace() > 0) {
-                // Participer
-                participationService.participate(eventId, studentId);
-
-                // Diminuer les places disponibles
-                event.setNbrPlace(event.getNbrPlace() - 1);
-
-                // Mettre à jour l'événement dans la base
-                eventService.modifier(event);
-
-                // Mise à jour de l'affichage immédiate
-                availableSeatsLabel.setText("Places disponibles: " + event.getNbrPlace());
-
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Inscription réussie");
-                alert.setHeaderText("Vous êtes inscrit !");
-                alert.setContentText("Vous participez à l'événement : " + event.getTitre());
-                alert.showAndWait();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Complet");
-                alert.setHeaderText("Plus de places disponibles !");
-                alert.setContentText("Désolé, cet événement est complet.");
-                alert.showAndWait();
-            }
+            showAlert(Alert.AlertType.WARNING, "Complet", "Désolé, cet événement est complet.");
         }
+    }
+
+    private void showAlert(Alert.AlertType type, String header, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle("Information");
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     @FXML
     public void handleBackButton(ActionEvent event) {
         try {
-            // Charger la scène pour student.fxml
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/student.fxml"));
             AnchorPane root = loader.load();
-
-            // Créer une nouvelle scène pour student.fxml
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);

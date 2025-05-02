@@ -10,12 +10,13 @@
 
     <top>
         <HBox spacing="10" styleClass="header">
+            <Button fx:id="returnButton" text="⟵ Retour" />
             <Button fx:id="prevMonthButton" text="⟨" />
             <Label fx:id="monthYearLabel" styleClass="month-year" text="Avril 2025" />
             <Button fx:id="nextMonthButton" text="⟩" />
         </HBox>
-
     </top>
+
 
     <center>
         <GridPane fx:id="calendarGrid" styleClass="calendar-grid" />

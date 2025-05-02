@@ -1,157 +1,95 @@
-/* Global styles */
+/* ----- Style général de la page ----- */
 .root {
-    -fx-background-color: #f5f7fa;
     -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -fx-background-color: #f5f7fa;
 }
 
-/* Top Section (Header) */
-.top {
-    -fx-background-color: linear-gradient(to right, #4e54c8, #8f94fb);
-}
-
-.top .label {
-    -fx-font-size: 24px;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
+/* ----- Cartes des événements ----- */
+.event-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
     -fx-padding: 20px;
+    -fx-spacing: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);
+    -fx-pref-width: 300px;    /* Agrandi la carte */
+    -fx-pref-height: 250px;
+    -fx-alignment: top-left;
 }
 
-/* Center Section (Event List) */
-.center {
-    -fx-padding: 20px;
-}
-
-.center .label {
+/* ----- Titres des événements ----- */
+.event-title {
     -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-text-fill: #333;
-    -fx-padding: 10px 0;
+    -fx-text-fill: #333333;
 }
 
-/* ListView */
-.list-view {
-    -fx-background-color: transparent;
-    -fx-border-color: #ddd;
-    -fx-border-radius: 10px;
+/* ----- Infos (lieu, date, etc.) ----- */
+.event-info,
+.event-location,
+.event-date {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555555;
 }
 
-/* ScrollPane */
+/* ----- Bouton Participer ----- */
+.participate-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 16px;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+    -fx-alignment: center;
+}
+
+.participate-button:hover {
+    -fx-background-color: #45a049;
+}
+
+/* ----- ScrollPane transparent ----- */
 .scroll-pane {
     -fx-background-color: transparent;
-    -fx-border-color: transparent;
+    -fx-padding: 10px;
 }
 
-/* Bottom Section (Footer) */
-.bottom {
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* ----- GridPane contenant les cartes ----- */
+#eventsGrid {
+    -fx-hgap: 20px;
+    -fx-vgap: 20px;
+    -fx-padding: 20px;
+}
+
+/* ----- Haut et bas de la page ----- */
+.header {
+    -fx-background-color: linear-gradient(to right, #4e54c8, #8f94fb);
+    -fx-padding: 20px;
+}
+
+.footer {
     -fx-background-color: #333;
     -fx-min-height: 50px;
 }
 
-.bottom .label {
+.footer-label {
     -fx-text-fill: rgba(255,255,255,0.7);
     -fx-font-size: 12px;
-    -fx-padding: 10px;
 }
 
-/* Button styles */
-.button {
-    -fx-background-color: rgba(255,255,255,0.2);
+/* ----- Bouton Retour ----- */
+.back-button {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-background-radius: 20px;
-    -fx-padding: 10px 15px;
-}
-
-.button:hover {
-    -fx-background-color: rgba(255,255,255,0.4);
-}
-
-.button:pressed {
-    -fx-background-color: rgba(255,255,255,0.6);
-}
-
-/* Custom Style for ListView items */
-.list-view .list-cell {
-    -fx-background-color: #ffffff;
-    -fx-padding: 15px;
-    -fx-border-color: #ddd;
-    -fx-border-radius: 10px;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 5);
-}
-
-.list-view .list-cell:hover {
-    -fx-background-color: #f0f0f0;
-}
-
-.list-view .list-cell .label {
-    -fx-font-size: 14px;
-    -fx-text-fill: #333;
-}
-
-.list-view .list-cell .button {
-    -fx-background-color: #3498db;
-    -fx-text-fill: white;
-    -fx-background-radius: 5px;
     -fx-padding: 5px 15px;
-    -fx-font-weight: bold;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-cursor: hand;
 }
-
-.list-view .list-cell .button:hover {
-    -fx-background-color: #2980b9;
-}
-/* Style de base pour les labels */
-.label {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-/* Style pour les titres des événements */
-.event-title {
-    font-size: 20px;
-    font-weight: bold;
-    color: #4e54c8;
-    margin-bottom: 5px;
-}
-
-/* Style pour les informations comme la date, le lieu, etc. */
-.event-info {
-    font-size: 14px;
-    color: #7f8c8d;
-    line-height: 1.5;
-    margin-bottom: 5px;
-}
-
-/* Style spécifique pour la date et lieu des événements */
-.event-date, .event-location {
-    font-size: 14px;
-    font-weight: normal;
-    color: #2ecc71;
-}
-
-/* Bouton "Participer" */
-.participate-button {
-    background-color: #3498db;
-    color: white;
-    padding: 8px 15px;
-    font-size: 14px;
-    border-radius: 5px;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.participate-button:hover {
-    background-color: #2980b9;
-}
-
-/* Ombre pour les cartes d'événements */
-.event-card {
-    background-color: #ffffff;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
-
