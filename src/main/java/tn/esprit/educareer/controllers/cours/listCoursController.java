@@ -74,9 +74,9 @@ public class listCoursController {
             private final HBox hbox = new HBox(10, nomLabel, editButton, deleteButton, pdfButton);
 
             {
-                editButton.getStyleClass().add("btn-modifier");
-                deleteButton.getStyleClass().add("btn-supprimer");
-                pdfButton.getStyleClass().add("btn-pdf");
+                editButton.setStyle("-fx-background-color: #FFC107; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;");
+                deleteButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;");
+                pdfButton.setStyle("-fx-background-color: #fd7e14; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;");
 
                 editButton.setOnAction(this::handleEdit);
                 deleteButton.setOnAction(this::handleDelete);
