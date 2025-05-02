@@ -196,7 +196,7 @@ public class EditProfileController {
             root = loader.load();
 
             studentController dashboardController = loader.getController();
-            dashboardController.setupUserProfile(); // You can also customize here
+            dashboardController.setupUserProfile();
 
         } else {
             System.out.println("Rôle inconnu : " + currentUser.getRole());

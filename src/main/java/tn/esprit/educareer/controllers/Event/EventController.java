@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -73,20 +74,20 @@ public class EventController implements Initializable {
                     setGraphic(null);
                 } else {
                     VBox vbox = new VBox();
-                    vbox.setSpacing(5);
-                    vbox.setStyle("-fx-border-color: #d3d3d3; -fx-padding: 10px; -fx-background-color: #f9f9f9;");
+                    vbox.setSpacing(10);
+                    vbox.setStyle("-fx-padding: 15px; -fx-background-color: #f9f9f9; -fx-border-radius: 10px; -fx-border-color: #d3d3d3;");
 
                     Label titreLabel = new Label(event.getTitre());
-                    titreLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+                    titreLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #333;");
 
                     Label dateLabel = new Label("Date: " + event.getDate().toString());
-                    dateLabel.setStyle("-fx-font-size: 12px;");
+                    dateLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #555;");
 
                     Label lieuLabel = new Label("Lieu: " + event.getLieu());
-                    lieuLabel.setStyle("-fx-font-size: 12px;");
+                    lieuLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #555;");
 
                     Label nbrPlacesLabel = new Label("Places disponibles: " + event.getNbrPlace());
-                    nbrPlacesLabel.setStyle("-fx-font-size: 12px;");
+                    nbrPlacesLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #555;");
 
                     vbox.getChildren().addAll(titreLabel, dateLabel, lieuLabel, nbrPlacesLabel);
 
@@ -94,12 +95,18 @@ public class EventController implements Initializable {
                     actionButtons.setSpacing(10);
 
                     Button modifyButton = new Button("Modifier");
+                    modifyButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5px 10px; -fx-border-radius: 5px;");
                     modifyButton.setOnAction(e -> handleModifier(event));
 
                     Button deleteButton = new Button("Supprimer");
+                    deleteButton.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5px 10px; -fx-border-radius: 5px;");
                     deleteButton.setOnAction(e -> handleSupprimer(event));
 
-                    actionButtons.getChildren().addAll(modifyButton, deleteButton);
+                    Button qrButton = new Button("QR Code");
+                    qrButton.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5px 10px; -fx-border-radius: 5px;");
+                    qrButton.setOnAction(e -> showQRCodePopup(event));
+
+                    actionButtons.getChildren().addAll(modifyButton, deleteButton, qrButton);
                     vbox.getChildren().add(actionButtons);
 
                     setGraphic(vbox);
@@ -117,7 +124,9 @@ public class EventController implements Initializable {
             editEventController.setEvent(event);
 
             Stage stage = (Stage) eventListView.getScene().getWindow();
-            Scene scene = new Scene(root , 1000 , 700);
+
+            Scene scene = new Scene(root, 1000, 700);
+
             stage.setScene(scene);
             stage.show();
 
@@ -127,7 +136,43 @@ public class EventController implements Initializable {
     }
 
     private void handleSupprimer(Event event) {
-        serviceEvent.supprimer(event);
-        loadEvents();
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Confirmation de Suppression");
+        confirmationAlert.setHeaderText("Êtes-vous sûr de vouloir supprimer cet événement ?");
+        confirmationAlert.setContentText("Cette action est irréversible.");
+
+        ButtonType response = confirmationAlert.showAndWait().orElse(ButtonType.CANCEL);
+
+        if (response == ButtonType.OK) {
+            serviceEvent.supprimer(event);
+            loadEvents();
+            Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+            successAlert.setTitle("Suppression réussie");
+            successAlert.setHeaderText("Événement supprimé");
+            successAlert.setContentText("L'événement a été supprimé avec succès.");
+            successAlert.showAndWait();
+        }
+    }
+
+
+    private void showQRCodePopup(Event event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/QRCodePopup.fxml"));
+            Parent root = loader.load();
+
+            QRCodePopupController controller = loader.getController();
+
+            // Tu peux choisir ce que tu veux encoder ici, exemple : l’ID ou le titre
+            String qrData = "Event ID: " + event.getId() + "\nTitre: " + event.getLieu() + "\nLieu: " + event.getLieu();
+            controller.setQRCodeData(qrData);
+
+            Stage stage = new Stage();
+            stage.setTitle("QR Code de l'événement");
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
