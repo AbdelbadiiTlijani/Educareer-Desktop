@@ -32,6 +32,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -48,6 +49,9 @@ public class studentController {
 
     @FXML
     private Label companyGrowthLabel;
+
+    @FXML
+    private Button viewCoursButton;
 
     @FXML
     private MenuButton userProfileMenu;
@@ -96,6 +100,10 @@ public class studentController {
 
     @FXML
     private Button viewUserButton;
+
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
     @FXML
     public void handleEditProfile(ActionEvent event) {
@@ -189,6 +197,7 @@ public class studentController {
 
         setupButtonHover(viewCompanyEmployeeButton, defaultStyle, hoverStyle);
         setupButtonHover(viewUserButton, defaultStyle, hoverStyle);
+        setupButtonHover(viewCoursButton, defaultStyle, hoverStyle);
     }
     private void setupButtonHover(Button button, String defaultStyle, String hoverStyle) {
         button.setOnMouseEntered(e -> button.setStyle(hoverStyle));
@@ -256,6 +265,11 @@ public class studentController {
     void handleViewUser(ActionEvent event) {
 
     }
+    @FXML
+    void handleViewCoursButton(ActionEvent event) throws IOException {
+        navigateToPage(event, "/cours/frontCours.fxml");
+    }
+
     @FXML
     void handleViewProjects(ActionEvent event) {
         try {
@@ -418,5 +432,16 @@ public class studentController {
 
 
 
-
+    private void navigateToPage(ActionEvent event, String path) throws IOException {
+        URL fxmlLocation = getClass().getResource(path);
+        if (fxmlLocation == null) {
+            throw new IOException("FXML file not found at: " + path);
+        }
+        root = FXMLLoader.load(fxmlLocation);
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root , 1000 , 700);
+        stage.setScene(scene);
+        stage.centerOnScreen();
+        stage.show();
+    }
 }

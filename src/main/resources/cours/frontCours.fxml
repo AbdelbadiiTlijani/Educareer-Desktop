@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+
+<?import javafx.scene.layout.Pane?>
+<AnchorPane prefHeight="1002.0" prefWidth="1058.0" stylesheets="@FrontCours.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.cours.FrontCoursController">
+
+    <!-- HEADER et CONTENU -->
+    <VBox spacing="10" AnchorPane.bottomAnchor="50" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+
+        <!-- Barre du haut -->
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10;">
+            <Button fx:id="backButton" style="-fx-background-color: transparent;">
+                <graphic>
+                    <FontIcon iconLiteral="fas-arrow-left" iconSize="24" iconColor="#3498db"/>
+                </graphic>
+            </Button>
+            <Label styleClass="header-title" text="EduCareer" />
+        </HBox>
+
+        <VBox alignment="CENTER" spacing="5">
+            <Label styleClass="header-petit-title" text="Découvrez nos cours" />
+   
+           <!-- Barre de recherche -->
+            <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 0 20 10 20;">
+                <Pane fx:id="spacer" HBox.hgrow="ALWAYS"/>
+                <TextField fx:id="searchField" prefWidth="250" promptText="Rechercher un cours..." />
+                <Button fx:id="searchButton" text="Rechercher" />
+            </HBox>
+            <Separator prefWidth="800" />
+        </VBox>
+
+        <!-- Liste des cours -->
+        <ScrollPane fitToWidth="true" style="-fx-padding: 0 20 20 20;" VBox.vgrow="ALWAYS">
+            <TilePane fx:id="coursContainer" alignment="CENTER" hgap="20" vgap="20" />
+        </ScrollPane>
+
+    </VBox>
+
+    <!-- FOOTER -->
+    <AnchorPane prefHeight="50.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <Label styleClass="footer-label" text="Panneau Etudiant - Liste des cours disponibles" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+    </AnchorPane>
+
+</AnchorPane>

@@ -4,18 +4,26 @@ import tn.esprit.educareer.interfaces.IService;
 import tn.esprit.educareer.models.Cours;
 import tn.esprit.educareer.utils.MyConnection;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ServiceCours implements IService<Cours> {
+public class    ServiceCours implements IService<Cours> {
     Connection cnx;
 
     public ServiceCours() {
         cnx = MyConnection.getInstance().getCnx();
     }
+    ServiceCategorieCours serviceCategorieCours = new ServiceCategorieCours();
+    ServiceUser serviceUser = new ServiceUser();
 
 
     @Override
@@ -72,16 +80,13 @@ public class ServiceCours implements IService<Cours> {
 
     @Override
     public List<Cours> getAll() {
-        ServiceCategorieCours serviceCategorieCours = new ServiceCategorieCours();
-        ServiceUser serviceUser = new ServiceUser();
-
         List<Cours> coursList = new ArrayList<>();
         String req = "SELECT * FROM cours";
         try {
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
             while (rs.next()) {
-                Cours c = new Cours(rs.getInt("id"), rs.getString("nom"), rs.getString("requirement"), rs.getString("document"), rs.getString("image"), serviceCategorieCours.getOneById(rs.getInt("categorie_cours_id")), serviceUser.getOneById(rs.getInt("formatteur_id")));
+                Cours c = new Cours(rs.getInt("id"), rs.getString("nom"), rs.getString("document"), rs.getString("image"), rs.getString("requirement"), serviceUser.getOneById(rs.getInt("formatteur_id")), serviceCategorieCours.getOneById(rs.getInt("categorie_cours_id")));
                 coursList.add(c);
             }
         } catch (SQLException e) {
@@ -101,7 +106,7 @@ public class ServiceCours implements IService<Cours> {
             ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {
-                return new Cours(rs.getString("nom"), rs.getString("requirement"), rs.getString("document"), rs.getString("image"), serviceCategorieCours.getOneById(rs.getInt("categorie_cours_id")), serviceUser.getOneById(rs.getInt("formatteur_id")));
+                return new Cours(rs.getInt("id"), rs.getString("nom"), rs.getString("document"), rs.getString("image"), rs.getString("requirement"), serviceUser.getOneById(rs.getInt("formatteur_id")), serviceCategorieCours.getOneById(rs.getInt("categorie_cours_id")));
             }
         } catch (SQLException e) {
             System.out.println("Erreur lors de la récupération de la catégorie : " + e.getMessage());
@@ -155,6 +160,24 @@ public class ServiceCours implements IService<Cours> {
         return stats;
     }
 
+    public List<Cours> getAllSortedByPositiveAvis() {
+        List<Cours> coursList = new ArrayList<>();
+        try {
+            String req = "SELECT cours.*, COUNT(avis_cours.id) AS positive_count FROM cours  LEFT JOIN avis_cours  ON cours.id = avis_cours.cours_id AND avis_cours.class_avis = 'positive' GROUP BY cours.id ORDER BY positive_count DESC";
+
+            PreparedStatement pst = cnx.prepareStatement(req);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Cours c = new Cours(rs.getInt("id"), rs.getString("nom"), rs.getString("document"), rs.getString("image"), rs.getString("requirement"), serviceUser.getOneById(rs.getInt("formatteur_id")), serviceCategorieCours.getOneById(rs.getInt("categorie_cours_id")));
+                coursList.add(c);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return coursList;
+    }
 }
 
 

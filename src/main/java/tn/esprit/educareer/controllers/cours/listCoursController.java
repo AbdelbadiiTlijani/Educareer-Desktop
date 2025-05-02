@@ -13,11 +13,14 @@ import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import tn.esprit.educareer.models.Cours;
+import tn.esprit.educareer.models.User;
 import tn.esprit.educareer.services.ServiceCours;
+import tn.esprit.educareer.services.ServiceUser;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 
 public class listCoursController {
@@ -27,10 +30,11 @@ public class listCoursController {
     private ListView<Cours> coursListView;
 
     @FXML
-    private ComboBox<?> roleFilter;
+    private ComboBox<String> roleFilter;
 
     @FXML
     private TextField searchField;
+
     @FXML
     private Button viewStatCours;
     @FXML
@@ -40,8 +44,24 @@ public class listCoursController {
     private Stage stage;
     private Scene scene;
 
+
+    ServiceUser serviceUser = new ServiceUser();
     @FXML
     public void initialize() {
+
+        roleFilter.getItems().add("Tous");
+        roleFilter.getItems().addAll(serviceUser.getAll().stream().map(User::getNom).toList());
+        roleFilter.setValue("Tous");
+
+        searchField.textProperty().addListener((obs, oldValue, newValue) -> {
+            filterCoursList();
+        });
+
+        roleFilter.valueProperty().addListener((obs, oldVal, newVal) -> {
+            filterCoursList();
+        });
+
+
         ObservableList<Cours> observableList = FXCollections.observableArrayList(serviceCours.getAll());
         coursListView.setItems(observableList);
 
@@ -54,9 +74,9 @@ public class listCoursController {
             private final HBox hbox = new HBox(10, nomLabel, editButton, deleteButton, pdfButton);
 
             {
-                editButton.getStyleClass().add("btn-modifier");
-                deleteButton.getStyleClass().add("btn-supprimer");
-                pdfButton.getStyleClass().add("btn-pdf");
+                editButton.setStyle("-fx-background-color: #FFC107; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;");
+                deleteButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;");
+                pdfButton.setStyle("-fx-background-color: #fd7e14; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;");
 
                 editButton.setOnAction(this::handleEdit);
                 deleteButton.setOnAction(this::handleDelete);
@@ -137,6 +157,18 @@ public class listCoursController {
 
     }
 
+    private void filterCoursList() {
+        String searchText = searchField.getText().toLowerCase().trim();
+        String selectedFormatteur = roleFilter.getValue();
+
+        List<Cours> filtered = serviceCours.getAll().stream()
+                .filter(cours -> cours.getNom().toLowerCase().contains(searchText))
+                .filter(cours -> selectedFormatteur.equals("Tous") || cours.getUser().getNom().equals(selectedFormatteur))
+                .toList();
+
+        coursListView.getItems().setAll(filtered);
+    }
+
 
     @FXML
     void handleBackButton(ActionEvent event) throws IOException {
@@ -153,6 +185,7 @@ public class listCoursController {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root, 1000, 700);
         stage.setScene(scene);
+        scene.getStylesheets().add(getClass().getResource("/cours/BackCours.css").toExternalForm());
         stage.centerOnScreen();
         stage.show();
     }

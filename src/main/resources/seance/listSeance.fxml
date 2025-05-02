@@ -2,49 +2,40 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane stylesheets="@../affichageInterface.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.seance.listSeanceContoller">
+<BorderPane style="-fx-background-color: #f5f7fa; -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.seance.listSeanceContoller">
 
     <!-- Header -->
     <top>
-        <AnchorPane prefHeight="115.0" prefWidth="511.0" styleClass="header-pane">
+        <AnchorPane prefHeight="100.0" style="-fx-background-color: linear-gradient(to right, #4e54c8, #8f94fb);">
             <children>
-                <Label styleClass="header-title" text="Séances" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
-                <Button fx:id="viewBackButton" onAction="#handleBackButton" styleClass="btn-retour" text="Retour" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" />
+                <Label style="-fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold;" text="Séances" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
+                <Button fx:id="viewBackButton" onAction="#handleBackButton" style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20px;" text="Retour" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" />
             </children>
         </AnchorPane>
     </top>
 
     <!-- Content -->
     <center>
-        <VBox spacing="15" styleClass="content-box">
-            <Label fx:id="titre" styleClass="section-title" text="Les Séances Enregistrées" />
-            <Label fx:id="jomlaa" styleClass="section-subtitle" text="Cliquez sur le bouton Supprimer d'une séance pour la supprimer du système" />
+        <VBox spacing="15" style="-fx-padding: 20px;">
+            <Label fx:id="titre" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Les Séances Enregistrées" />
+            <Label fx:id="jomlaa" style="-fx-font-size: 14px; -fx-text-fill: #666;" text="Cliquez sur le bouton Supprimer d'une séance pour la supprimer du système" />
 
             <!-- Search and Filter -->
             <HBox spacing="10">
-                <TextField fx:id="searchField" prefHeight="39.0" promptText="Rechercher par titre..." styleClass="search-field" />
-                <ComboBox fx:id="seanceFilter" prefHeight="14.0" promptText="Filtrer par seance" styleClass="category-combobox" />
-            </HBox>
-
-            <!-- Header list -->
-            <HBox prefHeight="45.0" prefWidth="520.0" spacing="15" styleClass="list-header">
-                <Label styleClass="list-header-label" text="Cours" />
-                <Label styleClass="list-header-label" text="Action" />
+                <!-- Vous pouvez ajouter des composants comme un TextField ou ComboBox ici si nécessaire -->
             </HBox>
 
             <!-- List Container -->
-            <AnchorPane styleClass="cours-container">
-                <ListView fx:id="seanceListView" styleClass="cours-listview" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <AnchorPane style="-fx-background-color: white; -fx-background-radius: 10px; -fx-padding: 5px;">
+                <ListView fx:id="seanceListView" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                 <effect>
                     <DropShadow color="#00000044" radius="10.0" />
                 </effect>
@@ -58,8 +49,9 @@
 
     <!-- Footer -->
     <bottom>
-        <AnchorPane styleClass="footer">
-            <Label styleClass="footer-label" text="Panneau Formateur - Gestion des séances" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+        <AnchorPane style="-fx-background-color: #333; -fx-min-height: 50px;">
+            <Label style="-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 12px;" text="Panneau Formateur - Gestion des séances" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0" />
         </AnchorPane>
     </bottom>
+
 </BorderPane>

@@ -34,10 +34,15 @@ public class ajouterCategorieCoursController {
     private Button backButton;
 
     @FXML
+    private Button viewListeCategorie;
+
+    @FXML
     private Label globalErrorLabel;
 
     @FXML
     private Label nomCategorieErrorLabel;
+
+
 
     private String errorStyle = "-fx-border-color: red; -fx-border-width: 2px;";
     private String originalStyle = "";
@@ -46,6 +51,7 @@ public class ajouterCategorieCoursController {
 
     @FXML
     void initialize() {
+        serviceCategorieCours.supprimerCategoriesInutiliseesDepuisUnJour();
         backButton.setOnAction(e -> goBack());
     }
 
@@ -88,16 +94,15 @@ public class ajouterCategorieCoursController {
         }
 
         // Créer une nouvelle catégorie
-        CategorieCours categorie = new CategorieCours();
-        categorie.setNom(nom);
-
-        // Sauvegarder via le service
+        CategorieCours categorie = new CategorieCours(nom);
         serviceCategorieCours.ajouter(categorie);
 
         // Affichage message succès
         globalErrorLabel.setText("Catégorie ajoutée avec succès !");
         globalErrorLabel.setStyle("-fx-text-fill: green;");
         globalErrorLabel.setVisible(true);
+
+
 
         // Réinitialiser le champ
         NomCatégorie.clear();
@@ -126,4 +131,12 @@ public class ajouterCategorieCoursController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    void handleViewListeCategorie(ActionEvent event) throws IOException {
+        serviceCategorieCours.supprimerCategoriesInutiliseesDepuisUnJour();
+        navigateToPage(event, "/categorieCours/listCategorieCours.fxml");
+    }
+
+
 }
