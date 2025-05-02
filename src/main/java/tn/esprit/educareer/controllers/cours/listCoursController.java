@@ -185,7 +185,7 @@ public class listCoursController {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root, 1000, 700);
         stage.setScene(scene);
-        scene.getStylesheets().add(getClass().getResource("/cours/BackCoursStyle.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/cours/BackCours.css").toExternalForm());
         stage.centerOnScreen();
         stage.show();
     }

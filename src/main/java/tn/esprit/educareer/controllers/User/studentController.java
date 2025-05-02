@@ -98,6 +98,8 @@ public class studentController {
     @FXML
     private Button viewCompanyEmployeeButton;
 
+    @FXML
+    private Button viewUserButton;
 
     private Stage stage;
     private Scene scene;
@@ -194,6 +196,7 @@ public class studentController {
         String hoverStyle = "-fx-background-color: #34495e; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;";
 
         setupButtonHover(viewCompanyEmployeeButton, defaultStyle, hoverStyle);
+        setupButtonHover(viewUserButton, defaultStyle, hoverStyle);
         setupButtonHover(viewCoursButton, defaultStyle, hoverStyle);
     }
     private void setupButtonHover(Button button, String defaultStyle, String hoverStyle) {
@@ -258,11 +261,15 @@ public class studentController {
 
     }
 
+    @FXML
+    void handleViewUser(ActionEvent event) {
 
+    }
     @FXML
     void handleViewCoursButton(ActionEvent event) throws IOException {
         navigateToPage(event, "/cours/frontCours.fxml");
     }
+
     @FXML
     void handleViewProjects(ActionEvent event) {
         try {

@@ -13,7 +13,7 @@
 
 
 <?import javafx.scene.layout.Pane?>
-<AnchorPane prefHeight="1002.0" prefWidth="1058.0" stylesheets="@FrontCoursStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.cours.FrontCoursController">
+<AnchorPane prefHeight="1002.0" prefWidth="1058.0" stylesheets="@FrontCours.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.cours.FrontCoursController">
 
     <!-- HEADER et CONTENU -->
     <VBox spacing="10" AnchorPane.bottomAnchor="50" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">

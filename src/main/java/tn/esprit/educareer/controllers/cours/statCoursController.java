@@ -33,7 +33,7 @@ public class statCoursController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        pieChart.getStylesheets().add(getClass().getResource("/affichageInterface.css").toExternalForm());
+        pieChart.getStylesheets().add(getClass().getResource("/cours/statCours.css").toExternalForm());
 
         loadPieChartData();
         loadChartData();

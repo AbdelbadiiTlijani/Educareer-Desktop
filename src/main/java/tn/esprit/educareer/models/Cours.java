@@ -101,7 +101,7 @@ public class Cours {
         return formatteur;
     }
 
-    public void setUser(User user) {
+    public void setUser(User formatteur) {
         this.formatteur = formatteur;
     }
 

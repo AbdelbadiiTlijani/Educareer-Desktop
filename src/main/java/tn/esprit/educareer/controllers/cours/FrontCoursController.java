@@ -27,7 +27,9 @@ import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.animation.ParallelTransition;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 public class FrontCoursController {
     ServiceCours serviceCours = new ServiceCours();
@@ -66,7 +68,11 @@ public class FrontCoursController {
     private void loadCours(String filter) {
         coursContainer.getChildren().clear();
         for (Cours cours : serviceCours.getAllSortedByPositiveAvis()) {
-            addCoursCard(cours);
+            try {
+                addCoursCard(cours);
+            } catch (MalformedURLException e) {
+                System.out.println("Cannot load course !!");
+            }
         }
     }
 
@@ -126,14 +132,14 @@ public class FrontCoursController {
         popupStage.showAndWait();
     }
 
-    private void addCoursCard(Cours cours) {
+    private void addCoursCard(Cours cours) throws MalformedURLException {
         HBox card = new HBox(20);
         card.getStyleClass().add("course-card");
         card.setAlignment(Pos.CENTER_LEFT);
         card.setPadding(new Insets(15));
-
+        System.out.println(cours.getImage());
         // 1. Image du cours
-        ImageView imageView = new ImageView(new Image(cours.getImage()));
+        ImageView imageView = new ImageView(new Image(new File(cours.getImage()).toURI().toURL().toExternalForm()));
         imageView.setFitWidth(100);
         imageView.setFitHeight(70);
         imageView.setPreserveRatio(true);
@@ -158,10 +164,7 @@ public class FrontCoursController {
         avisButton.getStyleClass().add("avis-button");
         avisButton.setOnAction(e -> openAvisPopup(cours));
 
-        // 4. Bouton Certificat
-        Button certificatButton = new Button("📜 Certificat");
-        certificatButton.getStyleClass().add("certificat-button");
-//        certificatButton.setOnAction(e -> generateCertificate(cours));
+
 
 
         User currentUser = UserSession.getInstance().getCurrentUser();
@@ -265,7 +268,7 @@ public class FrontCoursController {
         avisAndEmojisVBox.setAlignment(Pos.CENTER);
 
         // 8. Container final boutons
-        VBox buttonsContainer = new VBox(10, avisAndEmojisVBox, certificatButton);
+        VBox buttonsContainer = new VBox(10, avisAndEmojisVBox);
         buttonsContainer.setAlignment(Pos.CENTER);
 
         // 9. Spacer pour aligner bien
