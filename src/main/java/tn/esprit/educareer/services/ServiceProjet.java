@@ -1,14 +1,20 @@
 package tn.esprit.educareer.services;
 
+import tn.esprit.educareer.models.CategorieProjet;
 import tn.esprit.educareer.models.Projet;
 import tn.esprit.educareer.utils.MyConnection;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import tn.esprit.educareer.models.User;
 
 public class ServiceProjet {
 
-    private Connection cnx;
+    private static Connection cnx;
 
     public ServiceProjet() {
         cnx = MyConnection.getInstance().getCnx();
@@ -20,8 +26,8 @@ public class ServiceProjet {
             String req = "INSERT INTO projet (categorie_id, titre,description, contenu, formateur_id) VALUES (?, ?, ?, ?,?)";
             PreparedStatement pst = cnx.prepareStatement(req);
             pst.setInt(1, projet.getCategorie_id());
-            pst.setString(2,projet.getDescription());
-            pst.setString(3, projet.getTitre());
+            pst.setString(2,projet.getTitre());
+            pst.setString(3, projet.getDescription());
             pst.setString(4, projet.getContenu());
             pst.setInt(5, projet.getFormateur_id());
 
@@ -96,6 +102,82 @@ public class ServiceProjet {
         }
         return projets;
     }
+
+    // Récupérer un formateur par ID avec tous ses détails
+    public User getFormateurDetailsById(int formateurId) {
+        User formateur = null;
+        try {
+            String req = "SELECT id, nom, prenom, email, role FROM user WHERE id = ?";
+            PreparedStatement pst = cnx.prepareStatement(req);
+            pst.setInt(1, formateurId);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                formateur = new User(
+                        rs.getInt("id"),
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getString("email"),
+                        "",  // L'email est récupéré, donc mot de passe non requis ici
+                        "",  // Photo de profil
+                        rs.getString("role"),
+                        "",  // Token de vérification
+                        "",  // Date d'inscription
+                        ""   // Date (si besoin)
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return formateur;
+    }
+
+
+    // Dans ServiceProjet.java
+
+    // Méthode pour récupérer le nombre de participants d'un projet
+    public static int getNombreParticipants(int projetId) {
+        int nbParticipants = 0;
+        try {
+            String req = "SELECT COUNT(*) FROM participation_projet WHERE projet_id = ?";
+            PreparedStatement pst = cnx.prepareStatement(req);
+            pst.setInt(1, projetId);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                nbParticipants = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nbParticipants;
+    }
+
+
+    public static CategorieProjet getCategorieById(int categorieId) {
+        CategorieProjet categorieProjet = null;
+        try {
+            Connection cnx = MyConnection.getInstance().getCnx(); // make sure you have connection here
+            String req = "SELECT * FROM categorie_projet WHERE id = ?";
+            PreparedStatement pst = cnx.prepareStatement(req);
+            pst.setInt(1, categorieId);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                int id = rs.getInt("id");
+                String categorieName = rs.getString("categorie");
+                int isValidated = rs.getInt("is_validated");
+                int isDeleted = rs.getInt("is_deleted");
+
+                categorieProjet = new CategorieProjet(id, categorieName, isValidated, isDeleted);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return categorieProjet;
+    }
+
+
+
+
 
 
 }

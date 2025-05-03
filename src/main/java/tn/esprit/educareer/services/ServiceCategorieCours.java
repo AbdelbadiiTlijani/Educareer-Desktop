@@ -17,10 +17,11 @@ public class ServiceCategorieCours implements IService<CategorieCours> {
 
     @Override
     public void ajouter(CategorieCours categorieCours) {
+        String req = "INSERT INTO categorie_cours (nom,date_creation) VALUES (?,?)";
         try {
-            String req = "INSERT INTO categorie_cours (nom) VALUES (?)";
             PreparedStatement pst = cnx.prepareStatement(req);
             pst.setString(1, categorieCours.getNom());
+            pst.setTimestamp(2, categorieCours.getDateCreation());
             pst.executeUpdate();
             System.out.println("Catégorie cours ajoutée avec succès !");
         } catch (SQLException ex) {
@@ -30,11 +31,12 @@ public class ServiceCategorieCours implements IService<CategorieCours> {
 
     @Override
     public void modifier(CategorieCours categorieCours) {
-        String req = "UPDATE categorie_cours SET nom=? WHERE id=?";
+        String req = "UPDATE categorie_cours SET nom=? , date_creation=? WHERE id=?";
         try {
             PreparedStatement pst = cnx.prepareStatement(req);
             pst.setString(1, categorieCours.getNom());
-            pst.setInt(2, categorieCours.getId());
+            pst.setTimestamp(2, categorieCours.getDateCreation());
+            pst.setInt(3, categorieCours.getId());
             pst.executeUpdate();
             System.out.println("Catégorie cours modifiée avec succès !");
         } catch (SQLException e) {
@@ -70,7 +72,7 @@ public class ServiceCategorieCours implements IService<CategorieCours> {
             ResultSet rs = st.executeQuery(req);
 
             while (rs.next()) {
-                CategorieCours c = new CategorieCours(rs.getInt("id"), rs.getString("nom"));
+                CategorieCours c = new CategorieCours(rs.getInt("id"), rs.getString("nom"),rs.getTimestamp("date_creation"));
                 categories.add(c);
             }
         } catch (SQLException e) {
@@ -81,18 +83,32 @@ public class ServiceCategorieCours implements IService<CategorieCours> {
 
     @Override
     public CategorieCours getOne(CategorieCours categorieCours) {
+        return categorieCours;
+    }
+
+    public CategorieCours getOneById(int id) {
         String req = "SELECT * FROM categorie_cours WHERE id=?";
         try {
             PreparedStatement pst = cnx.prepareStatement(req);
-            pst.setInt(1, categorieCours.getId());
+            pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {
-                return new CategorieCours(rs.getInt("id"), rs.getString("nom"));
+                return new CategorieCours(rs.getInt("id"), rs.getString("nom"), rs.getTimestamp("date_creation"));
             }
         } catch (SQLException e) {
             System.out.println("Erreur lors de la récupération de la catégorie : " + e.getMessage());
         }
         return null;
+    }
+
+    public void supprimerCategoriesInutiliseesDepuisUnJour() {
+        String req = "DELETE FROM categorie_cours WHERE id NOT IN (SELECT DISTINCT categorie_cours_id FROM cours) AND TIMESTAMPDIFF(MINUTE, date_creation, NOW()) >= 1";
+        try {
+            Statement st = cnx.createStatement();
+            int rs = st.executeUpdate(req);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

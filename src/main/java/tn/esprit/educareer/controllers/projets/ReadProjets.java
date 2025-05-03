@@ -1,141 +1,136 @@
 package tn.esprit.educareer.controllers.projets;
-import javafx.event.ActionEvent;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.control.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.Node;
 import tn.esprit.educareer.models.Projet;
 import tn.esprit.educareer.services.ServiceProjet;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 public class ReadProjets {
 
     @FXML
-    private TableView<Projet> tableProjets;
-    @FXML
-    private TableColumn<Projet, String> colTitre;
-    @FXML
-    private TableColumn<Projet, String> colCategorie;
-    @FXML
-    private TableColumn<Projet, String> colFormateur;
-    @FXML
-    private TableColumn<Projet, Void> colActions;
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
+    private ListView<VBox> projectListView;
 
-
-    private ServiceProjet serviceProjet = new ServiceProjet();
+    private final ServiceProjet serviceProjet = new ServiceProjet();
 
     @FXML
     public void initialize() {
-        ObservableList<Projet> list = FXCollections.observableArrayList(serviceProjet.getAll());
-        tableProjets.setItems(list);
-
-        colTitre.setCellValueFactory(new PropertyValueFactory<>("titre"));
-        colCategorie.setCellValueFactory(new PropertyValueFactory<>("categorieNom"));
-
-
-        addButtonToTable();
-
+        List<Projet> projets = serviceProjet.getAll();
+        displayProjects(projets);
     }
 
+    private void displayProjects(List<Projet> projets) {
+        projectListView.getItems().clear();
+        for (Projet projet : projets) {
+            VBox card = createProjectCard(projet);
+            projectListView.getItems().add(card);
+        }
+    }
+
+    private VBox createProjectCard(Projet projet) {
+        VBox card = new VBox(10);
+        card.setStyle("-fx-background-color: white; -fx-background-radius: 10px; -fx-padding: 15px; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);");
+        card.setPrefWidth(600);
+
+        Label title = new Label(projet.getTitre());
+        title.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+
+        Label category = new Label("Catégorie : " + projet.getCategorieNom());
+        category.setStyle("-fx-text-fill: #666;");
+
+        Label description = new Label("Description : " + projet.getDescription());
+        description.setWrapText(true);
+        description.setStyle("-fx-text-fill: black; -fx-font-weight: normal;");
+
+        HBox actions = new HBox(10);
+        Button btnEdit = new Button("Modifier");
+        btnEdit.setStyle("-fx-background-color: #00bfff; -fx-text-fill: white;");
+        btnEdit.setOnAction(e -> handleEdit(projet));
+
+        Button btnDelete = new Button("Supprimer");
+        btnDelete.setStyle("-fx-background-color: #ff4d4d; -fx-text-fill: white;");
+        btnDelete.setOnAction(e -> {
+            serviceProjet.supprimer(projet);
+            displayProjects(serviceProjet.getAll());
+        });
+
+        actions.getChildren().addAll(btnEdit, btnDelete);
+        card.getChildren().addAll(title, category, description, actions);
+
+        return card;
+    }
+
+    private void handleEdit(Projet projet) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/UpdateProjet.fxml"));
+            Parent root = loader.load();
+
+            UpdateProjet controller = loader.getController();
+            controller.setProjet(projet);
+
+            Stage stage = new Stage();
+            stage.setTitle("Modifier Projet");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void goToChatBox(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/ChatBox.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Messagerie Privée");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     private void goToAjoutProjet() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/AddProjet.fxml"));
             Parent root = loader.load();
-            Scene scene = new Scene(root , 1000 , 700);
-            Stage stage = (Stage) tableProjets.getScene().getWindow();
+            Scene scene = new Scene(root, 800, 700);
+            Stage stage = (Stage) projectListView.getScene().getWindow();
             stage.setScene(scene);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void addButtonToTable() {
-        colActions.setCellFactory(param -> new TableCell<>() {
-            private final Button btnEdit = new Button("Modifier");
-            private final Button btnDelete = new Button("Supprimer");
-
-            {
-                btnEdit.setStyle("-fx-background-color: #00bfff; -fx-text-fill: white;");
-                btnDelete.setStyle("-fx-background-color: #ff4d4d; -fx-text-fill: white;");
-                btnEdit.setOnAction(event -> {
-                    Projet projet = getTableView().getItems().get(getIndex());
-
-                    try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/UpdateProjet.fxml"));
-                        Parent root = loader.load();
-
-                        // Récupérer le contrôleur de UpdateProjet
-                        UpdateProjet controller = loader.getController();
-
-                        // Passer le projet à modifier
-                        controller.setProjet(projet); // Tu dois créer cette méthode dans UpdateProjet.java
-
-                        // Affichage de la scène (tu peux faire un nouveau Stage ou remplacer l’actuel)
-                        Stage stage = new Stage();
-                        stage.setTitle("Modifier Projet");
-                        stage.setScene(new Scene(root));
-                        stage.show();
-
-                        // Optionnel : cacher la fenêtre actuelle
-                        // ((Stage) tableProjets.getScene().getWindow()).hide();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-
-
-                btnDelete.setOnAction(event -> {
-                    Projet projet = getTableView().getItems().get(getIndex());
-                    serviceProjet.supprimer(projet);
-                    tableProjets.setItems(FXCollections.observableArrayList(serviceProjet.getAll()));
-                });
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    HBox pane = new HBox(10, btnEdit, btnDelete);
-                    setGraphic(pane);
-                }
-            }
-        });
-    }
-    @FXML
-    private void handleBack(ActionEvent event) throws IOException{
-
-        navigateToPage(event , "/User/FormateurDashboard.fxml");
-    }
-
-
     private void navigateToPage(ActionEvent event, String path) throws IOException {
         URL fxmlLocation = getClass().getResource(path);
         if (fxmlLocation == null) {
             throw new IOException("FXML file not found at: " + path);
         }
-        root = FXMLLoader.load(getClass().getResource(path));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
+        Parent root = FXMLLoader.load(fxmlLocation);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
         stage.centerOnScreen();
         stage.show();
+    }
+
+    @FXML
+    private void handleBack(ActionEvent event) throws IOException {
+        navigateToPage(event, "/User/FormateurDashboard.fxml");
     }
 }

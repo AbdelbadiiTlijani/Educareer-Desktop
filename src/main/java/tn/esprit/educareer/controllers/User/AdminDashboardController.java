@@ -16,8 +16,11 @@ import tn.esprit.educareer.models.User;
 import tn.esprit.educareer.services.ServiceUser;
 import tn.esprit.educareer.utils.UserSession;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -138,6 +141,17 @@ public class AdminDashboardController {
     @FXML
     private Button viewCoursbutton;
 
+
+
+
+
+    @FXML
+    private Button viewStatActuelButton;
+
+    @FXML
+    private Button viewStatPredictionButton;
+
+
     public void initialize() {
         System.out.println("Admin Dashboard initialized");
 
@@ -223,6 +237,8 @@ public class AdminDashboardController {
     @FXML
     void handleLogout(ActionEvent event) {
         UserSession.getInstance().clearSession();
+        clearSavedLogin();
+
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
@@ -254,6 +270,14 @@ public class AdminDashboardController {
             e.printStackTrace();
         }
     }
+    private void clearSavedLogin() {
+        File file = new File("rememberMe.txt");
+        if (file.exists()) {
+            file.delete();
+        }
+    }
+
+
 
     @FXML
     public void handleEditProfile(ActionEvent event) {
@@ -553,4 +577,60 @@ public class AdminDashboardController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    public void handleViewStatActuel(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/participation_chart.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+
+            Stage stage = (Stage) viewStatActuelButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Failed to load Participation Chart page: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void handleViewStatPrediction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/prediction_chart.fxml"));
+            Scene scene = new Scene(loader.load(), 1000, 700);
+
+            Stage stage = (Stage) viewStatPredictionButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+
+            // Appeler l'API dans un thread séparé
+            new Thread(() -> {
+                try {
+                    URL url = new URL("http://127.0.0.1:9002/prediction");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+
+                    int responseCode = connection.getResponseCode();
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        System.out.println("API appelée avec succès !");
+                    } else {
+                        System.out.println("Erreur lors de l'appel API. Code: " + responseCode);
+                    }
+                    connection.disconnect();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println("Erreur lors de la connexion à l'API: " + e.getMessage());
+                }
+            }).start();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Erreur lors du chargement de prediction_chart.fxml : " + e.getMessage());
+        }
+    }
+
+
+
 }

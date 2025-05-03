@@ -3,30 +3,25 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.web.WebView?>
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="tn.esprit.educareer.controllers.projets.AddProjet"
-            prefHeight="500.0" prefWidth="700.0"
+            prefHeight="600.0" prefWidth="800.0"
             style="-fx-background-color: #f8f9fa;">
-
-
 
     <VBox spacing="20" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="30.0"
           AnchorPane.rightAnchor="30.0" AnchorPane.bottomAnchor="20.0"
           style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10;">
+
         <Button text="Retour"
                 onAction="#handleBack"
-                layoutX="20.0" layoutY="10.0"
                 style="-fx-background-color: #e0e0e0; -fx-text-fill: #333; -fx-font-weight: bold; -fx-background-radius: 15; -fx-padding: 5 15; -fx-cursor: hand;">
             <effect>
                 <DropShadow color="#00000033" radius="3"/>
             </effect>
         </Button>
-
-        <effect>
-            <DropShadow color="#00000033" radius="10" spread="0.05"/>
-        </effect>
 
         <Label text="Ajouter un Projet"
                style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #333333;"/>
@@ -37,14 +32,18 @@
         <TextArea fx:id="descriptionField" promptText="Description du projet"
                   style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;"/>
 
-        <TextArea fx:id="contenuField" promptText="Contenu du projet"
-                  style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;"/>
+        <!-- WebView pour TinyMCE -->
+        <WebView fx:id="contenuEditor" prefHeight="250" />
 
         <ComboBox fx:id="categorieComboBox" promptText="Sélectionner la catégorie"
+                  onAction="#handleCategorieSelection"
                   style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;"/>
 
+        <TextField fx:id="nouvelleCategorieField" promptText="Nom de la nouvelle catégorie"
+                   visible="false" managed="false"
+                   style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;"/>
+
         <TextField fx:id="formateurField" promptText="ID Formateur"
-                   style="-fx-font-size: 14; -fx-padding: 10; -fx-background-radius: 5;"
                    visible="false" managed="false"/>
 
 
@@ -57,5 +56,4 @@
             </Button>
         </HBox>
     </VBox>
-
 </AnchorPane>
