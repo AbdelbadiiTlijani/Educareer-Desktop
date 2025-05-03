@@ -80,7 +80,7 @@
           
 <!-- NEW BUTTON FOR OFFRES D'EMPLOI -->
             <Button fx:id="viewJobOffersButton" onAction="#handleViewJobOffers" prefHeight="40" prefWidth="220"
-                style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;"text="Offres d'Emploi">
+                style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Offres d'Emploi">
                 <graphic>
                 <HBox alignment="CENTER_LEFT" spacing="10">
                     <Label style="-fx-font-size: 16;" text="💼" />
