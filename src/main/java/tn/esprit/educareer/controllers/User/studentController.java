@@ -103,6 +103,12 @@ public class studentController {
 
     @FXML
     private Button viewCompanyEmployeeButton;
+    @FXML
+    private Button viewCompanyEmployeeButton1;
+    @FXML
+    private Button liveChatButton;
+
+
 
 
 
@@ -249,13 +255,56 @@ public class studentController {
     }
     @FXML
     void handleViewCompanyEmployee(ActionEvent event) {
+       }
 
+// handle chat bot
+@FXML
+private void openLiveChat(ActionEvent event) {
+    try {
+        // Charger la fenêtre du chatbot depuis son fichier FXML
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/ChatbotWindow.fxml"));
+        Scene chatbotScene = new Scene(loader.load(), 600, 400);
+        // Créer un nouveau stage pour le chatbot
+        Stage chatbotStage = new Stage();
+        chatbotStage.setTitle("Live Chat");
+        chatbotStage.setScene(chatbotScene);
+        chatbotStage.show();
+
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+}
+
+
+
 
     @FXML
-    void handleViewEvent(ActionEvent event) {
+    void handleViewEvents(ActionEvent event) {
+        try {
+            // Charger la nouvelle vue listprojetclient.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/EventsStudents.fxml"));
+            Parent root = loader.load();
 
+            // Obtenez la scène actuelle et le stage
+            Scene scene = new Scene(root, 1000, 700);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Mettre à jour la scène et l'afficher
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Chargement échoué");
+            alert.setContentText("Impossible de charger la page des projets.");
+            alert.showAndWait();
+        }
     }
+
 
     @FXML
     void handleViewReclamation(ActionEvent event) {
@@ -286,12 +335,6 @@ public class studentController {
             stage.setScene(scene);
             stage.centerOnScreen();
             stage.show();
-
-
-
-
-
-
         } catch (IOException e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -433,7 +476,22 @@ public class studentController {
         });
         delay.play();
     }
-    
+    @FXML
+    private void handleBackButton(java.awt.event.ActionEvent event) {
+        try {
+            // Charger la scène pour student.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/student.fxml"));
+            AnchorPane root = loader.load();
+
+            // Créer une nouvelle scène pour student.fxml
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 

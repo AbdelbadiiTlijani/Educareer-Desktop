@@ -1,0 +1,89 @@
+/* calendar.css */
+
+/* Général */
+.root {
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-background-color: #F4F6F8;
+}
+
+/* Header */
+.header {
+    -fx-alignment: center;
+    -fx-padding: 15px;
+    -fx-background-color: #1976D2; /* Material Blue */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);
+}
+
+/* Mois + Année */
+.month-year {
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+/* Boutons de navigation */
+.button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 22px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: rgba(255,255,255,0.2);
+    -fx-background-radius: 10px;
+}
+
+/* Grille du calendrier */
+.calendar-grid {
+    -fx-hgap: 8px;
+    -fx-vgap: 8px;
+    -fx-padding: 20px;
+    -fx-background-color: white;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2);
+}
+
+/* Cellules des jours */
+.day-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E0E0E0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-min-width: 100px;
+    -fx-min-height: 100px;
+    -fx-padding: 8px;
+    -fx-alignment: top-left;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 1);
+    -fx-transition: all 0.3s ease;
+}
+
+.day-cell:hover {
+    -fx-background-color: #E3F2FD; /* bleu clair Material */
+}
+
+/* Numéros des jours */
+.day-number {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #455A64; /* Gris bleuté */
+}
+
+/* Événements */
+.event-label {
+    -fx-background-color: linear-gradient(to right, #42A5F5, #478DE0);
+    -fx-text-fill: white;
+    -fx-padding: 5px 8px;
+    -fx-background-radius: 15px;
+    -fx-font-size: 12px;
+    -fx-wrap-text: true;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 5, 0, 0, 1);
+    -fx-margin-top: 5px;
+}
+
+.event-label:hover {
+    -fx-background-color: linear-gradient(to right, #1E88E5, #1976D2);
+}
