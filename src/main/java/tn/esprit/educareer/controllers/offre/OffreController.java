@@ -19,6 +19,17 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+
+
+
+
+
 public class OffreController {
 
     private Stage stage;
@@ -41,6 +52,12 @@ public class OffreController {
     private TextField salaireField;
 
     @FXML
+    private TextField searchField;
+
+    @FXML
+    private ComboBox<String> salaireSortComboBox;
+
+    @FXML
     private ListView<Offre_Emploi> offreListView;
 
     private final TypeOffreService typeOffreService = new TypeOffreService();
@@ -49,70 +66,114 @@ public class OffreController {
     public void initialize() {
         afficherOffres();
         idtype.setVisible(false); // Cacher le ComboBox si tu ne veux pas l’afficher
+
+        // Ajout du listener pour recherche dynamique
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            rechercherOffresParTitre(newValue);
+        });
+
+        salaireSortComboBox.getItems().addAll("Salaire Croissant", "Salaire Décroissant");
+        salaireSortComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                trierOffresParSalaire(newVal);
+            }
+        });
+
     }
+
+    private void rechercherOffresParTitre(String titreRecherche) {
+        List<Offre_Emploi> toutesLesOffres = offreService.getAll();
+        List<Offre_Emploi> resultats = toutesLesOffres.stream()
+                .filter(offre -> offre.getTitre().toLowerCase().contains(titreRecherche.toLowerCase()))
+                .toList();
+        offreListView.getItems().setAll(resultats);
+    }
+
+    private void trierOffresParSalaire(String critere) {
+        List<Offre_Emploi> offres = offreService.getAll();
+
+        if (critere.equals("Salaire Croissant")) {
+            offres.sort((o1, o2) -> Double.compare(o1.getSalaire(), o2.getSalaire()));
+        } else if (critere.equals("Salaire Décroissant")) {
+            offres.sort((o1, o2) -> Double.compare(o2.getSalaire(), o1.getSalaire()));
+        }
+
+        offreListView.getItems().setAll(offres);
+    }
+
+
 
     private void afficherOffres() {
         List<Offre_Emploi> offres = offreService.getAll();
         offreListView.getItems().setAll(offres);
 
-        offreListView.setCellFactory(new Callback<ListView<Offre_Emploi>, ListCell<Offre_Emploi>>() {
+        offreListView.setCellFactory(param -> new ListCell<Offre_Emploi>() {
+            private final Label titreLabel = new Label();
+            private final Label descriptionLabel = new Label();
+            private final Label postulationsLabel = new Label();  // Nouveau label pour afficher le nombre de postulations
+            private final Button modifierBtn = new Button("Modifier");
+            private final Button supprimerBtn = new Button("Supprimer");
+            private final VBox vboxText = new VBox(titreLabel, descriptionLabel, postulationsLabel);
+            private final HBox hBox = new HBox(20, vboxText, modifierBtn, supprimerBtn);
+
+            {
+                titreLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16px;");
+                descriptionLabel.setStyle("-fx-text-fill: #777;");
+                postulationsLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #555;");  // Style pour le nombre de postulations
+                modifierBtn.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;");
+                supprimerBtn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;");
+                vboxText.setSpacing(5);
+                hBox.setStyle("-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 10;");
+                hBox.setSpacing(20);
+
+                modifierBtn.setOnAction(event -> {
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/offre/UpdateOffre.fxml"));
+                        Parent root = loader.load();
+                        UpdateOffre controller = loader.getController();
+                        controller.setOffreToEdit(getItem());
+
+                        Stage stage = new Stage();
+                        stage.setTitle("Modifier Offre");
+                        stage.setScene(new Scene(root));
+                        stage.show();
+                    } catch (IOException e) {
+                        System.out.println("Erreur de navigation : " + e.getMessage());
+                    }
+                });
+
+                supprimerBtn.setOnAction(event -> {
+                    Offre_Emploi selected = getItem();
+                    if (selected != null) {
+                        offreService.supprimer(selected);
+                        afficherOffres();
+                    }
+                });
+            }
+
             @Override
-            public ListCell<Offre_Emploi> call(ListView<Offre_Emploi> param) {
-                return new ListCell<Offre_Emploi>() {
-                    private final Label offreLabel = new Label();
-                    private final Button supprimerBtn = new Button("Supprimer");
-                    private final Button updateBtn = new Button("Modifier");
-                    private final HBox hBox = new HBox(10, offreLabel, updateBtn, supprimerBtn);
-
-                    {
-                        supprimerBtn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 5;");
-                        updateBtn.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 5;");
-
-                        supprimerBtn.setOnAction(event -> {
-                            Offre_Emploi selected = getItem();
-                            if (selected != null) {
-                                offreService.supprimer(selected);
-                                afficherOffres();
-                            }
-                        });
-
-                        updateBtn.setOnAction(event -> {
-                            try {
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/offre/UpdateOffre.fxml"));
-                                Parent root = loader.load();
-                                UpdateOffre controller = loader.getController();
-                                controller.setOffreToEdit(getItem());
-
-                                Stage stage = new Stage();
-                                stage.setTitle("Modifier Offre");
-                                stage.setScene(new Scene(root));
-                                stage.show();
-
-                            } catch (IOException e) {
-                                System.out.println("Erreur de navigation : " + e.getMessage());
-                            }
-                        });
-                    }
-
-                    @Override
-                    protected void updateItem(Offre_Emploi offre, boolean empty) {
-                        super.updateItem(offre, empty);
-                        if (empty || offre == null) {
-                            setText(null);
-                            setGraphic(null);
-                        } else {
-                            offreLabel.setText(offre.getTitre() + " - " + offre.getLieu() + " (" + offre.getSalaire() + " DT)");
-                            setGraphic(hBox);
-                        }
-                    }
-                };
+            protected void updateItem(Offre_Emploi offre, boolean empty) {
+                super.updateItem(offre, empty);
+                if (empty || offre == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    titreLabel.setText(offre.getTitre() + " - " + offre.getLieu() + " (" + offre.getSalaire() + " DT)");
+                    descriptionLabel.setText(offre.getDescoffre());
+                    // Affiche le nombre de postulations
+                    postulationsLabel.setText("Postulations: " + offre.getNombre_postulations());
+                    setGraphic(hBox);
+                }
             }
         });
     }
 
 
+
+
+
     @FXML
-    public void handleAjouterOffre(ActionEvent event) {
+    public <Int> void handleAjouterOffre(ActionEvent event) {
         try {
             String titre = titreField.getText();
             String descoffre = descoffreField.getText();
@@ -172,4 +233,8 @@ public class OffreController {
     }
 
 
+    public void handleListPostulations(ActionEvent event) throws IOException {
+        navigateToPage(event, "/offre/PostList.fxml");
+
+    }
 }

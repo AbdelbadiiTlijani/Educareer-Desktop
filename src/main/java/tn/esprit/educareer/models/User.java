@@ -140,4 +140,5 @@ public class User {
                 ", date=" + date +
                 '}';
     }
+
 }

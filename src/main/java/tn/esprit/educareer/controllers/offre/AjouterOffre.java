@@ -1,5 +1,6 @@
 package tn.esprit.educareer.controllers.offre;
 
+import tn.esprit.educareer.services.SalaryAPI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -56,7 +57,31 @@ public class AjouterOffre {
 
     @FXML
     public void initialize() {
-        chargerTypesOffres(); // Charger les types d'offres au démarrage
+        chargerTypesOffres();
+        // Quand on change de type d'offre
+        idtype.valueProperty().addListener((obs, oldVal, newVal) -> {
+            autofillSalary();
+        });
+
+        // Quand on change de lieu
+        lieu.textProperty().addListener((observable, oldValue, newValue) -> {
+            autofillSalary();
+        });
+    }
+
+    // Méthode pour auto-compléter le salaire
+    private void autofillSalary() {
+        Type_Offre selectedType = idtype.getValue();
+        String lieuText = lieu.getText();
+
+        if (selectedType != null && lieuText != null && !lieuText.trim().isEmpty()) {
+            Double estimatedSalary = SalaryAPI.getAverageSalary(selectedType.getCategorie(), lieuText);
+            if (estimatedSalary != null) {
+                salaire.setText(String.valueOf((int) Math.round(estimatedSalary)));
+            } else {
+                System.out.println("Pas de salaire estimé pour ce poste à cet endroit.");
+            }
+        }
     }
 
     @FXML
@@ -65,7 +90,33 @@ public class AjouterOffre {
         String titreText = titre.getText();
         String description = descoffre.getText();
         String lieuText = lieu.getText();
-        double salaireValue = Double.parseDouble(salaire.getText());
+        String salaireText = salaire.getText();
+
+        // Vérification des champs obligatoires
+        if (titreText == null || titreText.trim().length() < 2 ||
+                description == null || description.trim().length() < 2 ||
+                lieuText == null || lieuText.trim().length() < 2 ||
+                salaireText == null || salaireText.trim().isEmpty()) {
+
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Champs manquants ou invalides");
+            alert.setHeaderText(null);
+            alert.setContentText("Tous les champs doivent contenir au moins 2 caractères et ne doivent pas être vides.");
+            alert.showAndWait();
+            return;
+        }
+
+        double salaireValue;
+        try {
+            salaireValue = Double.parseDouble(salaireText);
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Salaire invalide");
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez saisir un salaire valide.");
+            alert.showAndWait();
+            return;
+        }
 
         // Récupérer la catégorie sélectionnée
         Type_Offre selectedType = idtype.getValue();

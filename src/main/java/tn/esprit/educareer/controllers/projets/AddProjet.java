@@ -1,5 +1,6 @@
 package tn.esprit.educareer.controllers.projets;
 
+import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,6 +8,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import tn.esprit.educareer.models.CategorieProjet;
@@ -24,10 +27,12 @@ public class AddProjet {
 
     @FXML private TextField titreField;
     @FXML private TextArea descriptionField;
-    @FXML private TextArea contenuField;
     @FXML private ComboBox<CategorieProjet> categorieComboBox;
     @FXML private TextField formateurField;
     @FXML private TextField nouvelleCategorieField;
+    @FXML private WebView contenuEditor;
+
+    private WebEngine webEngine;
 
     private final ServiceProjet serviceProjet = new ServiceProjet();
     private final ServiceCategorieProjet serviceCategorie = new ServiceCategorieProjet();
@@ -37,7 +42,6 @@ public class AddProjet {
         List<CategorieProjet> categories = serviceCategorie.getAll();
         categorieComboBox.getItems().addAll(categories);
 
-        // Ajouter "Autre"
         CategorieProjet autre = new CategorieProjet(-1, "Autre");
         categorieComboBox.getItems().add(autre);
 
@@ -58,6 +62,26 @@ public class AddProjet {
             formateurField.setText(String.valueOf(currentUser.getId()));
             formateurField.setDisable(true);
         }
+
+        // Charger TinyMCE dans WebView
+        webEngine = contenuEditor.getEngine();
+        webEngine.loadContent("""
+            <!DOCTYPE html>
+            <html>
+            <head>
+              <script src="https://cdn.tiny.cloud/1/wj1srxz8nfpm68y705nwnchk9k25rjh7tvxk845pdn9lgaxe/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+              <script>
+                tinymce.init({
+                  selector: '#editor',
+                  height: 250
+                });
+              </script>
+            </head>
+            <body>
+              <textarea id="editor">Écrivez ici le contenu du projet...</textarea>
+            </body>
+            </html>
+        """);
     }
 
     @FXML
@@ -68,12 +92,21 @@ public class AddProjet {
         nouvelleCategorieField.setManaged(isAutre);
     }
 
+
+
+
+
+
+
+
+
+
+
     @FXML
     private void ajouterProjet() {
         try {
             if (titreField.getText().trim().isEmpty() ||
-                    descriptionField.getText().trim().isEmpty() ||
-                    contenuField.getText().trim().isEmpty()) {
+                    descriptionField.getText().trim().isEmpty()) {
                 showAlert(Alert.AlertType.ERROR, "Champ manquant", "Tous les champs doivent être remplis.");
                 return;
             }
@@ -81,7 +114,15 @@ public class AddProjet {
             int formateurId = Integer.parseInt(formateurField.getText());
             String titre = titreField.getText();
             String description = descriptionField.getText();
-            String contenu = contenuField.getText();
+
+            // Attendre le chargement du contenu TinyMCE
+            webEngine.executeScript("tinymce.triggerSave();");
+            String contenu = (String) webEngine.executeScript("document.getElementById('editor').value");
+
+            if (contenu.trim().isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Champ manquant", "Contenu du projet est vide.");
+                return;
+            }
 
             CategorieProjet selectedCategorie = categorieComboBox.getValue();
             CategorieProjet finalCategorie;
@@ -112,25 +153,25 @@ public class AddProjet {
                 showAlert(Alert.AlertType.ERROR, "Erreur", "Catégorie invalide.");
                 return;
             }
-
             Projet projet = new Projet(finalCategorie.getId(), titre, description, contenu, formateurId);
             serviceProjet.ajouter(projet);
             showAlert(Alert.AlertType.INFORMATION, "Succès", "Projet ajouté avec succès !");
             clearFields();
 
-        } catch (NumberFormatException e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur", "ID Formateur invalide.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de l'ajout du projet.");
         }
     }
 
     private void clearFields() {
         titreField.clear();
         descriptionField.clear();
-        contenuField.clear();
         nouvelleCategorieField.clear();
         categorieComboBox.setValue(null);
         nouvelleCategorieField.setVisible(false);
         nouvelleCategorieField.setManaged(false);
+        webEngine.executeScript("tinymce.get('editor').setContent('');");
     }
 
     private void showAlert(Alert.AlertType type, String title, String message) {

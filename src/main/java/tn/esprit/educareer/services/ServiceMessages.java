@@ -2,6 +2,7 @@ package tn.esprit.educareer.services;
 
 import tn.esprit.educareer.models.Messages;
 import tn.esprit.educareer.models.User;
+
 import tn.esprit.educareer.utils.MyConnection;
 
 import java.sql.*;
@@ -31,6 +32,7 @@ public class ServiceMessages {
             ps.setString(3, msg.getTitre());
             ps.setString(4, msg.getMessage());
             ps.setTimestamp(5, new Timestamp(msg.getCreated_at().getTime()));
+
             ps.setBoolean(6, msg.isIs_read());
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -113,4 +115,17 @@ public class ServiceMessages {
         }
         return null;
     }
+
+    public void markMessagesAsRead(int senderId, int recipientId) {
+        String query = "UPDATE messages SET is_read = 1 WHERE sender_id = ? AND recipient_id = ?";
+        try (PreparedStatement ps = cnx.prepareStatement(query)) {
+            ps.setInt(1, senderId);
+            ps.setInt(2, recipientId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

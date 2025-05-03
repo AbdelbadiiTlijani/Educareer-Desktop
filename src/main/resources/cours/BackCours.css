@@ -1,0 +1,17 @@
+/* Bouton Modifier - Jaune */
+.btn-modifier {
+    -fx-background-color: #FFEB3B; /* Jaune */
+    -fx-text-fill: black;
+}
+
+/* Bouton Supprimer - Rouge */
+.btn-supprimer {
+    -fx-background-color: #F44336; /* Rouge */
+    -fx-text-fill: white;
+}
+
+/* Bouton PDF - Orange */
+.btn-pdf {
+    -fx-background-color: #FF9800; /* Orange */
+    -fx-text-fill: white;
+}
