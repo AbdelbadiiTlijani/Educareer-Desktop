@@ -47,6 +47,10 @@ import javafx.util.Duration;
 
 public class studentController {
 
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
+
     @FXML
     private Label companyGrowthLabel;
 
@@ -67,6 +71,8 @@ public class studentController {
 
     @FXML
     private Button editProfileButton;
+    @FXML
+    private Button viewJobOffersButton;
 
     @FXML
     private Button logoutButton;
@@ -285,6 +291,23 @@ public class studentController {
             stage.setScene(scene);
             stage.centerOnScreen();
             stage.show();
+
+    private void navigateToPage(ActionEvent event, String path) throws IOException {
+        URL fxmlLocation = getClass().getResource(path);
+        if (fxmlLocation == null) {
+            throw new IOException("FXML file not found at: " + path);
+        }
+        root = FXMLLoader.load(fxmlLocation);
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root , 1000, 700);
+        stage.setScene(scene);
+        stage.centerOnScreen();
+        stage.show();
+    }
+    public void handleViewJobOffers(ActionEvent event) throws IOException {
+        navigateToPage(event, "/offre/JobOffers.fxml");
+    }
+
 
 
         } catch (IOException e) {
