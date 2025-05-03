@@ -15,7 +15,7 @@
 
     <!-- Header Section -->
     <top>
-        <AnchorPane prefHeight="115.0" prefWidth="511.0" style="-fx-background-color: linear-gradient(to right, #4e54c8, #8f94fb); -fx-min-height: 100px; -fx-padding: 10px;" stylesheets="@../event.css">
+        <AnchorPane prefHeight="115.0" prefWidth="511.0" style="-fx-background-color: linear-gradient(to right, #4e54c8, #8f94fb); -fx-min-height: 100px; -fx-padding: 10px;" stylesheets="@../Event/event.css">
             <children>
                 <Label style="-fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold;" text="Gestion des Types d'Événements" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
                 <Button onAction="#handleBackButton" style="-fx-background-color: rgba(255, 255, 255, 0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5px 15px; -fx-border-radius: 20px; -fx-background-radius: 20px; -fx-cursor: hand;" text="Retour" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" />

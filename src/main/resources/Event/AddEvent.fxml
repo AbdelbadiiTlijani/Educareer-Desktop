@@ -6,7 +6,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Pos?>
 
-<ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" style="-fx-background: transparent;" stylesheets="@../event.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.Event.AddEventController">
+<ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" style="-fx-background: transparent;" stylesheets="@event.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.Event.AddEventController">
     <content>
         <BorderPane styleClass="main-pane">
 
