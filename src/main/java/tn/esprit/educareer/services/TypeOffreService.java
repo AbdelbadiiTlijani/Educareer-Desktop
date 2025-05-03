@@ -1,4 +1,6 @@
 package tn.esprit.educareer.services;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import org.mindrot.jbcrypt.BCrypt;
 
 import tn.esprit.educareer.interfaces.IService;
@@ -20,6 +22,12 @@ public class TypeOffreService implements IService<Type_Offre> {
 
     @Override
     public void ajouter(Type_Offre typeOffre) {
+        // Vérification que la catégorie n'est pas vide et contient au moins 2 caractères
+        if (typeOffre.getCategorie() == null || typeOffre.getCategorie().trim().isEmpty() || typeOffre.getCategorie().trim().length() < 2) {
+            showAlert("Erreur", "La catégorie doit contenir au moins 2 caractères et ne peut pas être vide.");
+            return;
+        }
+
         String req = "INSERT INTO type_offre (categorie) VALUES (?)";
         try {
             PreparedStatement pst = cnx.prepareStatement(req);
@@ -31,8 +39,16 @@ public class TypeOffreService implements IService<Type_Offre> {
         }
     }
 
+
+
     @Override
     public void modifier(Type_Offre typeOffre) {
+        // Vérification que la catégorie n'est pas vide et contient au moins 2 caractères
+        if (typeOffre.getCategorie() == null || typeOffre.getCategorie().trim().isEmpty() || typeOffre.getCategorie().trim().length() < 2) {
+            showAlert("Erreur", "La catégorie doit contenir au moins 2 caractères et ne peut pas être vide.");
+            return;
+        }
+
         String req = "UPDATE type_offre SET categorie=? WHERE id=?";
         try {
             PreparedStatement pst = cnx.prepareStatement(req);
@@ -44,6 +60,7 @@ public class TypeOffreService implements IService<Type_Offre> {
             System.out.println(e.getMessage());
         }
     }
+
 
     @Override
     public void supprimer(Type_Offre typeOffre) {
@@ -74,6 +91,13 @@ public class TypeOffreService implements IService<Type_Offre> {
             System.out.println("Erreur SQL : " + e.getMessage());
         }
         return types; // Jamais null
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
+        alert.setTitle(title);
+        alert.setHeaderText(null); // Pas de texte d'en-tête
+        alert.showAndWait(); // Affiche l'alerte et attend l'interaction de l'utilisateur
     }
     @Override
     public Type_Offre getOne(Type_Offre typeOffre) {

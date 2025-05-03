@@ -12,49 +12,68 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane style="-fx-background-color: #f5f7fa; -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.offre.AjouterOffre">
+<BorderPane style="-fx-background-color: #f0f2f5; -fx-font-family: 'Segoe UI', sans-serif;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.offre.AjouterOffre">
 
     <!-- Header Section -->
     <top>
-        <AnchorPane prefHeight="115.0" prefWidth="511.0" style="-fx-background-color: linear-gradient(to right, #4e54c8, #8f94fb); -fx-min-height: 100px; -fx-padding: 10px;">
+        <AnchorPane prefHeight="115.0" style="-fx-background-color: linear-gradient(to right, #4e54c8, #8f94fb); -fx-padding: 10px;">
             <children>
-                <Label style="-fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold;" text="Gestion Des offres d'emploi" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
-
-                <Button onAction="#handleBackButton" style="-fx-background-color: rgba(255, 255, 255, 0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5px 15px; -fx-border-radius: 20px; -fx-background-radius: 20px; -fx-cursor: hand;" text="Retour" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" />
+                <Label text="Gestion Des offres d'emploi"
+                       style="-fx-font-size: 26px; -fx-text-fill: white; -fx-font-weight: bold;"
+                       AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0"/>
+                <Button text="Retour" onAction="#handleBackButton"
+                        style="-fx-background-color: rgba(255,255,255,0.25); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8px 20px; -fx-border-radius: 25px; -fx-background-radius: 25px; -fx-cursor: hand;"
+                        AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0"/>
             </children>
         </AnchorPane>
     </top>
 
     <!-- Content Section -->
     <center>
-        <VBox spacing="15" style="-fx-padding: 20px;">
-            <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" text="ajouter Un Offre" />
-            <!-- Search and Filter -->
-            <HBox spacing="10" />
-            <AnchorPane style="-fx-background-color: white; -fx-background-radius: 10px; -fx-padding: 5px; -fx-min-height: 400px;">
-                <ListView fx:id="offreListView" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 5px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                <TextField fx:id="titre" layoutX="47.0" layoutY="35.0" promptText="titre" />
-                <TextField fx:id="descoffre" layoutX="48.0" layoutY="88.0" promptText="descoffre" />
-                <TextField fx:id="lieu" layoutX="49.0" layoutY="138.0" promptText="lieu" />
-                <TextField fx:id="salaire" layoutX="48.0" layoutY="180.0" promptText="salaire" />
-                <Button layoutX="47.0" layoutY="252.0" mnemonicParsing="false" onAction="#save" text="Save" />
-            <ComboBox fx:id="idtype" layoutX="48.0" layoutY="214.0" prefWidth="150.0" promptText="idtype" />
+        <VBox spacing="20" style="-fx-padding: 30px;">
+            <Label text="Ajouter Une Offre"
+                   style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2f3542;" />
+            <HBox spacing="10"/>
+
+            <AnchorPane style="-fx-background-color: white; -fx-background-radius: 20px; -fx-padding: 30px;">
+                <VBox spacing="15" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+                    <TextField fx:id="titre" promptText="Titre de l'offre"
+                               style="-fx-background-radius: 10px; -fx-border-radius: 10px; -fx-border-color: #dfe4ea; -fx-padding: 12px; -fx-font-size: 14px;" />
+
+                    <TextField fx:id="descoffre" promptText="Description"
+                               style="-fx-background-radius: 10px; -fx-border-radius: 10px; -fx-border-color: #dfe4ea; -fx-padding: 12px; -fx-font-size: 14px;" />
+
+                    <TextField fx:id="lieu" promptText="Lieu"
+                               style="-fx-background-radius: 10px; -fx-border-radius: 10px; -fx-border-color: #dfe4ea; -fx-padding: 12px; -fx-font-size: 14px;" />
+
+                    <TextField fx:id="salaire" promptText="Salaire"
+                               style="-fx-background-radius: 10px; -fx-border-radius: 10px; -fx-border-color: #dfe4ea; -fx-padding: 12px; -fx-font-size: 14px;" />
+
+                    <ComboBox fx:id="idtype" promptText="Type d'offre"
+                              style="-fx-background-radius: 10px; -fx-border-radius: 10px; -fx-border-color: #dfe4ea; -fx-padding: 12px; -fx-font-size: 14px;"
+                              prefWidth="200" />
+
+                    <Button fx:id="save" text="Enregistrer" onAction="#save"
+                            style="-fx-background-color: linear-gradient(to right, #6a11cb, #2575fc); -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 10px; -fx-padding: 12px; -fx-cursor: hand;" />
+                </VBox>
 
                 <effect>
-                    <DropShadow color="#00000044" radius="10.0" />
+                    <DropShadow color="#00000022" radius="15" />
                 </effect>
             </AnchorPane>
 
             <padding>
-                <Insets bottom="10" left="10" right="10" top="10" />
+                <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
         </VBox>
     </center>
 
     <!-- Footer Section -->
     <bottom>
-        <AnchorPane style="-fx-background-color: #333; -fx-min-height: 50px;">
-            <Label style="-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 12px;" text="Panneau Admin - Systeme de Gestion D'utilisateurs " AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+        <AnchorPane style="-fx-background-color: #2f3542; -fx-min-height: 50px;">
+            <Label text="Panneau Admin - Systeme de Gestion D'utilisateurs"
+                   style="-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 12px;"
+                   AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0"/>
         </AnchorPane>
     </bottom>
 </BorderPane>

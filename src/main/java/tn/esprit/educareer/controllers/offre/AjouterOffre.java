@@ -1,5 +1,6 @@
 package tn.esprit.educareer.controllers.offre;
 
+import tn.esprit.educareer.services.SalaryAPI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -56,7 +57,31 @@ public class AjouterOffre {
 
     @FXML
     public void initialize() {
-        chargerTypesOffres(); // Charger les types d'offres au démarrage
+        chargerTypesOffres();
+        // Quand on change de type d'offre
+        idtype.valueProperty().addListener((obs, oldVal, newVal) -> {
+            autofillSalary();
+        });
+
+        // Quand on change de lieu
+        lieu.textProperty().addListener((observable, oldValue, newValue) -> {
+            autofillSalary();
+        });
+    }
+
+    // Méthode pour auto-compléter le salaire
+    private void autofillSalary() {
+        Type_Offre selectedType = idtype.getValue();
+        String lieuText = lieu.getText();
+
+        if (selectedType != null && lieuText != null && !lieuText.trim().isEmpty()) {
+            Double estimatedSalary = SalaryAPI.getAverageSalary(selectedType.getCategorie(), lieuText);
+            if (estimatedSalary != null) {
+                salaire.setText(String.valueOf((int) Math.round(estimatedSalary)));
+            } else {
+                System.out.println("Pas de salaire estimé pour ce poste à cet endroit.");
+            }
+        }
     }
 
     @FXML
@@ -69,6 +94,7 @@ public class AjouterOffre {
 
         // Récupérer la catégorie sélectionnée
         Type_Offre selectedType = idtype.getValue();
+
 
         // Vérifier si un type est sélectionné
         if (selectedType == null) {
