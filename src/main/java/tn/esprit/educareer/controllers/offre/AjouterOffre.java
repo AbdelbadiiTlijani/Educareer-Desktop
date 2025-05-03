@@ -90,11 +90,36 @@ public class AjouterOffre {
         String titreText = titre.getText();
         String description = descoffre.getText();
         String lieuText = lieu.getText();
-        double salaireValue = Double.parseDouble(salaire.getText());
+        String salaireText = salaire.getText();
+
+        // Vérification des champs obligatoires
+        if (titreText == null || titreText.trim().length() < 2 ||
+                description == null || description.trim().length() < 2 ||
+                lieuText == null || lieuText.trim().length() < 2 ||
+                salaireText == null || salaireText.trim().isEmpty()) {
+
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Champs manquants ou invalides");
+            alert.setHeaderText(null);
+            alert.setContentText("Tous les champs doivent contenir au moins 2 caractères et ne doivent pas être vides.");
+            alert.showAndWait();
+            return;
+        }
+
+        double salaireValue;
+        try {
+            salaireValue = Double.parseDouble(salaireText);
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Salaire invalide");
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez saisir un salaire valide.");
+            alert.showAndWait();
+            return;
+        }
 
         // Récupérer la catégorie sélectionnée
         Type_Offre selectedType = idtype.getValue();
-
 
         // Vérifier si un type est sélectionné
         if (selectedType == null) {

@@ -35,13 +35,7 @@
                 </padding>
             </Label>
 
-            <Button fx:id="viewUserButton" onAction="#handleViewUser" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="User">
-                <graphic>
-                    <HBox alignment="CENTER_LEFT" spacing="10">
-                        <Label style="-fx-font-size: 16;" text="👥" />
-                    </HBox>
-                </graphic>
-            </Button>
+
             <Button fx:id="viewCoursButton" onAction="#handleViewCoursButton" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Cours">
                 <graphic>
                     <HBox alignment="CENTER_LEFT" spacing="10">
