@@ -6,8 +6,8 @@ import java.io.IOException;
 
 public class WhatsappService {
 
-    private static final String API_URL = "https://9k25r4.api.infobip.com/whatsapp/1/message/template";
-    private static final String API_KEY = "App 8bc1021e9e1ed84c13422456aaa5d1b6-db810d0d-a432-4d16-ac7b-a5ae84f4ec7c"; // Ton vrai API key ici
+    private static final String API_URL = "https://api.infobip.com/whatsapp/1/message/template";
+    private static final String API_KEY = "App 464d12ada3ac52ed90f25ed63d3cc6ba-a5489613-2142-47c4-be38-6a1b9a10a841"; // Ton vrai API key ici
     private static final String FROM_NUMBER = "447860099299"; // Le numéro Infobip que tu utilises pour envoyer
 
     private final OkHttpClient client;
