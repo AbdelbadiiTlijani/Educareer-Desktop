@@ -54,7 +54,7 @@ public class PredictionChartController {
 
     private void loadDataFromJson() {
         // Le chemin du fichier JSON
-        File jsonFile = new File("C:/Users/seifc/OneDrive/Bureau/ESPRIT/3A34/Sem2/PIWeb/Integration-Pi/templates/chart/pred.json");
+        File jsonFile = new File("C:/Users/Mega-PC/Desktop/Integration-Pi (2)/Integration-Pi/templates/chart/pred.json");
 
         // Utiliser Jackson pour parser le fichier JSON
         ObjectMapper objectMapper = new ObjectMapper();

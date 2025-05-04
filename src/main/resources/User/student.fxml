@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <AnchorPane fx:id="dashboardPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f5f5f7;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.User.studentController">
 
     <!-- Left Sidebar Navigation Panel -->
@@ -28,8 +35,8 @@
                 </padding>
             </Label>
 
-            <Button fx:id="viewCoursButton" onAction="#handleViewCoursButton" prefHeight="40" prefWidth="220"
-                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Cours">
+
+            <Button fx:id="viewCoursButton" onAction="#handleViewCoursButton" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Cours">
                 <graphic>
                     <HBox alignment="CENTER_LEFT" spacing="10">
                         <Label style="-fx-font-size: 16;" text="👥" />
@@ -37,8 +44,7 @@
                 </graphic>
             </Button>
 
-            <Button fx:id="viewProjectsButton" onAction="#handleViewProjects" prefHeight="40" prefWidth="220"
-                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Projets">
+            <Button fx:id="viewCompanyEmployeeButton" onAction="#handleViewProjects" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Projets">
                 <graphic>
                     <HBox alignment="CENTER_LEFT" spacing="10">
                         <Label style="-fx-font-size: 16;" text="🏢" />
@@ -46,17 +52,19 @@
                 </graphic>
             </Button>
 
-            <Button fx:id="viewEventsButton" onAction="#handleViewEvents" prefHeight="40" prefWidth="220"
-                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Evennements">
+            <Button fx:id="viewCompanyEmployeeButton1" onAction="#handleViewEvents" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Evennements">
                 <graphic>
                     <HBox alignment="CENTER_LEFT" spacing="10">
-                        <Label style="-fx-font-size: 16;" text="🎉" />
+                        <children>
+                            <Label style="-fx-font-size: 16;" text="🎉" />
+                        </children>
                     </HBox>
                 </graphic>
             </Button>
 
             <Button fx:id="viewAjoutReclamationbutton" onAction="#handleAjoutReclamationButton" prefHeight="40" prefWidth="220"
-                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Réclamations">
+                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;"
+                    text="Réclamations">
                 <graphic>
                     <HBox alignment="CENTER_LEFT" spacing="10">
                         <Label style="-fx-font-size: 16;" text="📘" />
@@ -77,15 +85,20 @@
             <!-- NEW BUTTON FOR LIVE CHAT -->
             <Button text="Live Chat" fx:id="liveChatButton" onAction="#openLiveChat"
                     style="-fx-background-color: linear-gradient(to right, #4facfe, #00f2fe);
-                           -fx-text-fill: white;
-                           -fx-font-size: 16px;
-                           -fx-font-weight: bold;
-                           -fx-background-radius: 30px;
-                           -fx-border-radius: 30px;
-                           -fx-padding: 10px 20px;
-                           -fx-cursor: hand;
-                           -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 5, 0.3, 0, 1);
-                           -fx-transition: all 0.3s ease-in-out;" />
+               -fx-text-fill: white;
+               -fx-font-size: 16px;
+               -fx-font-weight: bold;
+               -fx-background-radius: 30px;
+               -fx-border-radius: 30px;
+               -fx-padding: 10px 20px;
+               -fx-cursor: hand;
+               -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 5, 0.3, 0, 1);
+               -fx-transition: all 0.3s ease-in-out;"/>
+
+        </VBox>
+
+        <VBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
+
         </VBox>
     </VBox>
 
@@ -105,9 +118,9 @@
                     </HBox>
                 </graphic>
                 <items>
-                    <MenuItem fx:id="editProfileMenuItem" onAction="#handleEditProfile">
+                    <MenuItem fx:id="editProfileMenuItem" onAction="#handleEditProfile" style="-fx-padding: 10 15 10 15;">
                         <graphic>
-                            <HBox spacing="10" alignment="CENTER_LEFT">
+                            <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 5;">
                                 <ImageView fitHeight="20" fitWidth="20">
                                     <image>
                                         <Image url="@/photos/edit_8215526.png" />
@@ -119,11 +132,21 @@
                                 </VBox>
                             </HBox>
                         </graphic>
+                        <style>
+                            <![CDATA[
+                            .menu-item {
+                                -fx-background-color: transparent;
+                            }
+                            .menu-item:hover {
+                                -fx-background-color: #f5f5f7;
+                            }
+                            ]]>
+                        </style>
                     </MenuItem>
 
-                    <MenuItem fx:id="logoutMenuItem" onAction="#handleLogout">
+                    <MenuItem fx:id="logoutMenuItem" onAction="#handleLogout" style="-fx-padding: 10 15 10 15;">
                         <graphic>
-                            <HBox spacing="10" alignment="CENTER_LEFT">
+                            <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 5;">
                                 <ImageView fitHeight="20" fitWidth="20">
                                     <image>
                                         <Image url="@/photos/logout_icon.png" />
@@ -135,26 +158,50 @@
                                 </VBox>
                             </HBox>
                         </graphic>
+                        <style>
+                            <![CDATA[
+                            .menu-item {
+                                -fx-background-color: transparent;
+                            }
+                            .menu-item:hover {
+                                -fx-background-color: #f5f5f7;
+                            }
+                            ]]>
+                        </style>
                     </MenuItem>
                 </items>
             </MenuButton>
         </HBox>
 
-        <!-- Dashboard & Cards Area -->
+        <!-- Rest of your existing content remains the same -->
         <VBox spacing="20" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="60.0">
+
             <HBox spacing="20">
+                <!-- Dashboard Stat Card 1 -->
                 <StackPane />
+
+                <!-- Dashboard Stat Card 2 -->
                 <StackPane />
+
+                <!-- Dashboard Stat Card 3 -->
                 <StackPane />
             </HBox>
 
             <HBox spacing="15">
+                <!-- Quick Access Card 1 -->
                 <StackPane />
+
+                <!-- Quick Access Card 2 -->
                 <StackPane />
+
+                <!-- Quick Access Card 3 -->
                 <StackPane />
+
+                <!-- Quick Access Card 4 -->
                 <StackPane />
             </HBox>
 
+            <!-- NEW BUTTON ADDED: Company & Employees Detailed View -->
             <HBox alignment="CENTER" spacing="15">
                 <StackPane />
             </HBox>

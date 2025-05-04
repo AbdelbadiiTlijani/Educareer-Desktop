@@ -86,7 +86,7 @@ public class TypeReclamationController {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/User/AdminDashboard.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
+            stage.setScene(new Scene(root , 1000 , 700));
             stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {
