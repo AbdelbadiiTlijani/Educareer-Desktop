@@ -526,7 +526,7 @@ private void openLiveChat(ActionEvent event) {
         alert.setTitle(navigationError);
         alert.setHeaderText("Page Load Failed");
         alert.setContentText(s);
-        alert.show();
+        alert.show();}
 
     private void navigateToPage(ActionEvent event, String path) throws IOException {
         URL fxmlLocation = getClass().getResource(path);
