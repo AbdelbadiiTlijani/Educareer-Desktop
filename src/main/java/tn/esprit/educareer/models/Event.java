@@ -1,20 +1,19 @@
 package tn.esprit.educareer.models;
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
 
 public class Event {
-
     private int id;
-    private TypeEvent typeEvent; // Relation ManyToOne
+    private TypeEvent typeEvent;
     private String titre;
     private String description;
-    private LocalDate date;
+    private LocalDateTime date;
     private String lieu;
     private int nbrPlace;
 
-    public Event() {
-    }
+    public Event() {}
 
-    public Event(int id, TypeEvent typeEvent, String titre, String description, LocalDate date, String lieu, int nbrPlace) {
+    public Event(int id, TypeEvent typeEvent, String titre, String description, LocalDateTime date, String lieu, int nbrPlace) {
         this.id = id;
         this.typeEvent = typeEvent;
         this.titre = titre;
@@ -24,7 +23,7 @@ public class Event {
         this.nbrPlace = nbrPlace;
     }
 
-    public Event(TypeEvent typeEvent, String titre, String description, LocalDate date, String lieu, int nbrPlace) {
+    public Event(TypeEvent typeEvent, String titre, String description, LocalDateTime date, String lieu, int nbrPlace) {
         this.typeEvent = typeEvent;
         this.titre = titre;
         this.description = description;
@@ -33,61 +32,26 @@ public class Event {
         this.nbrPlace = nbrPlace;
     }
 
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public TypeEvent getTypeEvent() { return typeEvent; }
+    public void setTypeEvent(TypeEvent typeEvent) { this.typeEvent = typeEvent; }
 
-    public TypeEvent getTypeEvent() {
-        return typeEvent;
-    }
+    public String getTitre() { return titre; }
+    public void setTitre(String titre) { this.titre = titre; }
 
-    public void setTypeEvent(TypeEvent typeEvent) {
-        this.typeEvent = typeEvent;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public String getTitre() {
-        return titre;
-    }
+    public LocalDateTime getDate() { return date; }
+    public void setDate(LocalDateTime date) { this.date = date; }
 
-    public void setTitre(String titre) {
-        this.titre = titre;
-    }
+    public String getLieu() { return lieu; }
+    public void setLieu(String lieu) { this.lieu = lieu; }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public String getLieu() {
-        return lieu;
-    }
-
-    public void setLieu(String lieu) {
-        this.lieu = lieu;
-    }
-
-    public int getNbrPlace() {
-        return nbrPlace;
-    }
-
-    public void setNbrPlace(int nbrPlace) {
-        this.nbrPlace = nbrPlace;
-    }
+    public int getNbrPlace() { return nbrPlace; }
+    public void setNbrPlace(int nbrPlace) { this.nbrPlace = nbrPlace; }
 
     @Override
     public String toString() {

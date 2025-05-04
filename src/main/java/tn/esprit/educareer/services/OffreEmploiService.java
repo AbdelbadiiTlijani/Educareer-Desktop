@@ -19,87 +19,102 @@ public class OffreEmploiService implements IService<Offre_Emploi> {
     private Connection cnx;
 
     public OffreEmploiService() {
-        cnx = MyConnection.getInstance().getCnx(); // même style que ServiceUser
+        cnx = MyConnection.getInstance().getCnx();
     }
 
     @Override
     public void ajouter(Offre_Emploi offre) {
-        // Contrôle de saisie et affichage d'alertes en cas d'erreur
-        if (offre.getTitre().isEmpty() || offre.getTitre().length() < 3) {
-            showAlert("Erreur", "Le titre doit contenir au moins 3 caractères et ne peut pas être vide.");
+        // Vérification si un seul champ est vide ou invalide
+        if (offre.getTitre() == null || offre.getTitre().trim().isEmpty() ||
+                offre.getDescoffre() == null || offre.getDescoffre().trim().isEmpty() ||
+                offre.getLieu() == null || offre.getLieu().trim().isEmpty() ||
+                offre.getSalaire() <= 0 ||
+                offre.getTypeOffre() == null) {
+
+            showAlert("Erreur", "Tous les champs doivent être remplis correctement !");
             return;
         }
 
-        if (offre.getLieu().isEmpty() || offre.getLieu().length() < 3) {
-            showAlert("Erreur", "Le lieu doit contenir au moins 3 caractères et ne peut pas être vide.");
+        // Vérification spécifique sur la longueur minimale de titre, descoffre et lieu
+        if (offre.getTitre().trim().length() < 2) {
+            showAlert("Erreur", "Le titre doit contenir au moins 2 caractères.");
             return;
         }
 
-        if (offre.getDescoffre().isEmpty() || offre.getDescoffre().length() < 3) {
-            showAlert("Erreur", "La description de l'offre doit contenir au moins 3 caractères et ne peut pas être vide.");
+        if (offre.getDescoffre().trim().length() < 2) {
+            showAlert("Erreur", "La description doit contenir au moins 2 caractères.");
             return;
         }
 
-        if (offre.getSalaire() <= 0) {
-            showAlert("Erreur", "Le salaire doit être un nombre positif.");
+        if (offre.getLieu().trim().length() < 2) {
+            showAlert("Erreur", "Le lieu doit contenir au moins 2 caractères.");
             return;
         }
 
-        // Si tous les contrôles sont OK, on procède à l'ajout
+        // Si tout est correct, insérer dans la base
         String req = "INSERT INTO offre_emploi (titre, descoffre, lieu, salaire, type_offre_id) VALUES (?, ?, ?, ?, ?)";
         try {
             PreparedStatement pst = cnx.prepareStatement(req);
-            pst.setString(1, offre.getTitre());
-            pst.setString(2, offre.getDescoffre());
-            pst.setString(3, offre.getLieu());
+            pst.setString(1, offre.getTitre().trim());
+            pst.setString(2, offre.getDescoffre().trim());
+            pst.setString(3, offre.getLieu().trim());
             pst.setDouble(4, offre.getSalaire());
-            pst.setInt(5, offre.getTypeOffre().getId());  // Assurez-vous de stocker l'ID du type d'offre
+            pst.setInt(5, offre.getTypeOffre().getId());
             pst.executeUpdate();
-            System.out.println("Offre ajoutée ");
+            System.out.println("Offre ajoutée avec succès.");
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erreur SQL : " + e.getMessage());
         }
     }
 
+
+
     // Méthode pour modifier une offre existante
     public void modifier(Offre_Emploi offre) {
-        // Contrôle de saisie et affichage d'alertes en cas d'erreur
-        if (offre.getTitre().isEmpty() || offre.getTitre().length() < 3) {
-            showAlert("Erreur", "Le titre doit contenir au moins 3 caractères et ne peut pas être vide.");
+        // Vérification si un seul champ est vide ou invalide
+        if (offre.getTitre() == null || offre.getTitre().trim().isEmpty() ||
+                offre.getDescoffre() == null || offre.getDescoffre().trim().isEmpty() ||
+                offre.getLieu() == null || offre.getLieu().trim().isEmpty() ||
+                offre.getSalaire() <= 0 ||
+                offre.getTypeOffre() == null) {
+
+            showAlert("Erreur", "Tous les champs doivent être remplis correctement !");
             return;
         }
 
-        if (offre.getLieu().isEmpty() || offre.getLieu().length() < 3) {
-            showAlert("Erreur", "Le lieu doit contenir au moins 3 caractères et ne peut pas être vide.");
+        // Vérification spécifique sur la longueur minimale de titre, descoffre et lieu
+        if (offre.getTitre().trim().length() < 2) {
+            showAlert("Erreur", "Le titre doit contenir au moins 2 caractères.");
             return;
         }
 
-        if (offre.getDescoffre().isEmpty() || offre.getDescoffre().length() < 3) {
-            showAlert("Erreur", "La description de l'offre doit contenir au moins 3 caractères et ne peut pas être vide.");
+        if (offre.getDescoffre().trim().length() < 2) {
+            showAlert("Erreur", "La description doit contenir au moins 2 caractères.");
             return;
         }
 
-        if (offre.getSalaire() <= 0) {
-            showAlert("Erreur", "Le salaire doit être un nombre positif.");
+        if (offre.getLieu().trim().length() < 2) {
+            showAlert("Erreur", "Le lieu doit contenir au moins 2 caractères.");
             return;
         }
 
-        // Si tous les contrôles sont OK, on procède à la mise à jour
+        // Si tout est correct, mettre à jour l'offre dans la base de données
         String req = "UPDATE offre_emploi SET titre=?, descoffre=?, lieu=?, salaire=?, type_offre_id=? WHERE id=?";
         try {
             PreparedStatement pst = cnx.prepareStatement(req);
-            pst.setString(1, offre.getTitre());
-            pst.setString(2, offre.getDescoffre());
-            pst.setString(3, offre.getLieu());
+            pst.setString(1, offre.getTitre().trim());
+            pst.setString(2, offre.getDescoffre().trim());
+            pst.setString(3, offre.getLieu().trim());
             pst.setDouble(4, offre.getSalaire());
             pst.setInt(5, offre.getTypeOffre().getId());  // Assurez-vous de stocker l'ID du type d'offre
             pst.setInt(6, offre.getId());  // L'ID de l'offre à modifier
             pst.executeUpdate();
-            System.out.println("Offre modifiée");
+            System.out.println("Offre modifiée avec succès.");
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erreur SQL : " + e.getMessage());
         }
     }
+
 
     // Méthode pour afficher une alerte
     private void showAlert(String title, String message) {
@@ -139,13 +154,31 @@ public class OffreEmploiService implements IService<Offre_Emploi> {
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
+                int nombrePostulations = rs.getInt("nombre_postulations");
+                double salaire = rs.getDouble("salaire");
+
+                // Si le nombre de postulations est inférieur à 3, augmenter le salaire de 20%
+                if (nombrePostulations < 3) {
+                    salaire *= 1.20;  // Augmenter le salaire de 20%
+
+                    // Mise à jour de la base de données pour refléter l'augmentation du salaire
+                    String updateReq = "UPDATE offre_emploi SET salaire = ? WHERE id = ?";
+                    PreparedStatement pstUpdate = cnx.prepareStatement(updateReq);
+                    pstUpdate.setDouble(1, salaire);
+                    pstUpdate.setInt(2, rs.getInt("id"));
+                    pstUpdate.executeUpdate();
+                }
+
+                // Crée l'objet Offre_Emploi avec le salaire mis à jour
                 Offre_Emploi offre = new Offre_Emploi(
                         rs.getInt("id"),
                         rs.getString("titre"),
                         rs.getString("descoffre"),
                         rs.getString("lieu"),
-                        rs.getDouble("salaire")
+                        salaire,  // Salaire mis à jour
+                        nombrePostulations
                 );
+
                 offres.add(offre);
             }
 
@@ -156,6 +189,10 @@ public class OffreEmploiService implements IService<Offre_Emploi> {
         }
         return offres;
     }
+
+
+
+
 
 
 }

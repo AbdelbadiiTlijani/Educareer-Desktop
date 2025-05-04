@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,21 +12,25 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import tn.esprit.educareer.models.CategorieCours;
+import tn.esprit.educareer.models.User;
 import tn.esprit.educareer.services.ServiceCategorieCours;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 
 public class listCategorieCoursController {
-    private final ServiceCategorieCours serviceCategorie = new ServiceCategorieCours();
+    private final ServiceCategorieCours serviceCategorieCours = new ServiceCategorieCours();
 
     @FXML
     private ListView<CategorieCours> categorieCoursListView;
-    @FXML
-    private ComboBox<?> roleFilter;
+
     @FXML
     private TextField searchField;
+
     @FXML
     private Button viewBackButton;
 
@@ -36,7 +39,13 @@ public class listCategorieCoursController {
 
     @FXML
     public void initialize() {
-        ObservableList<CategorieCours> observableList = FXCollections.observableArrayList(serviceCategorie.getAll());
+        serviceCategorieCours.supprimerCategoriesInutiliseesDepuisUnJour();
+
+        searchField.textProperty().addListener((obs, oldValue, newValue) -> {
+            filterCategorieCoursList();
+        });
+
+        ObservableList<CategorieCours> observableList = FXCollections.observableArrayList(serviceCategorieCours.getAll());
         categorieCoursListView.setItems(observableList);
 
         categorieCoursListView.setCellFactory(listView -> new ListCell<>() {
@@ -47,8 +56,9 @@ public class listCategorieCoursController {
             private final HBox hbox = new HBox(10, nomLabel, editButton, deleteButton);
 
             {
-                editButton.getStyleClass().add("btn-modifier");
-                deleteButton.getStyleClass().add("btn-supprimer");
+                editButton.setStyle("-fx-background-color: #FFC107; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;");
+                deleteButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;");
+
                 editButton.setOnAction(this::handleEdit);
                 deleteButton.setOnAction(this::handleDelete);
             }
@@ -87,11 +97,20 @@ public class listCategorieCoursController {
             private void handleDelete(ActionEvent event) {
                 CategorieCours selected = getItem();
                 if (selected != null) {
-                    serviceCategorie.supprimer(selected);
+                    serviceCategorieCours.supprimer(selected);
                     getListView().getItems().remove(selected);
                 }
             }
         });
+    }
+
+
+
+    private void filterCategorieCoursList() {
+        String searchText = searchField.getText().toLowerCase().trim();
+
+        List<CategorieCours> filtered = serviceCategorieCours.getAll().stream().filter(categorieCours -> categorieCours.getNom().toLowerCase().contains(searchText)).toList();
+        categorieCoursListView.getItems().setAll(filtered);
     }
 
 

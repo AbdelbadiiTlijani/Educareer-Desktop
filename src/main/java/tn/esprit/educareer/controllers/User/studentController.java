@@ -17,6 +17,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import tn.esprit.educareer.models.User;
+
 import tn.esprit.educareer.services.ServiceUser;
 import tn.esprit.educareer.utils.UserSession;
 import java.net.HttpURLConnection;
@@ -31,6 +32,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -53,8 +55,15 @@ public class studentController {
 
 
 
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
+
     @FXML
     private Label companyGrowthLabel;
+
+    @FXML
+    private Button viewCoursButton;
 
     @FXML
     private MenuButton userProfileMenu;
@@ -70,6 +79,8 @@ public class studentController {
 
     @FXML
     private Button editProfileButton;
+    @FXML
+    private Button viewJobOffersButton;
 
     @FXML
     private Button logoutButton;
@@ -100,9 +111,15 @@ public class studentController {
 
     @FXML
     private Button viewCompanyEmployeeButton;
-
     @FXML
-    private Button viewUserButton;
+    private Button viewCompanyEmployeeButton1;
+    @FXML
+    private Button liveChatButton;
+
+
+
+
+
 
     @FXML
     public void handleEditProfile(ActionEvent event) {
@@ -131,18 +148,21 @@ public class studentController {
     }
     private tn.esprit.educareer.services.ServiceUser ServiceUser = new ServiceUser();
     public void initialize() {
-        System.out.println("Admin Dashboard initialized");
+        System.out.println("Student Dashboard initialized");
 
         setupButtonHoverEffects();
         setupUserProfile();
 
-        new Thread(() -> {
-            String quote = getMotivationalQuote();
-            javafx.application.Platform.runLater(() -> {
-                System.out.println("Displaying the quote notification...");
-                showMotivationalPopUp(quote);
-            });
-        }).start();
+        if (!UserSession.getInstance().isMotivationalQuoteShown()) {
+            new Thread(() -> {
+                String quote = getMotivationalQuote();
+                javafx.application.Platform.runLater(() -> {
+                    System.out.println("Displaying the quote notification...");
+                    showMotivationalPopUp(quote);
+                    UserSession.getInstance().setMotivationalQuoteShown(true);
+                });
+            }).start();
+        }
     }
     public void setupUserProfile() {
         User currentUser = UserSession.getInstance().getCurrentUser();
@@ -192,7 +212,7 @@ public class studentController {
         String hoverStyle = "-fx-background-color: #34495e; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;";
 
         setupButtonHover(viewCompanyEmployeeButton, defaultStyle, hoverStyle);
-        setupButtonHover(viewUserButton, defaultStyle, hoverStyle);
+        setupButtonHover(viewCoursButton, defaultStyle, hoverStyle);
     }
     private void setupButtonHover(Button button, String defaultStyle, String hoverStyle) {
         button.setOnMouseEntered(e -> button.setStyle(hoverStyle));
@@ -243,25 +263,97 @@ public class studentController {
     }
     @FXML
     void handleViewCompanyEmployee(ActionEvent event) {
+       }
 
+// handle chat bot
+@FXML
+private void openLiveChat(ActionEvent event) {
+    try {
+        // Charger la fenêtre du chatbot depuis son fichier FXML
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/ChatbotWindow.fxml"));
+        Scene chatbotScene = new Scene(loader.load(), 600, 400);
+        // Créer un nouveau stage pour le chatbot
+        Stage chatbotStage = new Stage();
+        chatbotStage.setTitle("Live Chat");
+        chatbotStage.setScene(chatbotScene);
+        chatbotStage.show();
+
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+}
+
+
+
 
 
 
 
     @FXML
-    void handleViewEvent(ActionEvent event) {
+    void handleViewEvents(ActionEvent event) {
+        try {
+            // Charger la nouvelle vue listprojetclient.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Event/EventsStudents.fxml"));
+            Parent root = loader.load();
 
+            // Obtenez la scène actuelle et le stage
+            Scene scene = new Scene(root, 1000, 700);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Mettre à jour la scène et l'afficher
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Chargement échoué");
+            alert.setContentText("Impossible de charger la page des projets.");
+            alert.showAndWait();
+        }
     }
+
 
     @FXML
     void handleViewReclamation(ActionEvent event) {
 
     }
 
-    @FXML
-    void handleViewUser(ActionEvent event) {
 
+    @FXML
+    void handleViewCoursButton(ActionEvent event) throws IOException {
+        navigateToPage(event, "/cours/frontCours.fxml");
+    }
+    @FXML
+    public void handleViewJobOffers(ActionEvent event) throws IOException {
+        navigateToPage(event, "/offre/JobOffers.fxml");
+    }
+    @FXML
+    void handleViewProjects(ActionEvent event) {
+        try {
+            // Charger la nouvelle vue listprojetclient.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/listprojetclient.fxml"));
+            Parent root = loader.load();
+
+            // Obtenez la scène actuelle et le stage
+            Scene scene = new Scene(root, 1000, 700);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Mettre à jour la scène et l'afficher
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Chargement échoué");
+            alert.setContentText("Impossible de charger la page des projets.");
+            alert.showAndWait();
+        }
     }
 
 
@@ -396,6 +488,22 @@ public class studentController {
         delay.play();
     }
 
+    @FXML
+    private void handleBackButton(java.awt.event.ActionEvent event) {
+        try {
+            // Charger la scène pour student.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/User/student.fxml"));
+            AnchorPane root = loader.load();
+
+            // Créer une nouvelle scène pour student.fxml
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void handleAjoutReclamationButton(ActionEvent actionEvent) {
         try {
@@ -419,5 +527,17 @@ public class studentController {
         alert.setHeaderText("Page Load Failed");
         alert.setContentText(s);
         alert.show();
+
+    private void navigateToPage(ActionEvent event, String path) throws IOException {
+        URL fxmlLocation = getClass().getResource(path);
+        if (fxmlLocation == null) {
+            throw new IOException("FXML file not found at: " + path);
+        }
+        root = FXMLLoader.load(fxmlLocation);
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root , 1000 , 700);
+        stage.setScene(scene);
+        stage.centerOnScreen();
+        stage.show();
     }
 }

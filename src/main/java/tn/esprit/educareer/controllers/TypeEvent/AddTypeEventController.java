@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 import tn.esprit.educareer.models.TypeEvent;
 import tn.esprit.educareer.services.ServiceTypeEvent;
@@ -75,8 +76,18 @@ public class AddTypeEventController implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Initialisation si nécessaire
+    public void initialize(URL url, ResourceBundle rb) {
+        // Valider le champ de texte pour n'accepter que les lettres et les espaces
+        TextFormatter<String> textFormatter = new TextFormatter<>(change -> {
+            // Expression régulière pour autoriser uniquement les lettres et les espaces
+            if (change.getControlNewText().matches("[a-zA-Z\\s]*")) {
+                return change;
+            }
+            return null;  // Refuser les changements qui ne respectent pas l'expression régulière
+        });
+
+        // Appliquer le TextFormatter au champ de texte
+        nomEField.setTextFormatter(textFormatter);
     }
     @FXML
     private Button returnButton;

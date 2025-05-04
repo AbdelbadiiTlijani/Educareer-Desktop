@@ -161,6 +161,7 @@ public class ServiceUser implements IService<User> {
         return null;
     }
 
+
     public User getOneById(int id) {
         String req = "SELECT * FROM user WHERE id=?";
         try {
@@ -186,4 +187,5 @@ public class ServiceUser implements IService<User> {
         }
         return null;
     }
+
 }

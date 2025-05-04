@@ -15,11 +15,9 @@
 
     <!-- Header Section -->
     <top>
-        <AnchorPane prefHeight="115.0" prefWidth="511.0" style="-fx-background-color: linear-gradient(to right, #4e54c8, #8f94fb); -fx-min-height: 100px; -fx-padding: 10px;">
+        <AnchorPane prefHeight="115.0" prefWidth="511.0" style="-fx-background-color: linear-gradient(to right, #4e54c8, #8f94fb); -fx-min-height: 100px; -fx-padding: 10px;" stylesheets="@../Event/event.css">
             <children>
-
                 <Label style="-fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold;" text="Gestion des Types d'Événements" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
-
                 <Button onAction="#handleBackButton" style="-fx-background-color: rgba(255, 255, 255, 0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5px 15px; -fx-border-radius: 20px; -fx-background-radius: 20px; -fx-cursor: hand;" text="Retour" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" />
             </children>
         </AnchorPane>
@@ -30,11 +28,12 @@
         <VBox spacing="15" style="-fx-padding: 20px;">
             <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Les Types d'Événements Enregistrés" />
 
-            <HBox spacing="10">
-                <TextField fx:id="searchField" promptText="Rechercher par nom..." style="-fx-padding: 5px; -fx-background-radius: 5px;" />
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #666; -fx-font-style: italic;" text="Cliquez sur le bouton Supprimer pour retirer un type d'événement" />
 
-                <!-- 🔹 Nouveau bouton Ajouter -->
-                <Button onAction="#handleAddButton" style="-fx-background-color: #77B5FE; -fx-text-fill: #4e54c8; -fx-font-weight: bold; -fx-padding: 5px 15px; -fx-background-radius: 20px; -fx-cursor: hand;" text="Ajouter" />
+            <!-- Search and Filter -->
+            <HBox spacing="10">
+                <TextField fx:id="searchField" promptText="Rechercher par nom..." style="-fx-padding: 5px; -fx-background-radius: 5px; -fx-border-radius: 5px;" />
+                <Button onAction="#handleAddButton" style="-fx-background-color: #77B5FE; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5px 15px; -fx-background-radius: 20px; -fx-cursor: hand;" text="Ajouter" />
             </HBox>
 
             <AnchorPane style="-fx-background-color: white; -fx-background-radius: 10px; -fx-padding: 5px; -fx-min-height: 400px;">

@@ -1,0 +1,71 @@
+/* Conteneur principal */
+.chat-container {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 20px;
+    -fx-border-color: #dcdde1;
+    -fx-border-radius: 20px;
+    -fx-border-width: 2px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);
+}
+
+/* Zone de texte du chat */
+.chat-area {
+    -fx-background-color: #f4f6f8;
+    -fx-background-radius: 15px;
+    -fx-border-color: #d3d3d3;
+    -fx-border-radius: 15px;
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-font-size: 16px;
+    -fx-text-fill: #333333;
+    -fx-padding: 15px;
+}
+
+/* Champ de saisie utilisateur */
+.input-field {
+    -fx-background-color: #f1f3f6;
+    -fx-border-radius: 10px;
+    -fx-border-color: #cccccc;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+    -fx-font-family: 'Segoe UI', sans-serif;
+}
+
+/* Bouton d'envoi */
+.send-button {
+    -fx-background-color: linear-gradient(to right, #4e54c8, #8f94fb);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px 20px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 3);
+    -fx-border-color: transparent;
+}
+
+.send-button:hover {
+    -fx-background-color: linear-gradient(to right, #3d42a5, #7b80e0);
+}
+
+.send-button:pressed {
+    -fx-background-color: #323797;
+}
+
+/* Animation douce */
+.chat-area .user-message,
+.chat-area .bot-message {
+    -fx-opacity: 0;
+    -fx-transition: opacity 0.3s ease-in-out;
+}
+
+.chat-area .user-message.visible,
+.chat-area .bot-message.visible {
+    -fx-opacity: 1;
+}
+
+/* Alignement HBox */
+.hbox {
+    -fx-alignment: center;
+}
