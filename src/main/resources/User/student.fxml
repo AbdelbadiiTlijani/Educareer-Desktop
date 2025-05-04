@@ -35,7 +35,8 @@
                 </padding>
             </Label>
 
-            <Button fx:id="viewUserButton" onAction="#handleViewUser" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Cours">
+
+            <Button fx:id="viewCoursButton" onAction="#handleViewCoursButton" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Cours">
                 <graphic>
                     <HBox alignment="CENTER_LEFT" spacing="10">
                         <Label style="-fx-font-size: 16;" text="👥" />
@@ -51,24 +52,49 @@
                 </graphic>
             </Button>
 
-            <Button fx:id="viewCompanyEmployeeButton1" onAction="#handleViewCompanyEmployee" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Evennements">
-            <graphic>
-               <HBox alignment="CENTER_LEFT" spacing="10">
-                  <children>
-                     <Label style="-fx-font-size: 16;" text="🏢" />
-                  </children>
-               </HBox>
-            </graphic>
-         </Button>
-         <Button fx:id="viewCompanyEmployeeButton11" onAction="#handleViewCompanyEmployee" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Réclamations">
-            <graphic>
-               <HBox alignment="CENTER_LEFT" spacing="10">
-                  <children>
-                     <Label style="-fx-font-size: 16;" text="🏢" />
-                  </children>
-               </HBox>
-            </graphic>
-         </Button>
+            <Button fx:id="viewCompanyEmployeeButton1" onAction="#handleViewEvents" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Evennements">
+                <graphic>
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <children>
+                            <Label style="-fx-font-size: 16;" text="🎉" />
+                        </children>
+                    </HBox>
+                </graphic>
+            </Button>
+
+            <Button fx:id="viewCompanyEmployeeButton11" onAction="#handleViewCompanyEmployee" prefHeight="40" prefWidth="220" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Réclamations">
+<graphic>
+   <HBox alignment="CENTER_LEFT" spacing="10">
+      <children>
+         <Label style="-fx-font-size: 16;" text="🏢" />
+      </children>
+   </HBox>
+</graphic>
+</Button>
+
+<!-- NEW BUTTON FOR OFFRES D'EMPLOI -->
+<Button fx:id="viewJobOffersButton" onAction="#handleViewJobOffers" prefHeight="40" prefWidth="220"
+        style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-font-size: 14;" text="Offres d'Emploi">
+    <graphic>
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label style="-fx-font-size: 16;" text="💼" />
+        </HBox>
+    </graphic>
+</Button>
+
+<!-- NEW BUTTON FOR LIVE CHAT -->
+<Button text="Live Chat" fx:id="liveChatButton" onAction="#openLiveChat"
+        style="-fx-background-color: linear-gradient(to right, #4facfe, #00f2fe);
+               -fx-text-fill: white;
+               -fx-font-size: 16px;
+               -fx-font-weight: bold;
+               -fx-background-radius: 30px;
+               -fx-border-radius: 30px;
+               -fx-padding: 10px 20px;
+               -fx-cursor: hand;
+               -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 5, 0.3, 0, 1);
+               -fx-transition: all 0.3s ease-in-out;"/>
+
         </VBox>
 
         <VBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
@@ -114,7 +140,7 @@
                             .menu-item:hover {
                                 -fx-background-color: #f5f5f7;
                             }
-                        ]]>
+                            ]]>
                         </style>
                     </MenuItem>
 
@@ -140,7 +166,7 @@
                             .menu-item:hover {
                                 -fx-background-color: #f5f5f7;
                             }
-                        ]]>
+                            ]]>
                         </style>
                     </MenuItem>
                 </items>

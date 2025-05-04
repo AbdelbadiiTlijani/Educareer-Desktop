@@ -12,7 +12,7 @@
 
     <!-- Top Header -->
     <top>
-        <AnchorPane prefHeight="100.0" style="-fx-background-color: linear-gradient(to right, #4e54c8, #8f94fb);" stylesheets="@../event.css">
+        <AnchorPane prefHeight="100.0" style="-fx-background-color: linear-gradient(to right, #4e54c8, #8f94fb);" stylesheets="../Event/event.css">
             <children>
                 <Label layoutX="20.0" layoutY="30.0" style="-fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold;" text="Ajouter un Type d'Event" />
             </children>

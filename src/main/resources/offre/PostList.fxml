@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.effect.DropShadow?>
+
+<BorderPane style="-fx-background-color: #f5f7fa; -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.educareer.controllers.offre.PostList">
+
+    <!-- Header Section -->
+    <top>
+        <AnchorPane prefHeight="100.0" style="-fx-background-color: linear-gradient(to right, #4e54c8, #8f94fb);">
+            <children>
+                <Label text="Gestion des Postulations"
+                       style="-fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold;"
+                       AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
+
+                <Button text="Retour"
+                        onAction="#handleBackButton"
+                        style="-fx-background-color: rgba(255, 255, 255, 0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 20px; -fx-background-radius: 20px;"
+                        AnchorPane.leftAnchor="20.0" AnchorPane.bottomAnchor="10.0" />
+            </children>
+        </AnchorPane>
+    </top>
+
+    <!-- Content Section -->
+    <center>
+        <VBox spacing="15" style="-fx-padding: 20px;">
+            <Label text="Liste des Postulations"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" />
+
+            <AnchorPane style="-fx-background-color: white; -fx-background-radius: 10px; -fx-padding: 5px;">
+                <ListView fx:id="postulationListView"
+                          style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 5px;"
+                          AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+                          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+
+                <effect>
+                    <DropShadow color="#00000044" radius="10.0" />
+                </effect>
+            </AnchorPane>
+
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+        </VBox>
+    </center>
+
+    <!-- Footer Section -->
+    <bottom>
+        <AnchorPane style="-fx-background-color: #333;">
+            <Label text="Panneau Admin - Gestion des Postulations"
+                   style="-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 12px;"
+                   AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+        </AnchorPane>
+    </bottom>
+
+</BorderPane>

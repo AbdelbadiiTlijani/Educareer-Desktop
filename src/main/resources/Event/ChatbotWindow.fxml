@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="tn.esprit.educareer.controllers.Event.ChatbotController"
+      spacing="15"
+      stylesheets="@chatbotstudent.css"
+      alignment="TOP_CENTER"
+      prefWidth="500" prefHeight="650"
+      styleClass="chat-container">
+
+    <!-- Titre -->
+    <HBox alignment="CENTER" spacing="5">
+        <TextArea fx:id="chatArea" editable="false" wrapText="true" prefHeight="500" prefWidth="460"
+                  styleClass="chat-area"/>
+    </HBox>
+
+    <!-- Zone de saisie et bouton -->
+    <HBox spacing="10" alignment="CENTER">
+        <TextField fx:id="userInput" HBox.hgrow="ALWAYS" promptText="Écrivez votre message..."
+                   styleClass="input-field" prefWidth="400"/>
+        <Button fx:id="sendButton" text="Envoyer"
+                styleClass="send-button"
+                onAction="#handleSendMessage"/>
+    </HBox>
+
+</VBox>

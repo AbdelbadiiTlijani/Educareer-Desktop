@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
@@ -11,7 +12,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.ComboBox?>
 <BorderPane style="-fx-background-color: #f5f7fa; -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educareer.controllers.offre.OffreController">
 
     <!-- Header Section -->
@@ -19,7 +19,6 @@
         <AnchorPane prefHeight="115.0" prefWidth="511.0" style="-fx-background-color: linear-gradient(to right, #4e54c8, #8f94fb); -fx-min-height: 100px; -fx-padding: 10px;">
             <children>
                 <Label style="-fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold;" text="Gestion Des offres d'emploi" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
-
                 <Button onAction="#handlback" style="-fx-background-color: rgba(255, 255, 255, 0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5px 15px; -fx-border-radius: 20px; -fx-background-radius: 20px; -fx-cursor: hand;" text="Retour" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" />
             </children>
         </AnchorPane>
@@ -31,28 +30,90 @@
             <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Nos offres d'emploi" />
             <!-- Search and Filter -->
             <HBox spacing="10">
-                <TextField fx:id="searchField" promptText="Rechercher par nom..." style="-fx-padding: 5px; -fx-background-radius: 5px;" />
-            <Button mnemonicParsing="false" onAction="#handleajouteroffree" text="Ajouter Offre" />
-            <Button mnemonicParsing="false" onAction="#handleAjouterType" text="Ajouter Type" />
-            <Button mnemonicParsing="false" onAction="#handleListType" text="Liste desTypes" />
-            </HBox>
-            <ComboBox fx:id="idtype" promptText="Sélectionnez un type" visible="false" managed="false" />
+                <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 15px;">
+                    <TextField fx:id="searchField"
+                               promptText="🔍 Rechercher une offre par titre..."
+                               style="
+                   -fx-padding: 8px 12px;
+                   -fx-background-color: #ffffff;
+                   -fx-background-radius: 20px;
+                   -fx-border-color: #ccc;
+                   -fx-border-radius: 20px;
+                   -fx-font-size: 14px;
+               "
+                               prefWidth="300" />
 
-            <AnchorPane style="-fx-background-color: white; -fx-background-radius: 10px; -fx-padding: 5px; -fx-min-height: 400px;">
-                <ListView fx:id="offreListView" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 5px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    <Button text="➕  Offre"
+                            onAction="#handleajouteroffree"
+                            style="
+                -fx-background-color: #2ecc71;
+                -fx-text-fill: white;
+                -fx-background-radius: 20px;
+                -fx-padding: 8px 16px;
+                -fx-cursor: hand;
+                -fx-font-size: 13px;
+            " />
 
-                <effect>
-                    <DropShadow color="#00000044" radius="10.0" />
-                </effect>
-            </AnchorPane>
+                    <Button text="📝  Type"
+                            onAction="#handleAjouterType"
+                            style="
+                -fx-background-color: #3498db;
+                -fx-text-fill: white;
+                -fx-background-radius: 20px;
+                -fx-padding: 8px 16px;
+                -fx-cursor: hand;
+                -fx-font-size: 13px;
+            " />
 
-            <padding>
-                <Insets bottom="10" left="10" right="10" top="10" />
-            </padding>
-        </VBox>
-    </center>
+                    <Button text="📋  Les Types"
+                            onAction="#handleListType"
+                            style="
+                -fx-background-color: #9b59b6;
+                -fx-text-fill: white;
+                -fx-background-radius: 20px;
+                -fx-padding: 8px 16px;
+                -fx-cursor: hand;
+                -fx-font-size: 13px;
+            " />
+                    <Button text="📨 Postulations"
+                            onAction="#handleListPostulations"
+                            style="
+            -fx-background-color: #f39c12;
+            -fx-text-fill: white;
+            -fx-background-radius: 20px;
+            -fx-padding: 8px 16px;
+            -fx-cursor: hand;
+            -fx-font-size: 13px;
+        " />
 
-    <!-- Footer Section -->
+                    <ComboBox fx:id="salaireSortComboBox" prefWidth="180"
+                              promptText="Trie"
+                              style="-fx-background-radius: 20px; -fx-padding: 6px 12px; -fx-font-size: 13px;" />
+                </HBox>
+
+
+
+    </HBox>
+
+
+    <ComboBox fx:id="idtype" promptText="Sélectionnez un type" visible="false" managed="false" />
+
+    <AnchorPane style="-fx-background-color: white; -fx-background-radius: 10px; -fx-padding: 5px; -fx-min-height: 400px;">
+        <ListView fx:id="offreListView" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 5px;"
+                  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+
+        <effect>
+            <DropShadow color="#00000044" radius="10.0" />
+        </effect>
+    </AnchorPane>
+
+    <padding>
+        <Insets bottom="10" left="10" right="10" top="10" />
+    </padding>
+</VBox>
+</center>
+
+<!-- Footer Section -->
     <bottom>
         <AnchorPane style="-fx-background-color: #333; -fx-min-height: 50px;">
             <Label style="-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 12px;" text="Panneau Admin - Systeme de Gestion D'utilisateurs " AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0" />

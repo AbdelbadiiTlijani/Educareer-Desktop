@@ -19,6 +19,10 @@ import tn.esprit.educareer.services.TypeOffreService;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+
+
 public class TypeList {
     private Stage stage;
     private Scene scene;
@@ -36,70 +40,67 @@ public class TypeList {
 
     private void afficherTypes() {
         List<Type_Offre> types = typeService.getAll();
+        typeListView.getItems().setAll(types);
 
-        if (types != null) {
-            typeListView.getItems().setAll(types);
-        } else {
-            System.out.println("La liste des types est vide ou nulle.");
-            typeListView.getItems().clear();
-        }
+        typeListView.setCellFactory(param -> new ListCell<Type_Offre>() {
+            private final Label typeLabel = new Label();
+            private final Button updateBtn = new Button("Modifier");
+            private final Button supprimerBtn = new Button("Supprimer");
+            private final VBox vboxText = new VBox(typeLabel);
+            private final HBox hBox = new HBox(20, vboxText, updateBtn, supprimerBtn);
 
-        typeListView.setCellFactory(new Callback<ListView<Type_Offre>, ListCell<Type_Offre>>() {
+            {
+                typeLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16px;");
+
+                updateBtn.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;");
+                supprimerBtn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;");
+
+                vboxText.setSpacing(5);
+
+                hBox.setStyle("-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 10;");
+                hBox.setSpacing(20);
+
+                updateBtn.setOnAction(event -> {
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/offre/UpdateTypeOffre.fxml"));
+                        Parent root = loader.load();
+                        UpdateTypeOffre controller = loader.getController();
+                        controller.setTypeToEdit(getItem());
+
+                        Stage updateStage = new Stage();
+                        updateStage.setTitle("Modifier Type d'Offre");
+                        updateStage.setScene(new Scene(root , 1000 , 700));
+                        updateStage.setOnHidden(e -> afficherTypes()); // refresh après fermeture
+                        updateStage.show();
+
+                    } catch (IOException e) {
+                        System.out.println("Erreur de navigation : " + e.getMessage());
+                    }
+                });
+
+                supprimerBtn.setOnAction(event -> {
+                    Type_Offre selected = getItem();
+                    if (selected != null) {
+                        typeService.supprimer(selected);
+                        afficherTypes();
+                    }
+                });
+            }
+
             @Override
-            public ListCell<Type_Offre> call(ListView<Type_Offre> param) {
-                return new ListCell<Type_Offre>() {
-                    private final Label typeLabel = new Label();
-                    private final Button supprimerBtn = new Button("Supprimer");
-                    private final Button updateBtn = new Button("Modifier");
-                    private final HBox hBox = new HBox(10, typeLabel, updateBtn, supprimerBtn);
-
-                    {
-                        supprimerBtn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 5;");
-                        updateBtn.setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-background-radius: 5;");
-
-                        supprimerBtn.setOnAction(event -> {
-                            Type_Offre selected = getItem();
-                            if (selected != null) {
-                                typeService.supprimer(selected);
-                                afficherTypes();
-                            }
-                        });
-
-                        updateBtn.setOnAction(event -> {
-                            try {
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/offre/UpdateTypeOffre.fxml"));
-                                Parent root = loader.load();
-
-                                UpdateTypeOffre controller = loader.getController();
-                                controller.setTypeToEdit(getItem());
-
-                                Stage updateStage = new Stage();
-                                updateStage.setTitle("Modifier Type d'Offre");
-                                updateStage.setScene(new Scene(root));
-                                updateStage.setOnHidden(e -> afficherTypes()); // refresh après fermeture
-                                updateStage.show();
-
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        });
-                    }
-
-                    @Override
-                    protected void updateItem(Type_Offre type, boolean empty) {
-                        super.updateItem(type, empty);
-                        if (empty || type == null) {
-                            setText(null);
-                            setGraphic(null);
-                        } else {
-                            typeLabel.setText("Catégorie: " + type.getCategorie());
-                            setGraphic(hBox);
-                        }
-                    }
-                };
+            protected void updateItem(Type_Offre type, boolean empty) {
+                super.updateItem(type, empty);
+                if (empty || type == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    typeLabel.setText("Catégorie: " + type.getCategorie());
+                    setGraphic(hBox);
+                }
             }
         });
     }
+
 
 
     @FXML

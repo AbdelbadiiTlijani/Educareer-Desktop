@@ -175,6 +175,34 @@ public class ServiceProjet {
         return categorieProjet;
     }
 
+    public List<Projet> getAllByFormateur(int idForma) {
+        List<Projet> projets = new ArrayList<>();
+        try {
+            String req = "SELECT p.id, p.categorie_id, p.titre, p.description, p.contenu, p.formateur_id, c.categorie " +
+                    "FROM projet p " +
+                    "JOIN categorie_projet c ON p.categorie_id = c.id " +
+                    "WHERE p.formateur_id = ?";
+            PreparedStatement pst = cnx.prepareStatement(req);
+            pst.setInt(1, idForma);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Projet projet = new Projet(
+                        rs.getInt("id"),
+                        rs.getInt("categorie_id"),
+                        rs.getString("titre"),
+                        rs.getString("description"),
+                        rs.getString("contenu"),
+                        rs.getInt("formateur_id")
+                );
+                projet.setCategorieNom(rs.getString("categorie")); // Remplir le nom de la catégorie
+                projets.add(projet);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return projets;
+    }
 
 
 
