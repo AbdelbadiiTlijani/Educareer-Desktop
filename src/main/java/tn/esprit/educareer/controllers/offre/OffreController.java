@@ -135,7 +135,7 @@ public class OffreController {
 
                         Stage stage = new Stage();
                         stage.setTitle("Modifier Offre");
-                        stage.setScene(new Scene(root));
+                        stage.setScene(new Scene(root , 1000,700));
                         stage.show();
                     } catch (IOException e) {
                         System.out.println("Erreur de navigation : " + e.getMessage());

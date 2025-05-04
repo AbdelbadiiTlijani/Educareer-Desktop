@@ -92,4 +92,11 @@ public class JobOffers {
     public void postulerButton(ActionEvent event) throws IOException {
         navigateToPage(event, "/offre/AjouterPostulation.fxml");
     }
+
+    @FXML
+    void returnButtonAction(ActionEvent event) throws  IOException{
+        navigateToPage(event, "/User/student.fxml");
+
+    }
+
 }

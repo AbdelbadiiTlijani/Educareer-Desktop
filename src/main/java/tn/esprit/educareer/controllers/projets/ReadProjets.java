@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.scene.Node;
 import tn.esprit.educareer.models.Projet;
 import tn.esprit.educareer.services.ServiceProjet;
+import tn.esprit.educareer.utils.UserSession;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,11 +25,13 @@ public class ReadProjets {
     @FXML
     private ListView<VBox> projectListView;
 
+    private int idForma = UserSession.getInstance().getCurrentUser().getId();
+
     private final ServiceProjet serviceProjet = new ServiceProjet();
 
     @FXML
     public void initialize() {
-        List<Projet> projets = serviceProjet.getAll();
+        List<Projet> projets = serviceProjet.getAllByFormateur(idForma);
         displayProjects(projets);
     }
 
@@ -64,7 +67,7 @@ public class ReadProjets {
         btnDelete.setStyle("-fx-background-color: #ff4d4d; -fx-text-fill: white;");
         btnDelete.setOnAction(e -> {
             serviceProjet.supprimer(projet);
-            displayProjects(serviceProjet.getAll());
+            displayProjects(serviceProjet.getAllByFormateur(idForma));
         });
 
         actions.getChildren().addAll(btnEdit, btnDelete);

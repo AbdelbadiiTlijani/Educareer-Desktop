@@ -51,7 +51,7 @@ public class CalendarController {
                 Parent dashboardRoot = loader.load();
 
                 Stage currentStage = (Stage) returnButton.getScene().getWindow();
-                currentStage.setScene(new Scene(dashboardRoot));
+                currentStage.setScene(new Scene(dashboardRoot , 1000 , 700));
                 //currentStage.setTitle("Dashboard");
 
             } catch (IOException ex) {

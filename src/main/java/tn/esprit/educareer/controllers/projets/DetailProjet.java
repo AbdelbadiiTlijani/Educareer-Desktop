@@ -57,7 +57,7 @@ public class DetailProjet {
         }
         Parent root = FXMLLoader.load(fxmlLocation);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
+        stage.setScene(new Scene(root, 1000 , 700));
         stage.centerOnScreen();
         stage.show();
     }

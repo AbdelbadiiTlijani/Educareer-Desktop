@@ -69,7 +69,7 @@ public class TypeList {
 
                         Stage updateStage = new Stage();
                         updateStage.setTitle("Modifier Type d'Offre");
-                        updateStage.setScene(new Scene(root));
+                        updateStage.setScene(new Scene(root , 1000 , 700));
                         updateStage.setOnHidden(e -> afficherTypes()); // refresh après fermeture
                         updateStage.show();
 
