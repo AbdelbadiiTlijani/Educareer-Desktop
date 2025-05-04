@@ -61,7 +61,8 @@ public class ReadProjets {
         HBox actions = new HBox(10);
         Button btnEdit = new Button("Modifier");
         btnEdit.setStyle("-fx-background-color: #00bfff; -fx-text-fill: white;");
-        btnEdit.setOnAction(e -> handleEdit(projet));
+        btnEdit.setOnAction(e -> handleEdit(projet, (Node) e.getSource()));
+
 
         Button btnDelete = new Button("Supprimer");
         btnDelete.setStyle("-fx-background-color: #ff4d4d; -fx-text-fill: white;");
@@ -76,7 +77,7 @@ public class ReadProjets {
         return card;
     }
 
-    private void handleEdit(Projet projet) {
+    private void handleEdit(Projet projet, Node sourceNode) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/UpdateProjet.fxml"));
             Parent root = loader.load();
@@ -84,14 +85,21 @@ public class ReadProjets {
             UpdateProjet controller = loader.getController();
             controller.setProjet(projet);
 
+            // Close the current window
+            Stage currentStage = (Stage) sourceNode.getScene().getWindow();
+            currentStage.close();
+
+            // Open new window
             Stage stage = new Stage();
             stage.setTitle("Modifier Projet");
-            stage.setScene(new Scene(root));
+            stage.setScene(new Scene(root , 1000 , 700));
             stage.show();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     @FXML
     private void goToChatBox(ActionEvent event) {
@@ -112,7 +120,7 @@ public class ReadProjets {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projet/AddProjet.fxml"));
             Parent root = loader.load();
-            Scene scene = new Scene(root, 800, 700);
+            Scene scene = new Scene(root, 1000, 700);
             Stage stage = (Stage) projectListView.getScene().getWindow();
             stage.setScene(scene);
         } catch (Exception e) {
