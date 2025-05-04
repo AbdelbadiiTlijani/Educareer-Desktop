@@ -18,7 +18,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tn.esprit.educareer.models.Reclamation;
 import tn.esprit.educareer.models.TypeReclamation;
-import tn.esprit.educareer.services.MailService;
 import tn.esprit.educareer.services.ReclamationService;
 
 import java.io.File;
@@ -204,13 +203,7 @@ public class ReclamationController {
                 java.awt.Desktop.getDesktop().open(new java.io.File(fileName));
 
                 // Envoi de mail après succès
-                MailService mailService = new MailService();
-                mailService.envoyerMailAvecPDF(
-                        "destinataire@example.com",
-                        "Votre réclamation en PDF",
-                        "Bonjour,\nVeuillez trouver ci-joint le PDF de votre réclamation.",
-                        new File(fileName)
-                );
+
 
             } catch (DocumentException | IOException e) {
                 e.printStackTrace();
