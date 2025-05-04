@@ -125,10 +125,10 @@ public class ReclamationController {
                         ModifierReclamation controller = loader.getController();
                         controller.setReclamationToEdit(getItem());
 
-                        Stage stage = new Stage();
-                        stage.setTitle("Modifier Réclamation");
-                        stage.setScene(new Scene(root));
-                        stage.show();
+                        Stage currentStage = (Stage) modifierBtn.getScene().getWindow();
+                        currentStage.setTitle("Modifier Réclamation");
+                        currentStage.setScene(new Scene(root));
+                        currentStage.show();
                     } catch (IOException e) {
                         System.out.println("Erreur de navigation : " + e.getMessage());
                     }

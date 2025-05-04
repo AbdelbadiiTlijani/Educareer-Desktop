@@ -172,6 +172,11 @@
             <artifactId>twilio</artifactId>
             <version>9.2.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.9</version> <!-- ou la version adaptée -->
+        </dependency>
 
         <!-- Jsoup (Web scraping) -->
         <dependency>

@@ -61,7 +61,6 @@
                                 </HBox>
                             </graphic>
                         </Button>
-                        <Button fx:id="viewPlanning" onAction="#handleViewPlanning" text="Gestion des Plannings" />
 
                     </VBox>
                 </content>

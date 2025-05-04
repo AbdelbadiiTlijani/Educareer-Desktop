@@ -133,10 +133,10 @@ public class OffreController {
                         UpdateOffre controller = loader.getController();
                         controller.setOffreToEdit(getItem());
 
-                        Stage stage = new Stage();
-                        stage.setTitle("Modifier Offre");
-                        stage.setScene(new Scene(root , 1000,700));
-                        stage.show();
+                        Stage currentStage = (Stage) modifierBtn.getScene().getWindow();
+                        currentStage.setTitle("Modifier Offre");
+                        currentStage.setScene(new Scene(root , 1000,700));
+                        currentStage.show();
                     } catch (IOException e) {
                         System.out.println("Erreur de navigation : " + e.getMessage());
                     }

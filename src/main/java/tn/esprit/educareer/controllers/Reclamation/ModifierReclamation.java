@@ -101,7 +101,7 @@ public class ModifierReclamation implements Initializable {
 
         showAlert(Alert.AlertType.INFORMATION, "Succès", "Réclamation modifiée avec succès.");
 
-        navigateToPage(event, "/reclamation/ReclamationList.fxml");
+        navigateToPage(event, "/reclamation/ReclamationList1.fxml");
     }
 
     @FXML

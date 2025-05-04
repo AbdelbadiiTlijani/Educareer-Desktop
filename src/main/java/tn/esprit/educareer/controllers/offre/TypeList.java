@@ -67,11 +67,11 @@ public class TypeList {
                         UpdateTypeOffre controller = loader.getController();
                         controller.setTypeToEdit(getItem());
 
-                        Stage updateStage = new Stage();
-                        updateStage.setTitle("Modifier Type d'Offre");
-                        updateStage.setScene(new Scene(root , 1000 , 700));
-                        updateStage.setOnHidden(e -> afficherTypes()); // refresh après fermeture
-                        updateStage.show();
+                        Stage currentStage = (Stage) updateBtn.getScene().getWindow();
+                        currentStage.setTitle("Modifier Type d'Offre");
+                        currentStage.setScene(new Scene(root , 1000 , 700));
+                        currentStage.setOnHidden(e -> afficherTypes()); // refresh après fermeture
+                        currentStage.show();
 
                     } catch (IOException e) {
                         System.out.println("Erreur de navigation : " + e.getMessage());
