@@ -81,7 +81,6 @@ public class TypeReclamationController {
         }
     }
 
-    // Méthode pour revenir à l'écran précédent
     @FXML
     void handleBackButton(ActionEvent event) {
         try {

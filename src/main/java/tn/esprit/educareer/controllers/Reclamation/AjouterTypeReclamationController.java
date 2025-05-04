@@ -39,7 +39,7 @@ public class AjouterTypeReclamationController {
 
     @FXML
     void handleBackButton(ActionEvent event) throws IOException {
-        navigateToPage(event, "/Reclamation/ReclamationList.fxml");
+        navigateToPage(event, "/User/AdminDashboard.fxml");
 
     }
     private void navigateToPage(ActionEvent event, String path) throws IOException {
@@ -57,11 +57,9 @@ public class AjouterTypeReclamationController {
 
     @FXML
     void save(ActionEvent event) throws IOException {
-        // Récupérer les valeurs du formulaire
-        String nomText = nomm.getText();  // Assurez-vous que vous avez un champ pour "nom"
+        String nomText = nomm.getText();
         String descriptionText = description.getText();
 
-        // Vérification des champs
         if (nomText.isEmpty() || descriptionText.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Champs requis");
@@ -71,23 +69,20 @@ public class AjouterTypeReclamationController {
             return;
         }
 
-        // Création de l'objet TypeReclamation
         TypeReclamation typeReclamation = new TypeReclamation();
         typeReclamation.setNom(nomText);
         typeReclamation.setDescription(descriptionText);
 
-        // Ajouter le type de réclamation à la base de données via le service
         TypeReclamationService typeReclamationService = new TypeReclamationService();
-        typeReclamationService.ajouter(typeReclamation);  // Ajouter le type de réclamation à la base de données
+        typeReclamationService.ajouter(typeReclamation);
 
-        // Confirmation
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Succès");
         alert.setHeaderText(null);
         alert.setContentText("Type de réclamation ajouté avec succès.");
         alert.showAndWait();
 
-        // Redirection vers la liste des types de réclamation
         Parent root = FXMLLoader.load(getClass().getResource("/Reclamation/TypeReclamation.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));

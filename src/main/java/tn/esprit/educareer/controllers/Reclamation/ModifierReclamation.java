@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ModifierReclamation implements Initializable {
-    // Liens avec le fichier FXML
     @FXML
     private TextField Description;
 
@@ -39,11 +38,9 @@ public class ModifierReclamation implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            // Chargement des types de réclamations dans le ComboBox
             List<TypeReclamation> types = typeReclamationService.getAll();
             Type.setItems(FXCollections.observableArrayList(types));
 
-            // Personnalisation de l'affichage dans le ComboBox
             Type.setCellFactory(lv -> new ListCell<>() {
                 @Override
                 protected void updateItem(TypeReclamation item, boolean empty) {
@@ -60,7 +57,6 @@ public class ModifierReclamation implements Initializable {
                 }
             });
 
-            // Si une réclamation a été passée, pré-remplir les champs
             if (selectedReclamation != null) {
                 Sujet.setText(selectedReclamation.getSujet());
                 Description.setText(selectedReclamation.getDescription());
@@ -71,7 +67,6 @@ public class ModifierReclamation implements Initializable {
         }
     }
 
-    // Méthode appelée pour initialiser la réclamation à modifier
     public void setReclamationToEdit(Reclamation reclamation) {
         this.selectedReclamation = reclamation;
         if (reclamation != null) {
@@ -81,7 +76,6 @@ public class ModifierReclamation implements Initializable {
         }
     }
 
-    // Sauvegarder les modifications de la réclamation
     @FXML
     private void save(ActionEvent event) throws IOException {
         if (selectedReclamation == null) {
@@ -89,7 +83,7 @@ public class ModifierReclamation implements Initializable {
             return;
         }
 
-        // Récupérer les valeurs des champs
+
         String sujetText = Sujet.getText().trim();
         String descriptionText = Description.getText().trim();
         TypeReclamation selectedType = Type.getValue();
@@ -99,21 +93,17 @@ public class ModifierReclamation implements Initializable {
             return;
         }
 
-        // Mettre à jour la réclamation avec les nouvelles données
         selectedReclamation.setSujet(sujetText);
         selectedReclamation.setDescription(descriptionText);
         selectedReclamation.setTypeReclamation(selectedType);
 
-        // Sauvegarder la réclamation
         reclamationService.modifier(selectedReclamation);
 
         showAlert(Alert.AlertType.INFORMATION, "Succès", "Réclamation modifiée avec succès.");
 
-        // Naviguer vers la page de liste des réclamations
         navigateToPage(event, "/reclamation/ReclamationList.fxml");
     }
 
-    // Gérer le bouton de retour
     @FXML
     private void handleBackButton(ActionEvent event) {
         try {
@@ -123,7 +113,6 @@ public class ModifierReclamation implements Initializable {
         }
     }
 
-    // Méthode pour naviguer vers une autre page
     private void navigateToPage(ActionEvent event, String path) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
         Parent root = loader.load();
@@ -134,7 +123,6 @@ public class ModifierReclamation implements Initializable {
         stage.show();
     }
 
-    // Afficher des alertes
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);

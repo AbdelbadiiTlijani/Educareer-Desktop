@@ -36,6 +36,7 @@
                 <Button mnemonicParsing="false" onAction="#handleListType" text="Liste desTypes" />
             </HBox>
             <ComboBox fx:id="idtype" managed="false" promptText="Sélectionnez un type" visible="false" />
+            <Button fx:id="pdfButton" text="Générer PDF" onAction="#handleGeneratePDF"/>
 
             <AnchorPane style="-fx-background-color: white; -fx-background-radius: 10px; -fx-padding: 5px; -fx-min-height: 400px;">
                 <ListView fx:id="reclamationListView" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 5px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />

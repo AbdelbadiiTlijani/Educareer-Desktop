@@ -31,8 +31,7 @@
             <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Reclamations" />
             <!-- Search and Filter -->
             <HBox spacing="10">
-                <TextField fx:id="searchField" promptText="Rechercher par nom..." style="-fx-padding: 5px; -fx-background-radius: 5px;" />
-                <Button mnemonicParsing="false" onAction="#handleAjouterReclamation" text="Ajouter reclamation" />
+                 <Button mnemonicParsing="false" onAction="#handleAjouterReclamation" text="Ajouter reclamation" />
                 <Button mnemonicParsing="false" onAction="#handleAjouterType" text="Ajouter Type" />
                 <Button mnemonicParsing="false" onAction="#handleListType" text="Liste desTypes" />
             </HBox>
