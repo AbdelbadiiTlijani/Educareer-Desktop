@@ -46,7 +46,7 @@ public class ServiceEvent implements IService<Event> {
 
             pst.executeUpdate();
             System.out.println("Événement ajouté dans la base de données !");
-            whatsappService.sendWhatsappMessage("21695975905", event.getTitre());
+            whatsappService.sendWhatsappMessage("21694819660", event.getTitre());
 
             try {
                 GoogleCalendarService.addEventToCalendar(
