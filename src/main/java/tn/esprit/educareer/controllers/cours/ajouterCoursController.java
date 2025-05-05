@@ -15,6 +15,7 @@ import tn.esprit.educareer.models.User;
 import tn.esprit.educareer.services.ServiceCategorieCours;
 import tn.esprit.educareer.services.ServiceCours;
 import tn.esprit.educareer.services.ServiceUser;
+import tn.esprit.educareer.utils.UserSession;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +31,6 @@ public class ajouterCoursController {
     private TextField nomCours;
     @FXML
     private Label nomCoursErrorLabel;
-
 
     @FXML
     private TextField requirementCours;
@@ -61,12 +61,6 @@ public class ajouterCoursController {
 
 
     @FXML
-    private ComboBox<User> formateurComboBox;
-    @FXML
-    private Label formateurErrorLabel;
-
-
-    @FXML
     private Button ajoutCoursButton;
     @FXML
     private Button backButton;
@@ -81,7 +75,6 @@ public class ajouterCoursController {
 
     private ServiceCours serviceCours = new ServiceCours();
     private ServiceCategorieCours serviceCategorieCours = new ServiceCategorieCours();
-    private ServiceUser serviceUser = new ServiceUser();
 
     @FXML
     void initialize() {
@@ -97,24 +90,6 @@ public class ajouterCoursController {
         categorieComboBox.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(CategorieCours item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty || item == null ? null : item.getNom());
-            }
-        });
-
-
-        formateurComboBox.getItems().addAll(serviceUser.getAll());
-        formateurComboBox.setCellFactory(cb -> new ListCell<>() {
-            @Override
-            protected void updateItem(User item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty || item == null ? null : item.getNom());
-            }
-        });
-
-        formateurComboBox.setButtonCell(new ListCell<>() {
-            @Override
-            protected void updateItem(User item, boolean empty) {
                 super.updateItem(item, empty);
                 setText(empty || item == null ? null : item.getNom());
             }
@@ -178,7 +153,7 @@ public class ajouterCoursController {
         }
     }
 
-
+    User currentUser = UserSession.getInstance().getCurrentUser();
     @FXML
     void handleAddCourseButton(ActionEvent event) throws IOException {
 
@@ -189,7 +164,8 @@ public class ajouterCoursController {
         String document = (selectedDocumentFile != null) ? selectedDocumentFile.getAbsolutePath().trim() : null;
         String image = (selectedImageFile != null) ? selectedImageFile.getAbsolutePath().trim() : null;
         CategorieCours categorie = categorieComboBox.getValue();
-        User formatteur = formateurComboBox.getValue();
+        User formatteur = currentUser;
+
 
         if (nom.isEmpty()) {
             nomCoursErrorLabel.setText("Le nom est obligatoire");
@@ -219,11 +195,7 @@ public class ajouterCoursController {
             isValid = false;
         }
 
-        if (formatteur == null) {
-            formateurErrorLabel.setText("Veuillez sélectionner un formatteur");
-            globalErrorLabel.setVisible(true);
-            isValid = false;
-        }
+
 
         if (!isValid) {
             globalErrorLabel.setText("Veuillez corriger les erreurs du formulaire.");
@@ -248,7 +220,6 @@ public class ajouterCoursController {
         selectedDocumentFile = null;
         selectedImageFile = null;
         categorieComboBox.getSelectionModel().clearSelection();
-        formateurComboBox.getSelectionModel().clearSelection();
 
 
         // Naviguer vers la liste des cours
@@ -262,7 +233,6 @@ public class ajouterCoursController {
         imageCoursErrorLabel.setText("");
         requirementCoursErrorLabel.setText("");
         categorieErrorLabel.setText("");
-        formateurErrorLabel.setText("");
 
         // Réinitialisation des styles
         nomCours.setStyle(originalStyle);
@@ -270,7 +240,6 @@ public class ajouterCoursController {
         imageFileNameLabel.setStyle(originalStyle);
         requirementCours.setStyle(originalStyle);
         categorieComboBox.setStyle(originalStyle);
-        formateurComboBox.setStyle(originalStyle);
 
         // Message d'erreur global
         globalErrorLabel.setText("");
