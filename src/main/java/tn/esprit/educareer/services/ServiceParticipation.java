@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ServiceParticipation {
     private Connection cnx;
@@ -27,6 +29,25 @@ public class ServiceParticipation {
             System.out.println("Erreur isParticipated: " + e.getMessage());
         }
         return false;
+    }
+
+    // Ajout d'une méthode pour récupérer tous les événements auxquels un étudiant est inscrit
+    public List<Integer> getParticipatedEventIds(int studentId) {
+        List<Integer> eventIds = new ArrayList<>();
+        String sql = "SELECT event_id FROM event_user WHERE user_id = ?";
+
+        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
+            ps.setInt(1, studentId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                eventIds.add(rs.getInt("event_id"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur getParticipatedEventIds: " + e.getMessage());
+        }
+
+        return eventIds;
     }
 
     public void participate(int eventId, int studentId) {
@@ -100,5 +121,4 @@ public class ServiceParticipation {
             System.out.println("Erreur lors de l'inscription à l'événement : " + e.getMessage());
         }
     }
-
 }
