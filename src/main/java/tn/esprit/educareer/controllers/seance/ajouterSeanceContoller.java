@@ -83,7 +83,7 @@ public class ajouterSeanceContoller {
         Locale.setDefault(new Locale("fr", "TN"));
         List<Holiday> listHolidays = null;
 
-//        List<Holiday> listHolidays = CalendarificAPI.getHolidays(CALENDARIFIC_API_KEY, Locale.getDefault().getCountry(), String.valueOf(LocalDate.now().getYear()));
+     // List<Holiday> listHolidays = CalendarificAPI.getHolidays(CALENDARIFIC_API_KEY, Locale.getDefault().getCountry(), String.valueOf(LocalDate.now().getYear()));
 
 
         if (listHolidays != null && !listHolidays.isEmpty()) {
