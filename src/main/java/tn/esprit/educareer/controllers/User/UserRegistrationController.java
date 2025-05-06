@@ -16,6 +16,8 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.Random;
@@ -355,26 +357,35 @@ public class UserRegistrationController implements Initializable {
         }
     }
     private String savePhotoToDirectory(String sourcePath) throws IOException {
-        // Create directory if it doesn't exist
-        File photosDir = new File("src/main/resources/photos");
-        if (!photosDir.exists()) {
-            photosDir.mkdirs();
+        // JavaFX storage directory
+        File javafxDir = new File("src/main/resources/photos");
+        if (!javafxDir.exists()) {
+            javafxDir.mkdirs();
         }
 
-        // Generate unique filename based on timestamp
+        // Symfony storage directory
+        File symfonyDir = new File("C:\\Users\\Mega-PC\\Desktop\\Integration-Pi (2)\\Integration-Pi\\public\\uploads\\profiles");
+        if (!symfonyDir.exists()) {
+            symfonyDir.mkdirs();
+        }
+
+        // Generate unique filename
         String timestamp = String.valueOf(System.currentTimeMillis());
         String fileName = timestamp + "_" + new File(sourcePath).getName();
-        File destinationFile = new File(photosDir, fileName);
 
-        // Copy the file
-        java.nio.file.Files.copy(
-                new File(sourcePath).toPath(),
-                destinationFile.toPath(),
-                java.nio.file.StandardCopyOption.REPLACE_EXISTING
-        );
+        // File paths
+        File javafxDest = new File(javafxDir, fileName);
+        File symfonyDest = new File(symfonyDir, fileName);
 
-        // Return the relative path to be stored in database
-        return  fileName;
+        // Copy to JavaFX resources
+        Path source = new File(sourcePath).toPath();
+        Files.copy(source, javafxDest.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+
+        // Duplicate to Symfony
+        Files.copy(source, symfonyDest.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+
+        // Return filename (to store in DB)
+        return fileName;
     }
 
     // Méthode pour valider le format de l'email
