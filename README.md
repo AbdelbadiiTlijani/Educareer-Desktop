@@ -1,74 +1,87 @@
+# 🎓 Educareer Desktop – AI-Powered Education & Career Platform
 
-# EduCareer
+**Educareer** is a modern, AI-enhanced desktop application developed in **Java with JavaFX and SceneBuilder**. The platform is designed to support students and training centers by offering an intuitive and intelligent solution for skill-building, career development, and education management.
 
-EduCareer est une application desktop d’apprentissage en ligne développée en Java avec JavaFX et SceneBuilder. Elle vise à fournir aux utilisateurs les compétences, certifications et opportunités professionnelles nécessaires pour faire évoluer leur carrière.
+## 🌟 Project Overview
 
-## 🌟 Description du Projet
+**Educareer** provides a comprehensive e-learning platform with several key features:
 
-Avec **EduCareer**, nous offrons une **plateforme d'apprentissage en ligne** complète permettant :
+- **Skill Development & Certifications**: Users can enhance their professional skill set and earn certifications.
+- **Job Offers & Collaborative Projects**: Access job listings and opportunities to collaborate on projects.
+- **Educational Events**: Participate in events designed to enhance learning and career growth.
+- **User Support & Complaint Management**: Users can submit and manage complaints using AI-powered voice recognition.
 
-- L'acquisition de **compétences** et de **certifications**.
-- L'accès à des **offres d'emploi** et **projets collaboratifs**.
-- La participation à des **événements éducatifs**.
-- La gestion des **réclamations** et du **suivi utilisateur**.
+### 🧩 Core Features
 
-L’application contient **6 modules** principaux :
+- **Voice-Based Complaint Management**: Users can file complaints using voice commands, with AI processing the speech into text and analyzing emotions.
+- **Enrollment Prediction**: AI predicts student enrollment patterns to help trainers and administrators make informed decisions.
+- **Role-Specific Dashboards**:  
+  - **Admin Interface**: Full control over platform management, user roles, and monitoring.
+  - **Trainer Interface**: Manage student progress, approve or ban users, and handle training requests.
+  - **Student Interface**: View and enroll in courses, access certifications, and track progress.
 
-1. Gestion des utilisateurs
-2. Gestion des offres d'emploi
-3. Gestion des événements
-4. Gestion des projets
-5. Gestion des cours
-6. Gestion des réclamations
+## 🧠 AI-Enhanced Features
 
-## 🧭 Table des Matières
+- **Voice Recognition**: Converts student complaints from speech to text for further analysis.
+- **Emotion Detection**: Analyzes the emotional tone in the user's speech to enhance the response to complaints.
+- **Facial Recognition Login (Web version)**: Adds an extra layer of security by enabling login via facial recognition.
 
-- [Installation](#installation)
-- [Utilisation](#utilisation)
-- [Contribution](#contribution)
-- [Licence](#licence)
+## 💼 My Contribution
 
+As part of the **team effort**, I took on key responsibilities in the **user management system**. My work was crucial in ensuring a smooth and secure experience for all users. Specifically, I was responsible for:
+
+- **User Authentication**: Implemented a secure login and registration system, ensuring that users’ data was protected.
+- **Session Management**: Developed a robust session management system, enabling users to stay logged in or securely log out.
+- **Role-Based Access Control**: Managed user permissions and access levels for different roles (admin, trainer, student), ensuring that each user had the right access to the platform’s features.
+- **Security Features**: Incorporated a "remember me" functionality and password reset mechanism, enhancing the user experience while maintaining high security.
+- **Key Feature**:Added functionalities such as SMS notifications, email notifications, ban user after multiple failed login attempts, user verification via email,admin approval for trainers (formateur)and much more, all designed to enhance the user experience.
+  
+> ⚠️ This repository maintains the desktop version, showcasing the integration of various features into the platform.
+
+## 🛠 Technology Stack
+
+- **Java 17+**
+- **JavaFX & SceneBuilder**
+- **MySQL**
+- **AI modules** for voice recognition, emotion detection, and prediction
+- **Git & GitHub** for version control and collaboration
+
+
+## 🤝 Team Collaboration
+
+Educareer was built as a **team project** with significant contributions from multiple developers. This desktop version highlights the integration of core functionalities, including role-based dashboards, AI-powered features, and the robust security features for user management.
+
+---
 ## 🛠️ Installation
 
-1. **Cloner le repository :**
-   ```bash
-   git clone https://github.com/votre-nom-utilisateur/PIDEV-JavaFx-3A17-Educareer
-   cd PIDEV-JavaFx-3A17-Educareer
-   ```
+Follow these steps to get the **EduCareer** desktop application up and running on your local machine:
 
-2. **Configurer l’environnement :**
-   - Installer Java JDK 17+
-   - Installer [JavaFX SDK](https://openjfx.io/)
-   - Télécharger et configurer [SceneBuilder](https://gluonhq.com/products/scene-builder/)
+### Prerequisites
+Ensure you have the following installed:
+- **Java 11 or higher**: [Download Java](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
+- **Maven** (for dependency management): [Install Maven](https://maven.apache.org/install.html)
+- **SceneBuilder** (for GUI design): [Download SceneBuilder](https://gluonhq.com/products/scene-builder/)
 
-3. **Ouvrir le projet :**
-   - Avec un IDE comme IntelliJ IDEA ou Eclipse.
-   - Ajouter JavaFX aux configurations de build.
+### Steps to Run the Project
+1. **Clone the Repository**:
+```bash
+git clone https://github.com/your-username/EduCareer.git
+```
+2. **Navigate to the Project Directory**:
+```bash
+cd EduCareer
+```
+3. **Install Dependencies**:
+run the following command to install dependencies:
+```bash
+mvn clean install
+```
+4. **Run the Application**:
+To run the application, use the following command:
+```bash
+mvn javafx:run
+```
 
-## 🚀 Utilisation
+---
 
-Lancez l'application depuis votre IDE ou via la ligne de commande après compilation.
-
-Modules disponibles :
-
-- **Gestion des utilisateurs** : inscription, authentification, rôles.
-- **Gestion des offres d’emploi** : publication, recherche, candidatures.
-- **Gestion des événements** : création, calendrier, inscriptions.
-- **Gestion des projets** : création de projets collaboratifs.
-- **Gestion des cours** : catalogue de formations.
-- **Gestion des réclamations** : soumission et suivi de plaintes.
-
-## 🤝 Contribution
-
-Les contributions sont les bienvenues !
-
-1. Fork le projet.
-2. Créez une branche (`git checkout -b nouvelle-fonctionnalité`)
-3. Committez vos changements (`git commit -m 'Ajout d’une fonctionnalité'`)
-4. Pushez la branche (`git push origin nouvelle-fonctionnalité`)
-5. Créez une Pull Request.
-
-
-## 📄 Licence
-
-Ce projet est sous licence **MIT**. Vous êtes libre de l’utiliser, le modifier et le redistribuer sous les conditions de la licence.
+> Feel free to explore the repository, test the features, or contact me for any collaboration.
