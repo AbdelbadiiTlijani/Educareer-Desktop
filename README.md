@@ -25,6 +25,8 @@
 - **Voice Recognition**: Converts student complaints from speech to text for further analysis.
 - **Emotion Detection**: Analyzes the emotional tone in the user's speech to enhance the response to complaints.
 - **Facial Recognition Login (Web version)**: Adds an extra layer of security by enabling login via facial recognition.
+- **AI Chatbot for Student Guidance**: Provides real-time support and guidance to students, helping them navigate the platform, access resources, and find answers to common questions.
+
 
 ## 💼 My Contribution
 
